@@ -1,14 +1,12 @@
 ## Build and Run locally
 ``` unix
-./gradlew jettyRun
+./gradlew clean jettyRun
 ```
-## (Re)build docker Image
+## Rebuild and Run in Docker Container
 ``` unix
-docker build -f Dockerfile -t waittime/java-backend:1 .
+sh delete_rebuild_run.sh
 ```
-## Run docker container
-``` unix
-docker run -d -p 90:8080 -p 443:8443 {{container id}}
-curl 0.0.0.0:90/waitingroom
->hello waitingroom!
+## Shell access Container
+```unix
+docker exec -it waitime_container1 /bin/bash
 ```
