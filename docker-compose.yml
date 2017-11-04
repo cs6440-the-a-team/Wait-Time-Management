@@ -1,0 +1,25 @@
+version: '3'
+services:
+  frontend:
+    restart: always
+    build: ./frontend
+    ports: 
+      - "80:8080"
+    volumes:
+      - ./frontend:/code
+    depends_on:
+      - db
+      - backend
+  backend:
+    restart: always
+    build: ./waittime-source
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    depends_on:
+      - db
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: f6g8En2J
