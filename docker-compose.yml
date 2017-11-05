@@ -14,18 +14,12 @@ services:
   # This is Alain's backend service
   backend:
     restart: always
-    build: ./waittime-source
+    build: ./backend
     ports:
       - "8080:8080"
-      - "8443:8443"
     depends_on:
       - db
   # This database service is only accessible within this set of services. The hostname is the same as the service: db
   db:
-    image: mysql
+    build: ./db
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: f6g8En2J
-      MYSQL_USER: wait_time_management
-      MYSQL_PASSWORD: Wru48vWy
-      MYSQL_DATABASE: wait_time_management
