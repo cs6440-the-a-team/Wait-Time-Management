@@ -2,31 +2,41 @@ package com.waittime.backend.model;
 
 import javax.annotation.Generated;
 
-public class WaitingRoomPatient {
+public class Room {
 
-	private String patient_id;
+	private String id;
+	private String name;
 	private String status;
 	private String start_time;
 	private String end_time;
 	private long expected_duration;
-	private String location;
+	private String room_type;
 
 	@Generated("SparkTools")
-	private WaitingRoomPatient(Builder builder) {
-		this.patient_id = builder.patient_id;
+	private Room(Builder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
 		this.status = builder.status;
 		this.start_time = builder.start_time;
 		this.end_time = builder.end_time;
 		this.expected_duration = builder.expected_duration;
-		this.location = builder.location;
+		this.room_type = builder.room_type;
 	}
 
-	public String getPatient_id() {
-		return patient_id;
+	public String getId() {
+		return id;
 	}
 
-	public void setPatient_id(String patient_id) {
-		this.patient_id = patient_id;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getStatus() {
@@ -61,12 +71,12 @@ public class WaitingRoomPatient {
 		this.expected_duration = expected_duration;
 	}
 
-	public String getLocation() {
-		return location;
+	public String getRoom_type() {
+		return room_type;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setRoom_type(String room_type) {
+		this.room_type = room_type;
 	}
 
 	@Override
@@ -75,8 +85,9 @@ public class WaitingRoomPatient {
 		int result = 1;
 		result = prime * result + ((end_time == null) ? 0 : end_time.hashCode());
 		result = prime * result + (int) (expected_duration ^ (expected_duration >>> 32));
-		result = prime * result + ((location == null) ? 0 : location.hashCode());
-		result = prime * result + ((patient_id == null) ? 0 : patient_id.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((room_type == null) ? 0 : room_type.hashCode());
 		result = prime * result + ((start_time == null) ? 0 : start_time.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
@@ -90,7 +101,7 @@ public class WaitingRoomPatient {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WaitingRoomPatient other = (WaitingRoomPatient) obj;
+		Room other = (Room) obj;
 		if (end_time == null) {
 			if (other.end_time != null)
 				return false;
@@ -98,15 +109,20 @@ public class WaitingRoomPatient {
 			return false;
 		if (expected_duration != other.expected_duration)
 			return false;
-		if (location == null) {
-			if (other.location != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!location.equals(other.location))
+		} else if (!id.equals(other.id))
 			return false;
-		if (patient_id == null) {
-			if (other.patient_id != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!patient_id.equals(other.patient_id))
+		} else if (!name.equals(other.name))
+			return false;
+		if (room_type == null) {
+			if (other.room_type != null)
+				return false;
+		} else if (!room_type.equals(other.room_type))
 			return false;
 		if (start_time == null) {
 			if (other.start_time != null)
@@ -122,18 +138,23 @@ public class WaitingRoomPatient {
 	}
 
 	/**
-	 * Creates builder to build {@link WaitingRoomPatient}.
+	 * Creates builder to build {@link Room}.
 	 * 
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
-	public static IPatient_idStage builder() {
+	public static IIdStage builder() {
 		return new Builder();
 	}
 
 	@Generated("SparkTools")
-	public interface IPatient_idStage {
-		public IStatusStage withPatient_id(String patient_id);
+	public interface IIdStage {
+		public INameStage withId(String id);
+	}
+
+	@Generated("SparkTools")
+	public interface INameStage {
+		public IStatusStage withName(String name);
 	}
 
 	@Generated("SparkTools")
@@ -153,38 +174,45 @@ public class WaitingRoomPatient {
 
 	@Generated("SparkTools")
 	public interface IExpected_durationStage {
-		public ILocationStage withExpected_duration(long expected_duration);
+		public IRoom_typeStage withExpected_duration(long expected_duration);
 	}
 
 	@Generated("SparkTools")
-	public interface ILocationStage {
-		public IBuildStage withLocation(String location);
+	public interface IRoom_typeStage {
+		public IBuildStage withRoom_type(String room_type);
 	}
 
 	@Generated("SparkTools")
 	public interface IBuildStage {
-		public WaitingRoomPatient build();
+		public Room build();
 	}
 
 	/**
-	 * Builder to build {@link WaitingRoomPatient}.
+	 * Builder to build {@link Room}.
 	 */
 	@Generated("SparkTools")
-	public static final class Builder implements IPatient_idStage, IStatusStage, IStart_timeStage, IEnd_timeStage,
-			IExpected_durationStage, ILocationStage, IBuildStage {
-		private String patient_id;
+	public static final class Builder implements IIdStage, INameStage, IStatusStage, IStart_timeStage, IEnd_timeStage,
+			IExpected_durationStage, IRoom_typeStage, IBuildStage {
+		private String id;
+		private String name;
 		private String status;
 		private String start_time;
 		private String end_time;
 		private long expected_duration;
-		private String location;
+		private String room_type;
 
 		private Builder() {
 		}
 
 		@Override
-		public IStatusStage withPatient_id(String patient_id) {
-			this.patient_id = patient_id;
+		public INameStage withId(String id) {
+			this.id = id;
+			return this;
+		}
+
+		@Override
+		public IStatusStage withName(String name) {
+			this.name = name;
 			return this;
 		}
 
@@ -207,20 +235,20 @@ public class WaitingRoomPatient {
 		}
 
 		@Override
-		public ILocationStage withExpected_duration(long expected_duration) {
+		public IRoom_typeStage withExpected_duration(long expected_duration) {
 			this.expected_duration = expected_duration;
 			return this;
 		}
 
 		@Override
-		public IBuildStage withLocation(String location) {
-			this.location = location;
+		public IBuildStage withRoom_type(String room_type) {
+			this.room_type = room_type;
 			return this;
 		}
 
 		@Override
-		public WaitingRoomPatient build() {
-			return new WaitingRoomPatient(this);
+		public Room build() {
+			return new Room(this);
 		}
 	}
 
