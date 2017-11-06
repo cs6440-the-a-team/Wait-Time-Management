@@ -52,6 +52,7 @@ public abstract class ResourceApi<V extends Model> {
 	}
 
 	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public V delete(@PathParam("id") String id) {
 		retrieve(id);

@@ -17,6 +17,8 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
+    volumes:
+      - ~/.gradle:/root/.gradle
     depends_on:
       - db
   # This database service is only accessible within this set of services. The hostname is the same as the service: db
