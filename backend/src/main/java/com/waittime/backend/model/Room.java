@@ -2,7 +2,7 @@ package com.waittime.backend.model;
 
 import javax.annotation.Generated;
 
-public class Room {
+public class Room implements Model {
 
 	private String id;
 	private String name;

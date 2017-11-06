@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.waittime.backend.model.Patient;
 
-public class PatientDb {
+public class PatientDb implements Db<String, Patient> {
 	
 	private ConcurrentHashMap<String, Patient> patients = new ConcurrentHashMap<>();
 	
@@ -31,6 +31,11 @@ public class PatientDb {
 	
 	public Patient update(Patient patient) {
 		return patients.put(patient.getId(), patient);
+	}
+
+	@Override
+	public Patient delete(String id) {
+		return patients.remove(id);
 	}
 
 }

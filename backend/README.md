@@ -1,4 +1,10 @@
-## Build and Run locally
+## Clean and Build war
+``` unix
+./gradlew clean build
+```
+Build File location: ./build/libs/WaitTimeManagement.war
+
+## Clean, Build and Run locally
 ``` unix
 ./gradlew clean jettyRun
 ```
@@ -91,5 +97,3 @@
   ]
 }
 ```
-
-
