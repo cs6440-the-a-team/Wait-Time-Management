@@ -1,5 +1,7 @@
 package com.waittime.backend;
 
+import java.util.LinkedList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,7 +20,6 @@ public abstract class ResourceApi<V extends Model> {
 	private final Db<String, V> db;
 
 	public ResourceApi(Db<String, V> db) {
-		super();
 		this.db = db;
 	}
 
@@ -57,5 +58,11 @@ public abstract class ResourceApi<V extends Model> {
 	public V delete(@PathParam("id") String id) {
 		retrieve(id);
 		return db.delete(id);
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public LinkedList<V> list() {
+		return db.list();
 	}
 }

@@ -1,5 +1,6 @@
 package com.waittime.backend.db;
 
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.waittime.backend.model.Room;
@@ -35,5 +36,10 @@ public class RoomDb implements Db<String, Room> {
 	@Override
 	public Room delete(String id) {
 		return rooms.remove(id);
+	}
+	
+	@Override
+	public LinkedList<Room> list() {
+		return new LinkedList<Room>(rooms.values());
 	}
 }

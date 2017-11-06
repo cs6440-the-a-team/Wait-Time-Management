@@ -1,5 +1,6 @@
 package com.waittime.backend.db;
 
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.waittime.backend.model.Patient;
@@ -36,6 +37,11 @@ public class PatientDb implements Db<String, Patient> {
 	@Override
 	public Patient delete(String id) {
 		return patients.remove(id);
+	}
+
+	@Override
+	public LinkedList<Patient> list() {
+		return new LinkedList<Patient>(patients.values());
 	}
 
 }

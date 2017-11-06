@@ -16,10 +16,12 @@ Build File location: ./build/libs/WaitTimeManagement.war
 | /admin/patient      | POST   | create patient   |
 | /admin/patient      | UPDATE | update patient   |
 | /admin/patient/{id} | DELETE | delete patient   |
+| /admin/patient      | GET    | list patients    |
 | /admin/room/{id} | GET    | retrieve room |
 | /admin/room      | POST   | create room   |
 | /admin/room      | UPDATE | update room   |
 | /admin/room/{id} | DELETE | delete room   |
+| /admin/room      | GET    | list rooms |
 | /waitingroom     | GET    | get waitingroom |
 
 
