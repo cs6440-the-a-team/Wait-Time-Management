@@ -27,7 +27,7 @@ public abstract class ResourceApi<V extends Model> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public V create(V v) {
-		if (null != retrieve(v.getId())) {
+		if (null != db.retrieve(v.getId())) {
 			throw new javax.ws.rs.BadRequestException();
 		}
 		return db.create(v);
