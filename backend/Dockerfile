@@ -7,7 +7,6 @@ COPY . $APP_HOME
 # cache dependencies on volume 
 RUN mkdir -p /root/.gradle
 ENV HOME /root
-VOLUME /root/.gradle
 
 RUN ./gradlew clean build
 

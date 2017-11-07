@@ -10,14 +10,14 @@ public class RoomDb implements Db<String, Room> {
 	private ConcurrentHashMap<String, Room> rooms = new ConcurrentHashMap<>();
 	
 	public RoomDb() {
-		rooms.put("1", Room.builder()
-    			.withId("1")
-    			.withName("B32")
+		rooms.put("OR3", Room.builder()
+    			.withId("OR3")
+    			.withName("Operating Room 3")
     			.withStatus("occupied")
     			.withStart_time("2017-11-02T01:03:09+00:00")
     			.withEnd_time("")
-    			.withExpected_duration(60)
-    			.withRoom_type("post-op")
+    			.withExpected_duration(240)
+    			.withRoom_type("OR")
     			.build());
 	}
 	
@@ -41,5 +41,10 @@ public class RoomDb implements Db<String, Room> {
 	@Override
 	public LinkedList<Room> list() {
 		return new LinkedList<Room>(rooms.values());
+	}
+	
+	@Override
+	public boolean contains(String id) {
+		return rooms.containsKey(id);
 	}
 }

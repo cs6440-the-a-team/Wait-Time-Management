@@ -9,7 +9,7 @@ public class Room implements Model {
 	private String status;
 	private String start_time;
 	private String end_time;
-	private long expected_duration;
+	private int expected_duration;
 	private String room_type;
 
 	@Generated("SparkTools")
@@ -63,11 +63,11 @@ public class Room implements Model {
 		this.end_time = end_time;
 	}
 
-	public long getExpected_duration() {
+	public int getExpected_duration() {
 		return expected_duration;
 	}
 
-	public void setExpected_duration(long expected_duration) {
+	public void setExpected_duration(int expected_duration) {
 		this.expected_duration = expected_duration;
 	}
 
@@ -174,7 +174,7 @@ public class Room implements Model {
 
 	@Generated("SparkTools")
 	public interface IExpected_durationStage {
-		public IRoom_typeStage withExpected_duration(long expected_duration);
+		public IRoom_typeStage withExpected_duration(int expected_duration);
 	}
 
 	@Generated("SparkTools")
@@ -198,7 +198,7 @@ public class Room implements Model {
 		private String status;
 		private String start_time;
 		private String end_time;
-		private long expected_duration;
+		private int expected_duration;
 		private String room_type;
 
 		private Builder() {
@@ -235,7 +235,7 @@ public class Room implements Model {
 		}
 
 		@Override
-		public IRoom_typeStage withExpected_duration(long expected_duration) {
+		public IRoom_typeStage withExpected_duration(int expected_duration) {
 			this.expected_duration = expected_duration;
 			return this;
 		}

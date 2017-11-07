@@ -9,7 +9,7 @@ public class Patient implements Model {
 	private String status;
 	private String start_time;
 	private String end_time;
-	private long expected_duration;
+	private int expected_duration;
 	private String location_id;
 	private String procedure;
 
@@ -65,11 +65,11 @@ public class Patient implements Model {
 		this.end_time = end_time;
 	}
 
-	public long getExpected_duration() {
+	public int getExpected_duration() {
 		return expected_duration;
 	}
 
-	public void setExpected_duration(long expected_duration) {
+	public void setExpected_duration(int expected_duration) {
 		this.expected_duration = expected_duration;
 	}
 
@@ -190,7 +190,7 @@ public class Patient implements Model {
 
 	@Generated("SparkTools")
 	public interface IExpected_durationStage {
-		public ILocation_idStage withExpected_duration(long expected_duration);
+		public ILocation_idStage withExpected_duration(int expected_duration);
 	}
 
 	@Generated("SparkTools")
@@ -219,7 +219,7 @@ public class Patient implements Model {
 		private String status;
 		private String start_time;
 		private String end_time;
-		private long expected_duration;
+		private int expected_duration;
 		private String location_id;
 		private String procedure;
 
@@ -257,7 +257,7 @@ public class Patient implements Model {
 		}
 
 		@Override
-		public ILocation_idStage withExpected_duration(long expected_duration) {
+		public ILocation_idStage withExpected_duration(int expected_duration) {
 			this.expected_duration = expected_duration;
 			return this;
 		}

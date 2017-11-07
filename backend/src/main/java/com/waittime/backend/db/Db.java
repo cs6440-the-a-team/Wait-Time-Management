@@ -3,6 +3,8 @@ package com.waittime.backend.db;
 import java.util.LinkedList;
 
 public interface Db<E, V> {
+	
+	public boolean contains(E id);
 
 	public V create(V v);
 

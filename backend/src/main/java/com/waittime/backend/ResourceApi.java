@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -27,7 +28,7 @@ public abstract class ResourceApi<V extends Model> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public V create(V v) {
-		if (null != db.retrieve(v.getId())) {
+		if (db.contains(v.getId())) {
 			throw new javax.ws.rs.BadRequestException();
 		}
 		return db.create(v);
@@ -37,18 +38,15 @@ public abstract class ResourceApi<V extends Model> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public V retrieve(@PathParam("id") String id) {
-		V p = db.retrieve(id);
-		if (p == null) {
-			throw new javax.ws.rs.NotFoundException();
-		}
-		return p;
+		contains(id);
+		return db.retrieve(id);
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public V update(V v) {
-		retrieve(v.getId());
+		contains(v.getId());
 		return db.update(v);
 	}
 
@@ -56,7 +54,7 @@ public abstract class ResourceApi<V extends Model> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public V delete(@PathParam("id") String id) {
-		retrieve(id);
+		contains(id);
 		return db.delete(id);
 	}
 	
@@ -64,5 +62,13 @@ public abstract class ResourceApi<V extends Model> {
 	@Produces(MediaType.APPLICATION_JSON)
 	public LinkedList<V> list() {
 		return db.list();
+	}
+	
+	@HEAD
+	@Path("/{id}")
+	public void contains(String id) {
+		if (!db.contains(id)) {
+			throw new javax.ws.rs.NotFoundException();
+		}
 	}
 }

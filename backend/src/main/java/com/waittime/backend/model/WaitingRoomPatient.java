@@ -8,7 +8,7 @@ public class WaitingRoomPatient {
 	private String status;
 	private String start_time;
 	private String end_time;
-	private long expected_duration;
+	private int expected_duration;
 	private String location;
 
 	@Generated("SparkTools")
@@ -53,11 +53,11 @@ public class WaitingRoomPatient {
 		this.end_time = end_time;
 	}
 
-	public long getExpected_duration() {
+	public int getExpected_duration() {
 		return expected_duration;
 	}
 
-	public void setExpected_duration(long expected_duration) {
+	public void setExpected_duration(int expected_duration) {
 		this.expected_duration = expected_duration;
 	}
 
@@ -153,7 +153,7 @@ public class WaitingRoomPatient {
 
 	@Generated("SparkTools")
 	public interface IExpected_durationStage {
-		public ILocationStage withExpected_duration(long expected_duration);
+		public ILocationStage withExpected_duration(int expected_duration);
 	}
 
 	@Generated("SparkTools")
@@ -176,7 +176,7 @@ public class WaitingRoomPatient {
 		private String status;
 		private String start_time;
 		private String end_time;
-		private long expected_duration;
+		private int expected_duration;
 		private String location;
 
 		private Builder() {
@@ -207,7 +207,7 @@ public class WaitingRoomPatient {
 		}
 
 		@Override
-		public ILocationStage withExpected_duration(long expected_duration) {
+		public ILocationStage withExpected_duration(int expected_duration) {
 			this.expected_duration = expected_duration;
 			return this;
 		}
