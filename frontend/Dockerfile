@@ -7,4 +7,4 @@ WORKDIR /code
 # Install dependencies
 RUN npm install --quiet
 # Run the application
-CMD ["node", "."]
+CMD ["node", "server.js"]

@@ -6,8 +6,6 @@ services:
     build: ./frontend
     ports: 
       - "80:8080"
-    volumes:
-      - ./frontend:/code
     depends_on:
       - db
       - backend

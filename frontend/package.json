@@ -2,15 +2,36 @@
   "name": "wait-time-management-fall-2017",
   "version": "1.0.0",
   "description": "Frontend services for wait-time-management application",
-  "main": "server.js",
+  "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "watch": "webpack --config webpack.dev.js --watch",
+    "build": "webpack --config webpack.prod.js",
+    "test": "jest"
   },
   "author": "James Fry",
   "license": "ISC",
   "dependencies": {
-    "mysql": "^2.15.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "server": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "prop-types": "^15.6.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "uglifyjs-webpack-plugin": "^1.0.1",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4",
+    "webpack-merge": "^4.1.1",
+    "whatwg-fetch": "^2.0.3"
   }
 }
