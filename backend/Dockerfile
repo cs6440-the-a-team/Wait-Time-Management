@@ -1,8 +1,20 @@
-# fetch basic image
+# build war using jdk8
+FROM java:8 AS BUILD_IMAGE
+ENV APP_HOME=/root/dev/myapp/
+WORKDIR $APP_HOME
+COPY . $APP_HOME
+
+# cache dependencies on volume 
+RUN mkdir -p /root/.gradle
+ENV HOME /root
+
+RUN ./gradlew clean build
+
+# fetch jetty image
 FROM jetty:9.4.7
 
 # copy build to webapps
-ADD ./build/libs/WaitTimeManagement.war /var/lib/jetty/webapps/root.war
+COPY --from=BUILD_IMAGE /root/dev/myapp/build/libs/WaitTimeManagement.war /var/lib/jetty/webapps/root.war
 
 # jetty authorization
 USER root

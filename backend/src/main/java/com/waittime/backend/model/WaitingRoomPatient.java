@@ -8,6 +8,7 @@ public class WaitingRoomPatient {
 	private String status;
 	private String start_time;
 	private String end_time;
+	private int expected_duration;
 	private String location;
 
 	@Generated("SparkTools")
@@ -16,6 +17,7 @@ public class WaitingRoomPatient {
 		this.status = builder.status;
 		this.start_time = builder.start_time;
 		this.end_time = builder.end_time;
+		this.expected_duration = builder.expected_duration;
 		this.location = builder.location;
 	}
 
@@ -51,6 +53,14 @@ public class WaitingRoomPatient {
 		this.end_time = end_time;
 	}
 
+	public int getExpected_duration() {
+		return expected_duration;
+	}
+
+	public void setExpected_duration(int expected_duration) {
+		this.expected_duration = expected_duration;
+	}
+
 	public String getLocation() {
 		return location;
 	}
@@ -64,6 +74,7 @@ public class WaitingRoomPatient {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((end_time == null) ? 0 : end_time.hashCode());
+		result = prime * result + (int) (expected_duration ^ (expected_duration >>> 32));
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((patient_id == null) ? 0 : patient_id.hashCode());
 		result = prime * result + ((start_time == null) ? 0 : start_time.hashCode());
@@ -84,6 +95,8 @@ public class WaitingRoomPatient {
 			if (other.end_time != null)
 				return false;
 		} else if (!end_time.equals(other.end_time))
+			return false;
+		if (expected_duration != other.expected_duration)
 			return false;
 		if (location == null) {
 			if (other.location != null)
@@ -135,7 +148,12 @@ public class WaitingRoomPatient {
 
 	@Generated("SparkTools")
 	public interface IEnd_timeStage {
-		public ILocationStage withEnd_time(String end_time);
+		public IExpected_durationStage withEnd_time(String end_time);
+	}
+
+	@Generated("SparkTools")
+	public interface IExpected_durationStage {
+		public ILocationStage withExpected_duration(int expected_duration);
 	}
 
 	@Generated("SparkTools")
@@ -152,12 +170,13 @@ public class WaitingRoomPatient {
 	 * Builder to build {@link WaitingRoomPatient}.
 	 */
 	@Generated("SparkTools")
-	public static final class Builder
-			implements IPatient_idStage, IStatusStage, IStart_timeStage, IEnd_timeStage, ILocationStage, IBuildStage {
+	public static final class Builder implements IPatient_idStage, IStatusStage, IStart_timeStage, IEnd_timeStage,
+			IExpected_durationStage, ILocationStage, IBuildStage {
 		private String patient_id;
 		private String status;
 		private String start_time;
 		private String end_time;
+		private int expected_duration;
 		private String location;
 
 		private Builder() {
@@ -182,8 +201,14 @@ public class WaitingRoomPatient {
 		}
 
 		@Override
-		public ILocationStage withEnd_time(String end_time) {
+		public IExpected_durationStage withEnd_time(String end_time) {
 			this.end_time = end_time;
+			return this;
+		}
+
+		@Override
+		public ILocationStage withExpected_duration(int expected_duration) {
+			this.expected_duration = expected_duration;
 			return this;
 		}
 
