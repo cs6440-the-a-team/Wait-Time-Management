@@ -1,0 +1,11 @@
+.nav-link i {
+    font-size: 26px;
+}
+
+.nav-link.active, .nav-link.active i {
+    color: black;
+}
+
+.table th {
+    border-top: 0px solid black;
+}
