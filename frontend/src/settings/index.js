@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, NavLink } from "react-router-dom"
+import { Route, NavLink, Redirect } from "react-router-dom"
 import RoomSettings from "./room"
 import ProcedureSettings from "./procedure"
 
@@ -21,9 +21,7 @@ const Settings = ({ match }) => {
 
             <Route path={`${match.url}/room`} component={RoomSettings}/>
             <Route path={`${match.url}/procedure`} component={ProcedureSettings} />
-            <Route exact path={match.url} render={() => (
-                <p className="help-block">Please select a setting category</p>
-            )} />
+            <Route exact path={match.url} render={() => (<Redirect to={`${match.url}/room`} />)} />
 
             <hr/>
         </div>
