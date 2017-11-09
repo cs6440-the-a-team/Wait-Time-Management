@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   # This is James' frontend service
   frontend:

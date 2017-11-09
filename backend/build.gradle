@@ -9,7 +9,9 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.11'
     testCompile 'org.glassfish.jersey.core:jersey-client:2.26'
-        
+    
+    compile 'com.google.guava:guava:23.3-jre'    
+    
     compile 'org.eclipse.jetty:jetty-servlet:9.4.0.RC1'
     compile 'org.glassfish.jersey.core:jersey-common:2.26'
     compile 'org.glassfish.jersey.core:jersey-server:2.26'

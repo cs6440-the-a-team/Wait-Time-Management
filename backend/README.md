@@ -8,24 +8,22 @@ Build File location: ./build/libs/WaitTimeManagement.war
 ``` unix
 ./gradlew clean jettyRun
 ```
-## API doc
+## Resource API doc
+| Resource  | Description |
+|-----------|-------------|
+| patient   | a patient   |
+| room      | a room      |
+| room_type | a room type |
+| procedure | a procedure |
 
 | Endpoint            | Method | Action           |
 |---------------------|--------|------------------|
-| /admin/patient/{id} | GET    | retrieve patient |
-| /admin/patient      | POST   | create patient   |
-| /admin/patient      | UPDATE | update patient   |
-| /admin/patient/{id} | DELETE | delete patient   |
-| /admin/patient      | GET    | list patients    |
-| /admin/patient/{id} | HEAD   | contains patient |
-| /admin/room/{id} | GET    | retrieve room |
-| /admin/room      | POST   | create room   |
-| /admin/room      | UPDATE | update room   |
-| /admin/room/{id} | DELETE | delete room   |
-| /admin/room      | GET    | list rooms    |
-| /admin/room/{id} | HEAD   | contains room |
-| /waitingroom     | GET    | get waitingroom |
-
+| /admin/{resource}/{id} | GET    | retrieve {resource} |
+| /admin/{resource}      | POST   | create {resource}   |
+| /admin/{resource}      | UPDATE | update {resource}   |
+| /admin/{resource}/{id} | DELETE | delete {resource}   |
+| /admin/{resource}      | GET    | list {resource}     |
+| /admin/{resource}/{id} | HEAD   | contains {resource} |
 
 ### Example Patient Payload
 ``` javascript
@@ -54,7 +52,34 @@ Build File location: ./build/libs/WaitTimeManagement.war
 }
 ```
 
-### Example Waitingroom Payload
+### Example Room Type
+```javascript
+{
+  "id": "OR",
+  "name": "Operating Room",
+  "room_statuses": [
+    "vacant",
+    "occupied",
+    "ready",
+    "needs maintenance"
+  ]
+}
+```
+
+### Example Procedure
+```javascript
+{
+  "id": "surgery",
+  "name": "Surgery",
+  "statuses": [
+    "pre-op",
+    "op",
+    "post-op"
+  ]
+}
+```
+
+### Example Waitingroom Payload - GET - /waitingroom
 ```javascript
 {
   "patients": [

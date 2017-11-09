@@ -5,7 +5,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.waittime.backend.db.PatientDb;
+import com.waittime.backend.db.Db;
+import com.waittime.backend.db.HashMapDb;
 import com.waittime.backend.model.Patient;
 import com.waittime.backend.model.WaitingRoom;
 import com.waittime.backend.model.WaitingRoom.Builder;
@@ -14,7 +15,7 @@ import com.waittime.backend.model.WaitingRoomPatient;
 @Path("/waitingroom")
 public class WaitingRoomApi {
 	
-	private final PatientDb db = new PatientDb();
+	private final Db<String, Patient> db = HashMapDb.patients;
     
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
