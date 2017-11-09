@@ -30,25 +30,25 @@ const initialState = {
         1: {
             id: 1,
             procedure_id: 1,
-            name: "",
-            order: "",
-            expected_duration: "",
+            name: "Checked In",
+            order: 1,
+            expected_duration: 30,
             avg_duration: ""
         },
         2: {
             id: 2,
-            procedure_id: 2,
-            name: "",
-            order: "",
-            expected_duration: "",
+            procedure_id: 1,
+            name: "In Procedure",
+            order: 2,
+            expected_duration: 10,
             avg_duration: ""
         },
         3: {
             id: 3,
             procedure_id: 1,
-            name: "",
-            order: "",
-            expected_duration: "",
+            name: "Recovery",
+            order: 3,
+            expected_duration: 180,
             avg_duration: ""
         }
     }

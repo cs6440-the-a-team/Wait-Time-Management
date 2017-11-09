@@ -5,7 +5,7 @@ const {render} = server.reply;
 const port = process.env.PORT || 8080;
 const env = process.env.NODE_ENV || 'development';
 
-// TODO set up socket stuff for real-time updates
+// TODO set up socket stuff for real-time updates?
 
 server({port}, [
     get("/admin*", ctx => {
