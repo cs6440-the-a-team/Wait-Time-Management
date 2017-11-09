@@ -1,14 +1,22 @@
-## Clean and Build war
+## Backend
+
+### Tech Stack
+Jetty 9.4.7
+JDK 1.8
+Gradle 3.5
+
+### Clean and Build war
 ``` unix
 ./gradlew clean build
 ```
 Build File location: ./build/libs/WaitTimeManagement.war
 
-## Clean, Build and Run locally
+### Clean, Build and Run for local testing
 ``` unix
 ./gradlew clean jettyRun
 ```
-## Resource API doc
+
+### Resource API doc
 | Resource  | Description |
 |-----------|-------------|
 | patient   | a patient   |
@@ -16,16 +24,19 @@ Build File location: ./build/libs/WaitTimeManagement.war
 | room_type | a room type |
 | procedure | a procedure |
 
-| Endpoint            | Method | Action           |
-|---------------------|--------|------------------|
-| /admin/{resource}/{id} | GET    | retrieve {resource} |
-| /admin/{resource}      | POST   | create {resource}   |
-| /admin/{resource}      | UPDATE | update {resource}   |
-| /admin/{resource}/{id} | DELETE | delete {resource}   |
-| /admin/{resource}      | GET    | list {resource}     |
-| /admin/{resource}/{id} | HEAD   | contains {resource} |
+| Endpoint               | Method | Action                    |
+|------------------------|--------|---------------------------|
+| /admin/{resource}/{id} | GET    | retrieve {resource}       |
+| /admin/{resource}      | POST   | create {resource}         |
+| /admin/{resource}      | UPDATE | update {resource}         |
+| /admin/{resource}/{id} | DELETE | delete {resource}         |
+| /admin/{resource}      | GET    | list {resource}           |
+| /admin/{resource}/{id} | HEAD   | contains {resource}       |
+| /waitingroom           | GET    | list waitingroom patients |
 
-### Example Patient Payload
+### Example Payloads
+Patient
+
 ``` javascript
 {
   "end_time": "",
@@ -39,7 +50,8 @@ Build File location: ./build/libs/WaitTimeManagement.war
 }
 ```
 
-### Example Room Payload
+Room
+
 ``` javascript
 {
   "end_time": "",
@@ -52,7 +64,8 @@ Build File location: ./build/libs/WaitTimeManagement.war
 }
 ```
 
-### Example Room Type
+Room Type
+
 ```javascript
 {
   "id": "OR",
@@ -66,7 +79,8 @@ Build File location: ./build/libs/WaitTimeManagement.war
 }
 ```
 
-### Example Procedure
+Procedure
+
 ```javascript
 {
   "id": "surgery",
@@ -79,7 +93,8 @@ Build File location: ./build/libs/WaitTimeManagement.war
 }
 ```
 
-### Example Waitingroom Payload - GET - /waitingroom
+Waitingroom - GET - /waitingroom
+
 ```javascript
 {
   "patients": [
