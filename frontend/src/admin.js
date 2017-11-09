@@ -4,8 +4,14 @@ import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react
 import { Provider } from "react-redux"
 import store from "./reducers"
 
+import Promise from "promise-polyfill"
+
 import Settings from "./settings"
 import Overview from "./overview"
+
+if (!window.Promise) {
+    window.Promise = Promise;
+}
 
 const App = () => (
     <Provider store={store}>

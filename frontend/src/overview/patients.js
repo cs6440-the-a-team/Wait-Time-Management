@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 
 const Patients = (props) => {
     return (
-        <h5>Patients go here.</h5>
+        <h5>Patients go here. Testing update...</h5>
     )
 };
 

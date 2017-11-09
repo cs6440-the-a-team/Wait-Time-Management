@@ -3,7 +3,10 @@ const initialState = {
         1: {
             id: 1,
             name: "Operation Room 1",
-            room_type_id: 1
+            room_type_id: 1,
+            room_status_id: 1,
+            room_status_start_time: ((new Date()).getTime() / 1000) - 600, // 10 minutes ago
+            patient_status_id: 1
         },
         2: {
             id: 2,
