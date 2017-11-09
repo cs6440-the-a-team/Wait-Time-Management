@@ -14,7 +14,7 @@ RUN ./gradlew clean build
 FROM jetty:9.4.7
 
 # copy build to webapps
-COPY --from=BUILD_IMAGE /root/dev/myapp/build/libs/WaitTimeManagement.war /var/lib/jetty/webapps/root.war
+COPY --from=BUILD_IMAGE /root/dev/myapp/build/libs/WaitTimeManagement.war /var/lib/jetty/webapps/api.war
 
 # jetty authorization
 USER root
