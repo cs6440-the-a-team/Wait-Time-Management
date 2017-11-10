@@ -31,7 +31,7 @@ Build File location: ./build/libs/WaitTimeManagement.war
 |------------------------|--------|---------------------------|
 | /admin/{resource}/{id} | GET    | retrieve {resource}       |
 | /admin/{resource}      | POST   | create {resource}         |
-| /admin/{resource}      | UPDATE | update {resource}         |
+| /admin/{resource}      | PUT    | update {resource}         |
 | /admin/{resource}/{id} | DELETE | delete {resource}         |
 | /admin/{resource}      | GET    | list {resource}           |
 | /admin/{resource}/{id} | HEAD   | contains {resource}       |
