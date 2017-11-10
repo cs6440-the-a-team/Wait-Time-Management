@@ -2,7 +2,7 @@ package com.waittime.backend.model;
 
 import javax.annotation.Generated;
 
-public class PatientStatus implements Model {
+public class ProcedureStatus implements Model {
 
 	private String id;
 	private String name;
@@ -10,11 +10,11 @@ public class PatientStatus implements Model {
 	private int expected_duration;
 	private double average_duration;
 	
-	public PatientStatus() {
+	public ProcedureStatus() {
 	}
 
 	@Generated("SparkTools")
-	private PatientStatus(Builder builder) {
+	private ProcedureStatus(Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
 		this.procedure_id = builder.procedure_id;
@@ -84,7 +84,7 @@ public class PatientStatus implements Model {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PatientStatus other = (PatientStatus) obj;
+		ProcedureStatus other = (ProcedureStatus) obj;
 		if (Double.doubleToLongBits(average_duration) != Double.doubleToLongBits(other.average_duration))
 			return false;
 		if (expected_duration != other.expected_duration)
@@ -108,7 +108,7 @@ public class PatientStatus implements Model {
 	}
 
 	/**
-	 * Creates builder to build {@link PatientStatus}.
+	 * Creates builder to build {@link ProcedureStatus}.
 	 * 
 	 * @return created builder
 	 */
@@ -144,11 +144,11 @@ public class PatientStatus implements Model {
 
 	@Generated("SparkTools")
 	public interface IBuildStage {
-		public PatientStatus build();
+		public ProcedureStatus build();
 	}
 
 	/**
-	 * Builder to build {@link PatientStatus}.
+	 * Builder to build {@link ProcedureStatus}.
 	 */
 	@Generated("SparkTools")
 	public static final class Builder implements IIdStage, INameStage, IProcedure_idStage, IExpected_durationStage,
@@ -193,8 +193,8 @@ public class PatientStatus implements Model {
 		}
 
 		@Override
-		public PatientStatus build() {
-			return new PatientStatus(this);
+		public ProcedureStatus build() {
+			return new ProcedureStatus(this);
 		}
 	}
 

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import com.google.common.collect.ImmutableList;
 import com.waittime.backend.model.Patient;
-import com.waittime.backend.model.PatientStatus;
+import com.waittime.backend.model.ProcedureStatus;
 import com.waittime.backend.model.Procedure;
 import com.waittime.backend.model.Room;
 import com.waittime.backend.model.RoomType;
@@ -13,7 +13,7 @@ import com.waittime.backend.model.RoomTypeStatus;
 public enum Dbs {
 	;
 	public static Db<String, Patient> patients = new HashMapDb<>();
-	public static Db<String, PatientStatus> patient_statuses = new HashMapDb<>();
+	public static Db<String, ProcedureStatus> procedure_statuses = new HashMapDb<>();
 	public static Db<String, Room> rooms = new HashMapDb<>();
 	public static Db<String, RoomType> roomTypes = new HashMapDb<>();
 	public static Db<String, RoomTypeStatus> roomTypeStatuses = new HashMapDb<>();

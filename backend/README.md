@@ -29,12 +29,12 @@ Build File location: ./build/libs/WaitTimeManagement.war
 
 | Endpoint               | Method | Action                    |
 |------------------------|--------|---------------------------|
-| /admin/{resource}/{id} | GET    | retrieve {resource}       |
 | /admin/{resource}      | POST   | create {resource}         |
-| /admin/{resource}      | PUT    | update {resource}         |
+| /admin/{resource}/{id} | GET    | retrieve {resource}       |
+| /admin/{resource}/{id} | PUT    | update {resource}         |
 | /admin/{resource}/{id} | DELETE | delete {resource}         |
-| /admin/{resource}      | GET    | list {resource}           |
 | /admin/{resource}/{id} | HEAD   | contains {resource}       |
+| /admin/{resource}      | GET    | list {resource}           |
 | /waitingroom           | GET    | list waitingroom patients |
 
 ### Example Payloads
