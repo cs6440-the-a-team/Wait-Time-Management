@@ -22,13 +22,16 @@ Build File location: ./build/libs/WaitTimeManagement.war
 | patient   | a patient   |
 | room      | a room      |
 | room_type | a room type |
+| room_type_status | a room type status |
 | procedure | a procedure |
+| procedure_status | a procedure status |
+
 
 | Endpoint               | Method | Action                    |
 |------------------------|--------|---------------------------|
 | /admin/{resource}/{id} | GET    | retrieve {resource}       |
 | /admin/{resource}      | POST   | create {resource}         |
-| /admin/{resource}      | UPDATE | update {resource}         |
+| /admin/{resource}      | PUT    | update {resource}         |
 | /admin/{resource}/{id} | DELETE | delete {resource}         |
 | /admin/{resource}      | GET    | list {resource}           |
 | /admin/{resource}/{id} | HEAD   | contains {resource}       |
@@ -70,12 +73,19 @@ Room Type
 {
   "id": "OR",
   "name": "Operating Room",
-  "room_statuses": [
-    "vacant",
-    "occupied",
-    "ready",
-    "needs maintenance"
-  ]
+  "room_statuses": [1]
+}
+```
+
+Room Type Status
+
+```javascript
+{
+  "id": 1,
+  "name": "Vacant",
+  "room_type_id": "OR",
+  "expected_duration": 10,
+  "average_duration": 8
 }
 ```
 
@@ -85,11 +95,20 @@ Procedure
 {
   "id": "surgery",
   "name": "Surgery",
-  "statuses": [
-    "pre-op",
-    "op",
-    "post-op"
-  ]
+  "statuses": [1]
+}
+```
+
+Procedure Status
+
+```javascript
+{
+  "id": 1,
+  "name": "Pre-op",
+  "procedure_id": "surgery",
+  "order": 1,
+  "expected_duration": 10,
+  "average_duration": 12
 }
 ```
 
