@@ -95,7 +95,7 @@ Procedure
 {
   "id": "surgery",
   "name": "Surgery",
-  "statuses": [1]
+  "procedure_statuses": [1]
 }
 ```
 
