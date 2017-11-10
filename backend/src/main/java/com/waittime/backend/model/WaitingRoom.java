@@ -6,6 +6,9 @@ import javax.annotation.Generated;
 public class WaitingRoom {
 
 	private LinkedList<WaitingRoomPatient> patients = new LinkedList<WaitingRoomPatient>();
+	
+	public WaitingRoom() {
+	}
 
 	@Generated("SparkTools")
 	private WaitingRoom(Builder builder) {

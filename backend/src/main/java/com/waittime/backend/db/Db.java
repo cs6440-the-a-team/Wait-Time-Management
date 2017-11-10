@@ -10,7 +10,7 @@ public interface Db<E, V> {
 
 	public V retrieve(E id);
 
-	public V update(V v);
+	public V update(E id, V v);
 
 	public V delete(E id);
 	

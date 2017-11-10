@@ -8,6 +8,9 @@ public class RoomType implements Model {
 	private String id;
 	private String name;
 	private LinkedList<String> room_statuses = new LinkedList<>();
+	
+	public RoomType() {
+	}
 
 	@Generated("SparkTools")
 	private RoomType(Builder builder) {

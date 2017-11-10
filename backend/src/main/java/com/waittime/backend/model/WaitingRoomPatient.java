@@ -10,6 +10,9 @@ public class WaitingRoomPatient {
 	private String end_time;
 	private int expected_duration;
 	private String location;
+	
+	public WaitingRoomPatient() {
+	}
 
 	@Generated("SparkTools")
 	private WaitingRoomPatient(Builder builder) {

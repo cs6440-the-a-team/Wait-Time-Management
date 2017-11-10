@@ -12,6 +12,9 @@ public class Room implements Model {
 	private int expected_duration;
 	private String room_type;
 
+	public Room() {
+	}
+	
 	@Generated("SparkTools")
 	private Room(Builder builder) {
 		this.id = builder.id;

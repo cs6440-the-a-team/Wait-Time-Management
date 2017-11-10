@@ -17,8 +17,8 @@ public class HashMapDb<V extends Model> implements Db<String, V> {
 		return map.get(id);
 	}
 	
-	public V update(V model) {
-		return map.put(model.getId(), model);
+	public V update(String id, V model) {
+		return map.put(id, model);
 	}
 
 	@Override

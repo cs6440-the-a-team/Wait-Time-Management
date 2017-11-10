@@ -12,6 +12,9 @@ public class Patient implements Model {
 	private int expected_duration;
 	private String location_id;
 	private String procedure;
+	
+	public Patient() {
+	}
 
 	@Generated("SparkTools")
 	private Patient(Builder builder) {

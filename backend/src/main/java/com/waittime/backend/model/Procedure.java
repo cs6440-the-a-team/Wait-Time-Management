@@ -8,6 +8,9 @@ public class Procedure implements Model {
 	private String id;
 	private String name;
 	private LinkedList<String> statuses = new LinkedList<>();
+	
+	public Procedure() {
+	}
 
 	@Generated("SparkTools")
 	private Procedure(Builder builder) {

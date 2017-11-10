@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import com.waittime.backend.db.Db;
 import com.waittime.backend.model.Model;
 
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public abstract class ResourceApi<V extends Model> {
 
 	private final Db<String, V> db;
@@ -23,10 +25,13 @@ public abstract class ResourceApi<V extends Model> {
 	public ResourceApi(Db<String, V> db) {
 		this.db = db;
 	}
-
+	
+	@GET
+	public LinkedList<V> list() {
+		return db.list();
+	}
+	
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
 	public V create(V v) {
 		if (db.contains(v.getId())) {
 			throw new javax.ws.rs.BadRequestException();
@@ -34,41 +39,34 @@ public abstract class ResourceApi<V extends Model> {
 		return db.create(v);
 	}
 
+	@PUT
+	@Path("/{id}")
+	public V update(@PathParam("id") String id, V v) {
+		contains(id);
+		return db.update(id, v);
+	}
+	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public V retrieve(@PathParam("id") String id) {
 		contains(id);
 		return db.retrieve(id);
 	}
 
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public V update(V v) {
-		contains(v.getId());
-		return db.update(v);
-	}
-
 	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public V delete(@PathParam("id") String id) {
 		contains(id);
 		return db.delete(id);
 	}
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public LinkedList<V> list() {
-		return db.list();
-	}
-	
 	@HEAD
 	@Path("/{id}")
-	public void contains(String id) {
+	public void contains(@PathParam("id") String id) {
+		System.out.println(!db.contains(id));
 		if (!db.contains(id)) {
 			throw new javax.ws.rs.NotFoundException();
 		}
 	}
+
 }

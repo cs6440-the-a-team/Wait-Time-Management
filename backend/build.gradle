@@ -12,6 +12,9 @@ dependencies {
     
     compile 'com.google.guava:guava:23.3-jre'    
     
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.12.Final'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    
     compile 'org.eclipse.jetty:jetty-servlet:9.4.0.RC1'
     compile 'org.glassfish.jersey.core:jersey-common:2.26'
     compile 'org.glassfish.jersey.core:jersey-server:2.26'
