@@ -22,7 +22,10 @@ Build File location: ./build/libs/WaitTimeManagement.war
 | patient   | a patient   |
 | room      | a room      |
 | room_type | a room type |
+| room_type_status | a room type status |
 | procedure | a procedure |
+| procedure_status | a procedure status |
+
 
 | Endpoint               | Method | Action                    |
 |------------------------|--------|---------------------------|
@@ -92,11 +95,20 @@ Procedure
 {
   "id": "surgery",
   "name": "Surgery",
-  "statuses": [
-    "pre-op",
-    "op",
-    "post-op"
-  ]
+  "statuses": [1]
+}
+```
+
+Procedure Status
+
+```javascript
+{
+  "id": 1,
+  "name": "Pre-op",
+  "procedure_id": "surgery",
+  "order": 1,
+  "expected_duration": 10,
+  "average_duration": 12
 }
 ```
 
