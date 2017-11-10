@@ -70,12 +70,19 @@ Room Type
 {
   "id": "OR",
   "name": "Operating Room",
-  "room_statuses": [
-    "vacant",
-    "occupied",
-    "ready",
-    "needs maintenance"
-  ]
+  "room_statuses": [1]
+}
+```
+
+Room Type Status
+
+```javascript
+{
+  "id": 1,
+  "name": "Vacant",
+  "room_type_id": "OR",
+  "expected_duration": 10,
+  "average_duration": 8
 }
 ```
 
