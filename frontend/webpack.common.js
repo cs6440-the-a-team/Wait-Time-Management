@@ -13,7 +13,7 @@ module.exports = {
                 include: path.join(__dirname, 'src'),
                 query: {
                     presets: [['env', {"targets": {node: "current"}}], 'stage-0', 'react'],
-                    plugins: ['transform-class-properties', 'transform-object-rest-spread']
+                    plugins: ['transform-class-properties', 'transform-object-rest-spread', 'transform-es2015-arrow-functions']
                 }
             }
         ]
