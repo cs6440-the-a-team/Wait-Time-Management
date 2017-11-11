@@ -212,8 +212,8 @@ class PatientStatusList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {patientStatusItems}
                     {this.renderAdd()}
+                    {patientStatusItems}
                 </tbody>
             </table>
         )
@@ -221,8 +221,8 @@ class PatientStatusList extends Component {
 }
 
 const mapStateToProps = function(state, ownProps) {
-    let patientStatuses = Object.keys(state.procedure.patient_statuses).map(function(patientStatusId) {
-        let patientStatus = {...state.procedure.patient_statuses[patientStatusId]};
+    let patientStatuses = Object.keys(state.procedure.statuses).map(function(patientStatusId) {
+        let patientStatus = {...state.procedure.statuses[patientStatusId]};
         if (patientStatus.procedure_id && state.procedure.procedures[patientStatus.procedure_id] !== undefined) {
             patientStatus.procedure_name = state.procedure.procedures[patientStatus.procedure_id].name;
         }

@@ -185,8 +185,8 @@ class ProcedureList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {procedureItems}
                     {this.renderAdding()}
+                    {procedureItems}
                 </tbody>
             </table>
         )

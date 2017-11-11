@@ -126,8 +126,8 @@ class RoomList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {roomItems}
                     {this.renderAddingRoom()}
+                    {roomItems}
                 </tbody>
             </table>
         </div>

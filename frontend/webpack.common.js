@@ -2,7 +2,8 @@ const path = require("path");
 
 module.exports = {
     entry: {
-        admin: "./src/admin.js"
+        admin: "./src/admin.js",
+        public: "./src/public.js"
     },
     module: {
         loaders: [
@@ -11,7 +12,7 @@ module.exports = {
                 loader: 'babel-loader',
                 include: path.join(__dirname, 'src'),
                 query: {
-                    presets: ['es2015', 'react'],
+                    presets: [['env', {"targets": {node: "current"}}], 'stage-0', 'react'],
                     plugins: ['transform-class-properties', 'transform-object-rest-spread']
                 }
             }

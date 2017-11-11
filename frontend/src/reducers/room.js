@@ -1,87 +1,56 @@
+import normalizeArray from "../utils/normalize-array"
+
 const initialState = {
-    rooms: {
-        1: {
-            id: 1,
-            name: "Operation Room 1",
-            room_type_id: 1,
-            room_status_id: 1,
-            room_status_start_time: ((new Date()).getTime() / 1000) - 600, // 10 minutes ago
-            patient_status_id: 1
-        },
-        2: {
-            id: 2,
-            name: "Waiting Area 1",
-            room_type_id: 2
-        }
-    },
-    types: {
-        1: {
-            id: 1,
-            name: "Operation Room"
-        },
-        2: {
-            id: 2,
-            name: "Waiting Area"
-        },
-        3: {
-            id: 3,
-            name: "Prep Room"
-        }
-    },
-    statuses: {
-        1: {
-            id: 1,
-            name: "Ready",
-            avg_time_in_status: 5 // 5 minutes
-        },
-        2: {
-            id: 2,
-            name: "Full",
-            avg_time_in_status: 60 // 1 hour
-        },
-        3: {
-            id: 3,
-            name: "Cleaning",
-            avg_time_in_status: 15 // 15 minutes
-        },
-        4: {
-            id: 4,
-            name: "Turned Over",
-            avg_time_in_status: 5 // 5 minutes
-        }
-    }
-}
+    loading: false,
+    error: null,
+    rooms: {},
+    types: {},
+    statuses: {}
+};
 
 const room = function(state=initialState, action) {
-
     let newState = null;
     switch(action.type) {
-        case 'room/ADD':
-            let id = Object.keys(state.rooms).length + 1;
-            let newRooms = {...state.rooms, [id]: {...action.room, id}};
-            newState = {...state, rooms: newRooms};
+        case 'room/ERROR/dismiss':
+            newState = {...state, error: null};
             break;
-        case 'room/UPDATE':
+        case 'room/LIST/start':
+        case 'room-type/LIST/start':
+        case 'room/status/UPDATE/start':
+            newState = {...state, loading: true, error: null};
+            break;
+        case 'room/LIST/failure':
+        case 'room-type/LIST/failure':
+        case 'room/status/UPDATE/failure':
+            newState = {...state, loading: false, error: action.error};
+            break;
+        case 'room/LIST/success':
+            newState = {...state, loading: false, error: null, rooms: normalizeArray(action.rooms)};
+            break;
+        case 'room-type/LIST/success':
+            newState = {...state, loading: false, error: null, types: normalizeArray(action.room_types)};
+            break;
+        case 'room-type-status/LISTED':
+            newState = {...state, statuses: normalizeArray(action.roomTypeStatuses)};
+            break;
+        case 'room-type-status/ADDED':
+        case 'room-type-status/UPDATED':
+            let newStatuses = {...state.statuses, [action.roomTypeStatus.id]: action.roomTypeStatus};
+            newState = {...state, statuses: newStatuses};
+            break;
+        case 'room/ADDED':
+        case 'room/UPDATED':
             let updatedRooms = {...state.rooms, [action.room.id]: action.room};
             newState = {...state, rooms: updatedRooms};
             break;
-        case 'room-type/ADD':
-            let typeId = Object.keys(state.types).length + 1;
-            let newTypes = {...state.types, [typeId]: {...action.roomType, id: typeId}};
-            newState = {...state, types: newTypes};
-            break;
-        case 'room-type/UPDATE':
+        case 'room-type/ADDED':
+        case 'room-type/UPDATED':
             let updatedTypes = {...state.types, [action.roomType.id]: action.roomType};
             newState = {...state, types: updatedTypes};
             break;
-        case 'room-status/ADD':
-            let statusId = Object.keys(state.statuses).length + 1;
-            let newStatuses = {...state.statuses, [statusId]: {...action.roomStatus, id: statusId}};
-            newState = {...state, statuses: newStatuses};
-            break;
-        case 'room-status/UPDATE':
-            let updatedStatuses = {...state.statuses, [action.roomStatus.id]: action.roomStatus};
-            newState = {...state, statuses: updatedStatuses};
+        case 'room/status/UPDATE/success':
+            let updatedRoom = {...state.rooms[action.roomId], status: action.status};
+            newState = {...state, loading: false, error: null, rooms: {...state.rooms, [action.roomId]: updatedRoom}};
             break;
     }
 
