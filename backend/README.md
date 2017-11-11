@@ -49,7 +49,7 @@ Patient
   "name": "John",
   "procedure": "surgery",
   "start_time": "2017-11-02T01:03:09+00:00",
-  "status": "In Procedure"
+  "procedure_status_id": 1
 }
 ```
 
@@ -63,7 +63,7 @@ Room
   "name": "B32",
   "room_type": "post-op",
   "start_time": "2017-11-02T01:03:09+00:00",
-  "status": "occupied"
+  "room_status_id": 1
 }
 ```
 
@@ -95,7 +95,7 @@ Procedure
 {
   "id": "surgery",
   "name": "Surgery",
-  "statuses": [1]
+  "procedure_statuses": [1]
 }
 ```
 
