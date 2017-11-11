@@ -31,6 +31,7 @@ docker-compose up
 * MySQL v8.0.3
 
 ## Documentation
+* [User Documenation](UserManual.md)
 * [Backend API Documenation](backend/README.md)
 * [DataModel Documenation](db/README.md)
 * [FrontEnd User Manual](frontend/README.md)
