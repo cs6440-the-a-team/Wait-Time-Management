@@ -1,5 +1,13 @@
 # Wait Time Management
 
+## Documentation
+* TODO [User Documenation](UserManual.md)
+* [Deployment Documentation](Deployment.md)
+* TODO [UI Documenation](mockups/README.md)
+* [Backend API Documenation](backend/README.md)
+* TODO [DataModel Documenation](db/README.md)
+* TODO [FrontEnd User Manual](frontend/README.md)
+
 ## Delivery to Emory (These instructions to be shared via email)
 
 ### Download public repo
@@ -29,9 +37,3 @@ docker-compose up
 * Docker v17.09.0-ce
 * NodeJS v8.9.1 LTS
 * MySQL v8.0.3
-
-## Documentation
-* [User Documenation](UserManual.md)
-* [Backend API Documenation](backend/README.md)
-* [DataModel Documenation](db/README.md)
-* [FrontEnd User Manual](frontend/README.md)
