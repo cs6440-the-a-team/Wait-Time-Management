@@ -2,13 +2,13 @@
 
 #### [PATIENT] 
 
-![image alt text](Patient_Public_View.png)
+![image alt text](Patient_Personal_Card.png)
 
 ### Patient Public View
 
 #### [PATIENT + FAMILY MEMBER] 
 
-![image alt text](image_1.png)
+![image alt text](Patient_Public_View.png)
 
 * * *
 
@@ -17,21 +17,21 @@
 
 #### [Staff]
 
-![image alt text](image_2.png)
+![image alt text](Administrator_Patient_View.png)
 
 #### [Staff+]
 
-![image alt text](image_3.png)
+![image alt text](Administrator_Patient_View_Staff.png)
 
-### Staff+ Room View
+### Staff Room View
 
 #### [Staff]
 
-![image alt text](image_4.png)
+![image alt text](Administrator_Room_View.png)
 
 #### [Staff+]
 
-![image alt text](image_5.png)
+![image alt text](Administrator_Room_View_Staff.png)
 
 * * *
 
@@ -40,18 +40,18 @@
 
 #### [Admin]
 
-![image alt text](image_6.png)
+![image alt text](Administrator_Settings_View-Room.png)
 
-![image alt text](image_7.png)
+![image alt text](Administrator_Settings_View-Room_Type.png)
 
-![image alt text](image_8.png)
+![image alt text](Administrator_Settings_View-Room_Status.png)
 
 ### Administrator Procedure Settings
 
 #### [Admin]
 
-![image alt text](image_9.png)
+![image alt text](Administrator_Settings_View-Procedures.png)
 
-![image alt text](image_10.png)
+![image alt text](Administrator_Settings_View-Patient_Statuses.png)
 
 
