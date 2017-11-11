@@ -12,7 +12,7 @@ module.exports = {
                 loader: 'babel-loader',
                 include: path.join(__dirname, 'src'),
                 query: {
-                    presets: [['env', {"targets": {node: "current"}}], 'stage-0', 'react'],
+                    presets: [['env', {"targets": {ie: "11"}}], 'stage-0', 'react'],
                     plugins: ['transform-class-properties', 'transform-object-rest-spread', 'transform-es2015-arrow-functions']
                 }
             }
