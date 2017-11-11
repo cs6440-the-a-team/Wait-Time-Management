@@ -1,6 +1,10 @@
 import Promise from "promise-polyfill"
 import "babel-polyfill";
 
+if (!window.Promise) {
+    window.Promise = Promise;
+}
+
 import React from "react"
 import ReactDOM from "react-dom"
 import moment from "moment"
@@ -10,7 +14,6 @@ import LoadingIndicator from "./components/loading-indicator"
 import Message from "./components/message"
 
 import "whatwg-fetch"
-import { clearInterval } from "timers";
 
 let ENDPOINT = window.location.origin + "/api";
 

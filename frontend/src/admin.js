@@ -1,3 +1,10 @@
+import Promise from "promise-polyfill"
+import "babel-polyfill";
+
+if (!window.Promise) {
+    window.Promise = Promise;
+}
+
 import React from "react"
 import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom"
@@ -6,9 +13,6 @@ import store from "./reducers"
 
 window.app_store = store;
 
-import Promise from "promise-polyfill"
-import "babel-polyfill";
-
 import Settings from "./settings"
 import Overview from "./overview"
 import LoginContainer from "./containers/login-container"
@@ -16,10 +20,6 @@ import LoginContainer from "./containers/login-container"
 import { ConnectedPrivateRoute } from "./components/private-route"
 import MessageContainer from "./containers/message-container"
 import LoadingIndicatorContainer from "./containers/loading-indicator-container"
-
-if (!window.Promise) {
-    window.Promise = Promise;
-}
 
 import { getRooms, getRoomTypes, addMessage, loginAttempt, logout, listProcedures, listProcedureStatuses, listRoomTypeStatuses } from "./actions"
 
