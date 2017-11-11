@@ -9,10 +9,7 @@ import Message from "./components/message"
 import "whatwg-fetch"
 import { clearInterval } from "timers";
 
-let ENDPOINT = "http://localhost:3000/api";
-if (process.env.NODE_ENV === "production") {
-    ENDPOINT = "https://wtm.banditdevelopment.com/api";
-}
+let ENDPOINT = window.location.origin + "/api";
 
 class PublicApp extends React.Component {
     constructor(props) {
