@@ -6,26 +6,26 @@ public class Room implements Model {
 
 	private String id;
 	private String name;
-	private String status;
+	private String room_status_id;
 	private String start_time;
 	private String end_time;
 	private int expected_duration;
 	private String room_type;
 
-	public Room() {
-	}
-	
 	@Generated("SparkTools")
 	private Room(Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
-		this.status = builder.status;
+		this.room_status_id = builder.room_status_id;
 		this.start_time = builder.start_time;
 		this.end_time = builder.end_time;
 		this.expected_duration = builder.expected_duration;
 		this.room_type = builder.room_type;
 	}
 
+	public Room() {
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -42,12 +42,12 @@ public class Room implements Model {
 		this.name = name;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getRoom_status_id() {
+		return room_status_id;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setRoom_status_id(String room_status_id) {
+		this.room_status_id = room_status_id;
 	}
 
 	public String getStart_time() {
@@ -92,7 +92,7 @@ public class Room implements Model {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((room_type == null) ? 0 : room_type.hashCode());
 		result = prime * result + ((start_time == null) ? 0 : start_time.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((room_status_id == null) ? 0 : room_status_id.hashCode());
 		return result;
 	}
 
@@ -132,17 +132,16 @@ public class Room implements Model {
 				return false;
 		} else if (!start_time.equals(other.start_time))
 			return false;
-		if (status == null) {
-			if (other.status != null)
+		if (room_status_id == null) {
+			if (other.room_status_id != null)
 				return false;
-		} else if (!status.equals(other.status))
+		} else if (!room_status_id.equals(other.room_status_id))
 			return false;
 		return true;
 	}
 
 	/**
 	 * Creates builder to build {@link Room}.
-	 * 
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
@@ -157,12 +156,12 @@ public class Room implements Model {
 
 	@Generated("SparkTools")
 	public interface INameStage {
-		public IStatusStage withName(String name);
+		public IRoom_status_idStage withName(String name);
 	}
 
 	@Generated("SparkTools")
-	public interface IStatusStage {
-		public IStart_timeStage withStatus(String status);
+	public interface IRoom_status_idStage {
+		public IStart_timeStage withRoom_status_id(String room_status_id);
 	}
 
 	@Generated("SparkTools")
@@ -194,11 +193,11 @@ public class Room implements Model {
 	 * Builder to build {@link Room}.
 	 */
 	@Generated("SparkTools")
-	public static final class Builder implements IIdStage, INameStage, IStatusStage, IStart_timeStage, IEnd_timeStage,
-			IExpected_durationStage, IRoom_typeStage, IBuildStage {
+	public static final class Builder implements IIdStage, INameStage, IRoom_status_idStage, IStart_timeStage,
+			IEnd_timeStage, IExpected_durationStage, IRoom_typeStage, IBuildStage {
 		private String id;
 		private String name;
-		private String status;
+		private String room_status_id;
 		private String start_time;
 		private String end_time;
 		private int expected_duration;
@@ -214,14 +213,14 @@ public class Room implements Model {
 		}
 
 		@Override
-		public IStatusStage withName(String name) {
+		public IRoom_status_idStage withName(String name) {
 			this.name = name;
 			return this;
 		}
 
 		@Override
-		public IStart_timeStage withStatus(String status) {
-			this.status = status;
+		public IStart_timeStage withRoom_status_id(String room_status_id) {
+			this.room_status_id = room_status_id;
 			return this;
 		}
 
@@ -254,5 +253,7 @@ public class Room implements Model {
 			return new Room(this);
 		}
 	}
+
+
 
 }

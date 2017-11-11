@@ -7,16 +7,16 @@ public class Procedure implements Model {
 
 	private String id;
 	private String name;
-	private LinkedList<String> statuses = new LinkedList<>();
-	
-	public Procedure() {
-	}
+	private LinkedList<String> procedure_statuses = new LinkedList<>();
 
 	@Generated("SparkTools")
 	private Procedure(Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
-		this.statuses = builder.statuses;
+		this.procedure_statuses = builder.procedure_statuses;
+	}
+	
+	public Procedure() {
 	}
 
 	public String getId() {
@@ -35,12 +35,12 @@ public class Procedure implements Model {
 		this.name = name;
 	}
 
-	public LinkedList<String> getStatuses() {
-		return statuses;
+	public LinkedList<String> getProcedure_statuses() {
+		return procedure_statuses;
 	}
 
-	public void setStatuses(LinkedList<String> statuses) {
-		this.statuses = statuses;
+	public void setProcedure_statuses(LinkedList<String> procedure_statuses) {
+		this.procedure_statuses = procedure_statuses;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class Procedure implements Model {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((statuses == null) ? 0 : statuses.hashCode());
+		result = prime * result + ((procedure_statuses == null) ? 0 : procedure_statuses.hashCode());
 		return result;
 	}
 
@@ -72,17 +72,16 @@ public class Procedure implements Model {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (statuses == null) {
-			if (other.statuses != null)
+		if (procedure_statuses == null) {
+			if (other.procedure_statuses != null)
 				return false;
-		} else if (!statuses.equals(other.statuses))
+		} else if (!procedure_statuses.equals(other.procedure_statuses))
 			return false;
 		return true;
 	}
 
 	/**
 	 * Creates builder to build {@link Procedure}.
-	 * 
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
@@ -97,12 +96,12 @@ public class Procedure implements Model {
 
 	@Generated("SparkTools")
 	public interface INameStage {
-		public IStatusesStage withName(String name);
+		public IProcedure_statusesStage withName(String name);
 	}
 
 	@Generated("SparkTools")
-	public interface IStatusesStage {
-		public IBuildStage withStatuses(LinkedList<String> statuses);
+	public interface IProcedure_statusesStage {
+		public IBuildStage withProcedure_statuses(LinkedList<String> procedure_statuses);
 	}
 
 	@Generated("SparkTools")
@@ -114,10 +113,10 @@ public class Procedure implements Model {
 	 * Builder to build {@link Procedure}.
 	 */
 	@Generated("SparkTools")
-	public static final class Builder implements IIdStage, INameStage, IStatusesStage, IBuildStage {
+	public static final class Builder implements IIdStage, INameStage, IProcedure_statusesStage, IBuildStage {
 		private String id;
 		private String name;
-		private LinkedList<String> statuses;
+		private LinkedList<String> procedure_statuses;
 
 		private Builder() {
 		}
@@ -129,14 +128,14 @@ public class Procedure implements Model {
 		}
 
 		@Override
-		public IStatusesStage withName(String name) {
+		public IProcedure_statusesStage withName(String name) {
 			this.name = name;
 			return this;
 		}
 
 		@Override
-		public IBuildStage withStatuses(LinkedList<String> statuses) {
-			this.statuses = statuses;
+		public IBuildStage withProcedure_statuses(LinkedList<String> procedure_statuses) {
+			this.procedure_statuses = procedure_statuses;
 			return this;
 		}
 
@@ -145,5 +144,7 @@ public class Procedure implements Model {
 			return new Procedure(this);
 		}
 	}
+
+
 
 }

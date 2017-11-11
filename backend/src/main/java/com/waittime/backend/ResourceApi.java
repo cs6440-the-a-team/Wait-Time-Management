@@ -63,7 +63,6 @@ public abstract class ResourceApi<V extends Model> {
 	@HEAD
 	@Path("/{id}")
 	public void contains(@PathParam("id") String id) {
-		System.out.println(!db.contains(id));
 		if (!db.contains(id)) {
 			throw new javax.ws.rs.NotFoundException();
 		}

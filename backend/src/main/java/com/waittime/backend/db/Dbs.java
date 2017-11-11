@@ -28,7 +28,7 @@ public enum Dbs {
 	        			.withEnd_time("")
 	        			.withExpected_duration(60)
 	        			.withLocation_id("H1")
-	        			.withProcedure("Surgery")
+	        			.withProcedure_status_id("1")
 	        			.build());
 			
 			patients.create(Patient.builder()
@@ -39,7 +39,7 @@ public enum Dbs {
 	    			.withEnd_time("")
 	    			.withExpected_duration(30)
 	    			.withLocation_id("ICU")
-	    			.withProcedure("Imaging")
+	    			.withProcedure_status_id("10")
 	    			.build());
 			
 			patients.create(Patient.builder()
@@ -50,7 +50,7 @@ public enum Dbs {
 	    			.withEnd_time("")
 	    			.withExpected_duration(30)
 	    			.withLocation_id("R32")
-	    			.withProcedure("Surgery")
+	    			.withProcedure_status_id("5")
 	    			.build());
 			
 			patients.create(Patient.builder()
@@ -61,7 +61,7 @@ public enum Dbs {
 	    			.withEnd_time("")
 	    			.withExpected_duration(45)
 	    			.withLocation_id("OR3")
-	    			.withProcedure("Surgery")
+	    			.withProcedure_status_id("6")
 	    			.build());
 			
 			patients.create(Patient.builder()
@@ -72,13 +72,13 @@ public enum Dbs {
 	    			.withEnd_time("")
 	    			.withExpected_duration(120)
 	    			.withLocation_id("T7")
-	    			.withProcedure("Surgery")
+	    			.withProcedure_status_id("7")
 	    			.build());
 			
 			rooms.create(Room.builder()
 	    			.withId("OR3")
 	    			.withName("Operating Room 3")
-	    			.withStatus("occupied")
+	    			.withRoom_status_id("1")
 	    			.withStart_time("2017-11-02T01:03:09+00:00")
 	    			.withEnd_time("")
 	    			.withExpected_duration(240)
@@ -87,7 +87,7 @@ public enum Dbs {
 			rooms.create(Room.builder()
 	    			.withId("OR1")
 	    			.withName("Operating Room 1")
-	    			.withStatus("vacant")
+	    			.withRoom_status_id("2")
 	    			.withStart_time("")
 	    			.withEnd_time("")
 	    			.withExpected_duration(0)
@@ -107,7 +107,7 @@ public enum Dbs {
 			procedures.create(Procedure.builder()
 					.withId("surgery")
 					.withName("Surgery")
-					.withStatuses(new LinkedList<String>(ImmutableList.of("pre-op", "op", "post-op")))
+					.withProcedure_statuses(new LinkedList<String>(ImmutableList.of("0", "1", "2")))
 					.build());
 	}
 }
