@@ -17,11 +17,11 @@ import Settings from "./settings"
 import Overview from "./overview"
 import LoginContainer from "./containers/login-container"
 
-import { ConnectedPrivateRoute } from "./components/private-route"
+import PrivateRouteContainer from "./containers/private-route-container"
 import MessageContainer from "./containers/message-container"
 import LoadingIndicatorContainer from "./containers/loading-indicator-container"
 
-import { getRooms, getRoomTypes, addMessage, loginAttempt, logout, listProcedures, listProcedureStatuses, listRoomTypeStatuses } from "./actions"
+import { listRooms, listRoomTypes, listProcedures, listProcedureStatuses, listRoomTypeStatuses, listPatients, addMessage, loginAttempt, logout } from "./actions"
 
 class App extends React.Component {
     render() {
@@ -63,7 +63,7 @@ class App extends React.Component {
 
                         <Switch>
                             <Route path="/admin/login" component={LoginContainer} />
-                            <ConnectedPrivateRoute path="/admin*" component={AuthorizedPortion} />
+                            <PrivateRouteContainer path="/admin*" component={AuthorizedPortion} />
                         </Switch>
                     </div>
                 </Router>
@@ -78,11 +78,12 @@ class AuthorizedPortion extends React.Component {
     }
 
     componentDidMount() {
+        store.dispatch(listPatients());
         store.dispatch(listProcedureStatuses());
         store.dispatch(listProcedures());
         store.dispatch(listRoomTypeStatuses());
-        store.dispatch(getRoomTypes());
-        store.dispatch(getRooms());
+        store.dispatch(listRoomTypes());
+        store.dispatch(listRooms());
     }
 
     render() {
@@ -90,7 +91,7 @@ class AuthorizedPortion extends React.Component {
             <div>
                 <Route path={`/admin/settings`} component={Settings} />
                 <Route path={`/admin/overview`} component={Overview} />
-                <Route path={`/admin`} exact={true} render={({ match }) => (<Redirect to={`${match.url}/overview`} />)} />
+                <Route path={`/admin`} exact={true} render={({ match }) => (<Redirect to={`/admin/overview`} />)} />
             </div>
         )
     }

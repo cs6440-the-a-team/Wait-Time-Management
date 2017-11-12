@@ -14,7 +14,7 @@ Instructions for your operating system can be found here:
 https://docs.docker.com/engine/installation/
 
 ### Build and run docker containers
-This will launch 3 docker containers, one for the database, one for the frontend, and one for the backend. The front end will serve on port 80 for http and 443 for https SSL. You may test succesful deployment by navigating in your web browser to the hostname where this has been installed. If testing from the same server simply open http://localhost in your browser.
+This will launch 3 docker containers, one for the database, one for the frontend, and one for the backend. The front end will serve on port 80. You may test succesful deployment by navigating in your web browser to the hostname where this has been installed. If testing from the same server simply open http://localhost in your browser.
 
 ``` unix
 docker-compose up
@@ -25,5 +25,6 @@ docker-compose up
 * JDK v1.8
 * Gradle v3.5
 * Docker v17.09.0-ce
-* NodeJS v8.9.1 LTS
-* MySQL v8.0.3
+* NodeJS v9.0.0
+* MySQL v5.7.20
+* React v16.0.0

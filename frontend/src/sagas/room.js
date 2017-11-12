@@ -1,99 +1,160 @@
-import {call, put, select, takeLatest} from "redux-saga/effects"
+import {all, call, put, select, takeLatest} from "redux-saga/effects"
+import {makeRequest} from "./network"
+
 import * as Api from "../api"
 import {
-    listRoomsStart, listRoomsFailure, listRoomsSuccess,
-    listRoomTypesStart, listRoomTypesFailure, listRoomTypesSuccess,
-    listedRoomTypeStatuses,
-    updateRoomStatusStart, updateRoomStatusFailure, updateRoomStatusSuccess,
+    listedRooms, addedRoom, updatedRoom,
+    listedRoomTypes, addedRoomType, updatedRoomType,
+    listedRoomTypeStatuses, addedRoomTypeStatus, updatedRoomTypeStatus,
+    updatedRoomStatus,
+
     networkStart, networkStop, addMessage
 } from "../actions"
 
 function* listRooms(action) {
     try {
-        console.log('Requesting rooms...');
-        yield put(listRoomsStart());
-        let response = yield call(Api.getRooms);
-        console.log("Response: ", response);
-        let rooms = yield response.json();
+        let rooms = yield makeRequest(Api.getRooms);
         yield put(listRoomsSuccess(rooms));
     }
     catch(err) {
-        console.log("Failed to get rooms: ", err);
-        yield put(listRoomsFailure("Failed to list rooms -- " + err));
+        yield put(addMessage("Failed to list rooms -- " + err, "error"));
+    }
+}
+function* addRoom(action) {
+    try {
+        let room = yield makeRequest(Api.addRoom, [action.room]);
+        yield put(addedRoom(room));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to add room -- " + err, "error"));
+    }
+}
+function* updateRoom(action) {
+    try {
+        let updatedRoom = yield makeRequest(Api.updateRoom, [action.room.id, action.room]);
+        yield put(updatedRoom(updatedRoom));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to update room --" + err, "error"));
     }
 }
 
 function* listRoomTypes(action) {
     try {
-        console.log('Requesting room types...');
-        yield put(listRoomTypesStart());
-        let response = yield call(Api.getRoomTypes);
-        console.log("Response: ", response);
-        let room_types = yield response.json();
-        yield put(listRoomTypesSuccess(room_types));
+        let roomTypes = yield makeRequest(Api.getRoomTypes);
+        yield put(listedRoomTypes(roomTypes));
     }
     catch(err) {
-        console.log("Failed to get room types: ", err);
-        yield put(listRoomTypesFailure("Failed to list room types -- " + err));
+        yield put(addMessage("Failed to list room types -- " + err, "error"));
+    }
+}
+function* addRoomType(action) {
+    try {
+        let roomType = yield makeRequest(Api.addRoomType, [action.roomType]);
+        yield put(addedRoomType(roomType));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to add room type -- " + err, "error"));
+    }
+}
+function* updateRoomType(action) {
+    try {
+        let updatedRoomType = yield makeRequest(Api.updateRoomType, [action.roomType.id, action.roomType]);
+        yield put(updatedRoomType(updatedRoomType));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to update room type --" + err, "error"));
     }
 }
 
 function* listRoomTypeStatuses(action) {
     try {
-        yield put(networkStart());
-        let response = yield call(Api.getRoomTypeStatuses);
-        console.log("Response: ", response);
-        let room_type_statuses = yield response.json();
+        let room_type_statuses = yield makeRequest(Api.getRoomTypeStatuses);
         yield put(listedRoomTypeStatuses(room_type_statuses));
     }
     catch(err) {
-        console.log("Failed to get room type statuses: ", err);
         yield put(addMessage("Failed to list room type statuses -- " + err, "error"));
     }
 
     yield put(networkStop());
 }
+function* addRoomTypeStatus(action) {
+    try {
+        let roomTypeStatus = yield makeRequest(Api.addRoomTypeStatus, [action.roomTypeStatus]);
+        yield put(addedRoomType(roomTypeStatus));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to add room type status -- " + err, "error"));
+    }
+}
+function* updateRoomTypeStatus(action) {
+    try {
+        let updatedRoomTypeStatus = yield makeRequest(Api.updateRoomTypeStatus, [action.roomTypeStatus.id, action.roomTypeStatus]);
+        yield put(updatedRoomTypeStatus(updatedRoomTypeStatus));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to update room type status --" + err, "error"));
+    }
+}
+
 
 function* updateRoomStatus(action) {
     let room = yield select((state) => {
-        console.log("Selecting room from state: ",  action.roomId, state.room.rooms);
         return state.room.rooms[action.roomId];
     });
 
-    console.log("Selected room: ", room);
-
-    room = {...room, status: action.status};
-
-    console.log("Updated room: ", room);
+    room = {...room, room_status_id: action.roomStatusId};
 
     try {
-        console.log('Requesting update room status...');
-        yield put(updateRoomStatusStart());
-        let response = yield call(Api.updateRoomStatus, action.roomId, room);
-        console.log("Response: ", response);
-        let room_types = yield response.json();
-        yield put(updateRoomStatusSuccess(action.roomId, action.status));
+        let updated_room = yield makeRequest(Api.updateRoomStatus, [action.roomId, room]);
+        yield put(updatedRoomStatus(action.roomId, action.roomStatusId));
     }
     catch(err) {
-        console.log("Failed to update room status: ", err);
-        yield put(updateRoomStatusFailure("Failed to update room status -- " + err));
+        yield put(addMessage("Failed to update room status -- " + err));
     }
 }
 
 function* listRoomsHandler() {
     yield takeLatest('room/LIST', listRooms);
 }
+function* addRoomHandler() {
+    yield takeLatest('room/ADD', addRoom);
+}
+function* updateRoomHandler() {
+    yield takeLatest('room/UPDATE', updateRoom);
+}
 
 function* listRoomTypesHandler() {
     yield takeLatest('room-type/LIST', listRoomTypes);
 }
+function* addRoomTypeHandler() {
+    yield takeLatest('room-type/ADD', addRoomType);
+}
+function* updateRoomTypeHandler() {
+    yield takeLatest('room-type/UPDATE', updateRoomType)
+}
 
 function* listRoomTypeStatusesHandler() {
     yield takeLatest('room-type-status/LIST', listRoomTypeStatuses);
+}
+function* addRoomTypeStatusHandler() {
+    yield takeLatest('room-type-status/ADD', addRoomTypeStatus);
+}
+function* updateRoomTypeStatusHandler() {
+    yield takeLatest('room-type-status/UPDATE', updateRoomTypeStatus)
 }
 
 function* updateRoomStatusHandler() {
     yield takeLatest('room/status/UPDATE', updateRoomStatus);
 }
 
-export {listRoomsHandler, listRoomTypesHandler, listRoomTypeStatusesHandler, updateRoomStatusHandler}
+function* roomHandler() {
+    yield all([
+        listRoomsHandler(), addRoomHandler(), updateRoomHandler(),
+        listRoomTypesHandler(), addRoomTypeHandler(), updateRoomTypeHandler(),
+        listRoomTypeStatusesHandler(),  addRoomTypeStatusHandler(), updateRoomTypeStatusHandler(),        
+        updateRoomStatusHandler()
+    ]);
+}
+
+export default roomHandler;

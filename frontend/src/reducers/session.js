@@ -16,7 +16,7 @@ function session(state=initialState, action) {
     switch (action.type) {
         case 'message/ADD':
             let newId = uuid();
-            newState = state.setIn(['messages', newId], {id: newId, type: action.message_type, body: action.body});
+            newState = state.setIn(['messages', newId], {id: newId, type: action.messageType, body: action.body});
             break;
         case 'message/REMOVE':
             newState = state.removeIn(['messages', action.id]);

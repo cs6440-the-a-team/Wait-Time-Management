@@ -30,33 +30,96 @@ const makeRequest = (path, data=null, method="GET") => {
 const getPatients = () => {
     return makeRequest("/admin/patient");
 }
+const addPatient = (patient) => {
+    return makeRequest(`/admin/patient`, patient, "POST");
+}
+const updatePatient = (patient) => {
+    return makeRequest(`/admin/patient/${patient.id}`, patient, "PUT");
+}
+const deletePatient = (patientId) => {
+    return makeRequest(`/admin/patient/${patientId}`, null, "DELETE");
+}
+
+const updatePatientStatus = (patientId, patient) => {
+    return updatePatient(patient);
+}
 
 const getRooms = () => {
     return makeRequest("/admin/room");
+}
+const addRoom = (room) => {
+    return makeRequest(`/admin/room`, room, "POST");
+}
+const updateRoom = (room) => {
+    return makeRequest(`/admin/room/${room.id}`, room, "PUT");
+}
+const deleteRoom = (roomId) => {
+    return makeRequest(`/admin/room/${roomId}`, null, "DELETE");
 }
 
 const getRoomTypes = () => {
     return makeRequest("/admin/room_type");
 }
+const addRoomType = (roomType) => {
+    return makeRequest(`/admin/room_type`, roomType, "POST");
+}
+const updateRoomType = (roomType) => {
+    return makeRequest(`/admin/room_type/${roomType.id}`, roomType, "PUT");
+}
+const deleteRoomType = (roomTypeId) => {
+    return makeRequest(`/admin/room_type/${roomTypeId}`, null, "DELETE");
+}
 
 const getRoomTypeStatuses = () => {
     return makeRequest("/admin/room_type_status");
 }
+const addRoomTypeStatus = (roomTypeStatus) => {
+    return makeRequest(`/admin/room_type_status`, roomTypeStatus, "POST");
+}
+const updateRoomTypeStatus = (roomTypeStatus) => {
+    return makeRequest(`/admin/room_type_status/${roomTypeStatus.id}`, roomTypeStatus, "PUT");
+}
+const deleteRoomTypeStatus = (roomTypeStatusId) => {
+    return makeRequest(`/admin/room_type_status/${roomTypeStatusId}`, null, "DELETE");
+}
 
 const updateRoomStatus = (roomId, room) => {
-    return makeRequest(`/admin/room/${roomId}`, room, "PUT")
+    return updateRoom(room);
 }
 
 const getProcedures = () => {
     return makeRequest("/admin/procedure");
 }
+const addProcedure = (procedure) => {
+    return makeRequest(`/admin/procedure`, procedure, "POST");
+}
+const updateProcedure = (procedure) => {
+    return makeRequest(`/admin/procedure/${procedure.id}`, procedure, "PUT");
+}
+const deleteProcedure = (procedureId) => {
+    return makeRequest(`/admin/procedure/${procedureId}`, null, "DELETE");
+}
 
 const getProcedureStatuses = () => {
     return makeRequest("/admin/procedure_status");
 }
-
-const getWaitingRoomData = () => {
-    return fetch(ENDPOINT + "/waitingroom");
+const addProcedureStatus = (procedureStatus) => {
+    return makeRequest(`/admin/procedure_status`, procedureStatus, "POST");
+}
+const updateProcedureStatus = (procedureStatus) => {
+    return makeRequest(`/admin/procedure_status/${procedureStatus.id}`, procedureStatus, "PUT");
+}
+const deleteProcedureStatus = (procedureStatusId) => {
+    return makeRequest(`/admin/procedure_status/${procedureStatusId}`, null, "DELETE");
 }
 
-export {getWaitingRoomData, getPatients, getRooms, getRoomTypes, getRoomTypeStatuses, updateRoomStatus, getProcedures, getProcedureStatuses};
+export {
+    getPatients, addPatient, updatePatient, deletePatient,
+    getRooms, addRoom, updateRoom, deleteRoom,
+    getRoomTypes, addRoomType, updateRoomType, deleteRoomType,
+    getRoomTypeStatuses, addRoomTypeStatus, updateRoomTypeStatus, deleteRoomTypeStatus,
+    updateRoomStatus, 
+    updatePatientStatus,
+    getProcedures, addProcedure, updateProcedure, deleteProcedure,
+    getProcedureStatuses, addProcedureStatus, updateProcedureStatus, deleteProcedureStatus
+};

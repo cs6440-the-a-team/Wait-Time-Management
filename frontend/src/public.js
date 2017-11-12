@@ -43,7 +43,12 @@ class PublicApp extends React.Component {
         this.setState({
             loading: true
         });
-        fetch(ENDPOINT + "/waitingroom").then(response => response.json()).then((data) => {
+        fetch(ENDPOINT + "/waitingroom").then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+            throw new Error("Failed to get data. Status: (" + response.status + ") " + response.statusText);
+        }).then((data) => {
             this.setState({
                 data: data.patients,
                 loading: false
@@ -70,9 +75,11 @@ class PublicApp extends React.Component {
     renderError() {
         if (this.state.error) {
             return (
-                <Message id="error-message" onClose={this.handleErrorDismiss} type="error">
-                    {this.state.error.toString()}
-                </Message>
+                <div style={{position: 'absolute', top: 25, right: 25, width: 350}}>
+                    <Message id="error-message" onClose={this.handleErrorDismiss} type="error">
+                        {this.state.error.toString()}
+                    </Message>
+                </div>
             )
         }
         return null;
