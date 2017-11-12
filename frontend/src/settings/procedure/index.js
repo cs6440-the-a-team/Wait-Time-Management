@@ -2,7 +2,7 @@ import React from "react"
 import { Route, NavLink } from "react-router-dom"
 
 import ProcedureListContainer from "./procedure-list"
-import PatientStatusListContainer from "./patient-status-list"
+import ProcedureStatusListContainer from "./procedure-status-list"
 
 const ProcedureSettings = ({match}) => {
     return (
@@ -13,13 +13,13 @@ const ProcedureSettings = ({match}) => {
                         <NavLink exact to={`${match.url}`} className="nav-link" activeClassName="active">Procedures</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to={`${match.url}/patient-statuses`} className="nav-link" activeClassName="active">Patient Statuses</NavLink>
+                        <NavLink to={`${match.url}/procedure-statuses`} className="nav-link" activeClassName="active">Procedure Statuses</NavLink>
                     </li>
                 </ul>
             </div>
             <div className="card-body">
                 <Route exact path={`${match.url}`} component={ProcedureListContainer} />
-                <Route path={`${match.url}/patient-statuses`} component={PatientStatusListContainer} />
+                <Route path={`${match.url}/procedure-statuses`} component={ProcedureStatusListContainer} />
             </div>
         </div>
     )

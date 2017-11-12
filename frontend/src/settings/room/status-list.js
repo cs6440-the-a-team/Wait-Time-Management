@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import RoomTypeSelect from "./room-type-select"
 
+import {timeFormat} from "../../utils/time-helper"
 import deNormalizeObject from "../../utils/de-normalize-object"
 
 import { addRoomTypeStatus, updateRoomTypeStatus } from "../../actions"
@@ -11,6 +12,10 @@ class RoomStatusWidget extends Component {
     static propTypes = {
         id: PropTypes.any,
         name: PropTypes.string,
+        roomTypeId: PropTypes.any,
+        order: PropTypes.any,
+        expectedDuration: PropTypes.any,
+        averageDuration: PropTypes.any,
         onFormSubmit: PropTypes.func.isRequired
     }
 
@@ -20,7 +25,9 @@ class RoomStatusWidget extends Component {
             id: props.id,
             name: props.name,
             room_type_id: props.roomTypeId,
-            avg_time_in_status: props.avgTimeInStatus
+            order: props.order,
+            expected_duration: props.expectedDuration,
+            average_duration: props.averageDuration
         }
     }
 
@@ -38,16 +45,33 @@ class RoomStatusWidget extends Component {
             newState.room_type_id = nextProps.roomTypeId;
         }
 
-        if (this.state.avg_time_in_status !== nextProps.avgTimeInStatus) {
-            newState.avg_time_in_status = nextProps.avgTimeInStatus;
+        if (this.state.order !== nextProps.order) {
+            newState.order = nextProps.order;
+        }
+
+        if (this.state.expected_duration !== nextProps.expectedDuration) {
+            newState.expected_duration = nextProps.expectedDuration;
+        }
+
+        if (this.state.average_duration !== nextProps.averageDuration) {
+            newState.average_duration = nextProps.averageDuration;
         }
 
         this.setState(newState);
     }
 
     handleInputChange = (e) => {
+        let value = e.target.value;
+        switch(e.target.name) {
+            case 'average_duration':
+            case 'expected_duration':
+            case 'order':
+                value = value.replace(/\D/g, "").trim().substring(0, 4);
+                value = parseInt(value || 0);
+                break;
+        }
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         });
     }
 
@@ -74,8 +98,19 @@ class RoomStatusWidget extends Component {
                     <input type="text" name="name" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
-                    <input type="number" name="avg_time_in_status" className="form-control" placeholder="Average time in status" value={this.state.avg_time_in_status} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
-                    <p className="help-block">Minutes</p>
+                    <input type="number" name="order" className="form-control" placeholder="Order" maxLength="4" value={this.state.order} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                </td>
+                <td>
+                    <div className="input-group">
+                        <input type="number" name="expected_duration" className="form-control" placeholder="Expected duration" maxLength="4" value={this.state.expected_duration} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                        <span className="input-group-addon">minutes</span>
+                    </div>
+                </td>
+                <td>
+                    <div className="input-group">
+                        <input type="number" name="average_duration" className="form-control" placeholder="Average duration" maxLength="4" value={this.state.average_duration} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                        <span className="input-group-addon">minutes</span>
+                    </div>
                 </td>
                 <td>
                     <div className="btn-group">
@@ -115,7 +150,7 @@ class RoomStatusListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <RoomStatusWidget id={this.props.id} name={this.props.name} roomTypeId={this.props.roomTypeId} avgTimeInStatus={this.props.avgTimeInStatus} onFormSubmit={this.handleUpdateRoomStatus}>
+                <RoomStatusWidget id={this.props.id} name={this.props.name} order={this.props.order} roomTypeId={this.props.roomTypeId} expectedDuration={this.props.expectedDuration} averageDuration={this.props.averageDuration} onFormSubmit={this.handleUpdateRoomStatus}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </RoomStatusWidget>
             )
@@ -124,7 +159,9 @@ class RoomStatusListItem extends Component {
             <tr>
                 <td>{this.props.roomType}</td>
                 <td>{this.props.name}</td>
-                <td>{this.props.avgTimeInStatus} minutes</td>
+                <td>{this.props.order}</td>
+                <td>{formatTime({minutes: this.props.expectedDuration})}</td>
+                <td>{formatTime({minutes: this.props.averageDuration})}</td>
                 <td>
                     <a href="#" role="button" className="btn btn-link" onClick={this.toggleEdit}>Edit</a>
                 </td>
@@ -159,7 +196,7 @@ class RoomStatusList extends Component {
     renderAdding() {
         if (this.state.adding) {
             return (
-                <RoomStatusWidget id={null} name="" avgTimeInStatus="" onFormSubmit={this.handleAddRoomStatus}>
+                <RoomStatusWidget id={null} name="" order="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddRoomStatus}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </RoomStatusWidget>
             )
@@ -174,8 +211,10 @@ class RoomStatusList extends Component {
                 <RoomStatusListItem id={roomStatus.id} 
                                     name={roomStatus.name} 
                                     roomTypeId={roomStatus.room_type_id} 
-                                    roomType={roomStatus.room_type} 
-                                    avgTimeInStatus={roomStatus.avg_time_in_status} 
+                                    order={roomStatus.order}
+                                    roomType={roomStatus.room_type}
+                                    expectedDuration={roomStatus.expected_duration}
+                                    averageDuration={roomStatus.average_duration} 
                                     onUpdateRoomStatus={this.props.onUpdateStatus} 
                                     key={roomStatus.id} />
             )
@@ -187,7 +226,9 @@ class RoomStatusList extends Component {
                     <tr>
                         <th>Room Type</th>
                         <th>Name</th>
-                        <th>Avg. time in status</th>
+                        <th>Order</th>
+                        <th>Expected Duration</th>
+                        <th>Average Duration</th>
                         <th>
                             <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdd}>Add</a>
                         </th>
@@ -205,6 +246,11 @@ class RoomStatusList extends Component {
 const mapStateToProps = function (state, ownProps) {
     let room_statuses = deNormalizeObject(state.room.statuses).map(function(room_status) {
         return {...room_status, room_type: state.room.types[room_status.room_type_id]};
+    }).sort(function(a, b) {
+        let order_a = parseInt(a.order || 0),
+        order_b = parseInt(b.order || 0);
+
+        return order_a - order_b;
     });
 
     return {

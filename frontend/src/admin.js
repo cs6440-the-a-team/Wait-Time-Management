@@ -75,15 +75,13 @@ class App extends React.Component {
 class AuthorizedPortion extends React.Component {
     constructor(props) {
         super(props);
+
+        this.updateInterval = null;
     }
 
     componentDidMount() {
-        store.dispatch(listPatients());
-        store.dispatch(listProcedureStatuses());
-        store.dispatch(listProcedures());
-        store.dispatch(listRoomTypeStatuses());
-        store.dispatch(listRoomTypes());
-        store.dispatch(listRooms());
+        updateInformation();
+        this.updateInterval = setInterval(updateInformation, (1000 * 60)); // Update every minute.
     }
 
     render() {
@@ -95,6 +93,15 @@ class AuthorizedPortion extends React.Component {
             </div>
         )
     }
+}
+
+function updateInformation() {
+    store.dispatch(listPatients());
+    store.dispatch(listProcedureStatuses());
+    store.dispatch(listProcedures());
+    store.dispatch(listRoomTypeStatuses());
+    store.dispatch(listRoomTypes());
+    store.dispatch(listRooms());
 }
 
 ReactDOM.render(

@@ -16,6 +16,13 @@ class Login extends React.Component {
         });
     }
 
+    handleKeyDown = (e) => {
+        const keyName = e.key
+        if (keyName === "Enter") {
+            this.onSubmit(e);
+        }
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -38,10 +45,16 @@ class Login extends React.Component {
                         </div>
                         <div className="card-body">
                             <div className="form-group">
-                                <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.onInputChange} className="form-control" />
+                                <input type="text" name="username" placeholder="Username" value={this.state.username} onChange={this.onInputChange} className="form-control"/>
                             </div>
                             <div className="form-group">
-                                <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.onInputChange} className="form-control" />
+                                <input type="password" 
+                                       name="password" 
+                                       placeholder="Password" 
+                                       value={this.state.password} 
+                                       onChange={this.onInputChange} 
+                                       className="form-control" 
+                                       onKeyDown={this.handleKeyDown} />
                             </div>
                         </div>
                         <div className="card-footer">

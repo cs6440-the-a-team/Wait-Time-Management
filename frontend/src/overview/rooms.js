@@ -6,6 +6,7 @@ import deNormalizeObject from "../utils/de-normalize-object"
 import Message from "../components/message"
 import RoomStatusSelect from "./room-status-select"
 import {updateRoomStatus, dismissRoomError} from "../actions"
+import {minutesSince, formatTime} from "../utils/time-helper"
 
 class RoomItem extends React.Component {
 
@@ -47,7 +48,8 @@ class RoomItem extends React.Component {
 
     render() {
         let statusView = this.state.status,
-            buttonText = "Edit";
+            buttonText = "Edit",
+            trClasses = [];
         if (this.state.editing) {
             statusView = (
                 <RoomStatusSelect name="status" roomType={this.props.roomType} value={this.state.status} onChange={this.handleInputChange} />
@@ -55,12 +57,21 @@ class RoomItem extends React.Component {
             buttonText = "Cancel";
         }
 
+        let elapsed_time = null;
+        if (this.props.startTime) {
+            elapsed_time = minutesSince(this.props.startTime);
+
+            if (elapsed_time > parseInt(this.props.expectedDuration)) {
+                trClasses.push("table-danger");
+            }
+        }
+
         return (
-            <tr>
+            <tr className={trClasses.join(" ")}>
                 <td>{this.props.name}</td>
                 <td>{statusView}</td>
-                <td>{this.props.startTime && (moment(this.props.startTime).fromNow(true))}</td>
-                <td>{this.props.expectedDuration} minutes</td>
+                <td>{formatTime({minutes: elapsed_time})}</td>
+                <td>{formatTime({minutes: this.props.expectedDuration})} </td>
                 <td>
                     <a href="#" role="button" onClick={this.toggleEdit}>{buttonText}</a>
                 </td>

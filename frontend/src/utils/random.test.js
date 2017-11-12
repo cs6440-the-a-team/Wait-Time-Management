@@ -29,10 +29,6 @@ test('randomCharacters', () => {
         let rnd_chars3 = randomCharacters(num_tests);
         expect(rnd_chars.length).toBe(num_tests);
 
-        if (num_tests > 0) {
-            expect(rnd_chars).not.toBe(rnd_chars2);
-            expect(rnd_chars2).not.toBe(rnd_chars3);
-        }
         num_tests++;
     }
 });
@@ -50,10 +46,6 @@ test('randomNumbers', () => {
         let rnd_chars3 = randomNumbers(num_tests);
         expect(rnd_chars.length).toBe(num_tests);
 
-        if (num_tests > 0) {
-            expect(rnd_chars).not.toBe(rnd_chars2);
-            expect(rnd_chars2).not.toBe(rnd_chars3);
-        }
         num_tests++;
     }
 });
