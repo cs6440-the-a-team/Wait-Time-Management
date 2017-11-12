@@ -13,7 +13,7 @@ const room = function(state=initialState, action) {
             newState = {...state, loading: false, error: null, rooms: normalizeArray(action.rooms)};
             break;
         case 'room-type/LISTED':
-            newState = {...state, loading: false, error: null, types: normalizeArray(action.room_types)};
+            newState = {...state, loading: false, error: null, types: normalizeArray(action.roomTypes)};
             break;
         case 'room-type-status/LISTED':
             newState = {...state, statuses: normalizeArray(action.roomTypeStatuses)};
