@@ -1,8 +1,6 @@
 import normalizeArray from "../utils/normalize-array"
 
 const initialState = {
-    loading: false,
-    error: null,
     rooms: {},
     types: {},
     statuses: {}
@@ -11,23 +9,10 @@ const initialState = {
 const room = function(state=initialState, action) {
     let newState = null;
     switch(action.type) {
-        case 'room/ERROR/dismiss':
-            newState = {...state, error: null};
-            break;
-        case 'room/LIST/start':
-        case 'room-type/LIST/start':
-        case 'room/status/UPDATE/start':
-            newState = {...state, loading: true, error: null};
-            break;
-        case 'room/LIST/failure':
-        case 'room-type/LIST/failure':
-        case 'room/status/UPDATE/failure':
-            newState = {...state, loading: false, error: action.error};
-            break;
-        case 'room/LIST/success':
+        case 'room/LISTED':
             newState = {...state, loading: false, error: null, rooms: normalizeArray(action.rooms)};
             break;
-        case 'room-type/LIST/success':
+        case 'room-type/LISTED':
             newState = {...state, loading: false, error: null, types: normalizeArray(action.room_types)};
             break;
         case 'room-type-status/LISTED':
