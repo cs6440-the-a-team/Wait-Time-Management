@@ -86,6 +86,7 @@ Room Type Status
   "id": 1,
   "name": "Vacant",
   "room_type_id": 1,
+  "order": 1,
   "expected_duration": 10,
   "average_duration": 8
 }
