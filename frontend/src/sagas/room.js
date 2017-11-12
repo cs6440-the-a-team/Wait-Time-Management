@@ -14,7 +14,7 @@ import {
 function* listRooms(action) {
     try {
         let rooms = yield makeRequest(Api.getRooms);
-        yield put(listRoomsSuccess(rooms));
+        yield put(listedRooms(rooms));
     }
     catch(err) {
         yield put(addMessage("Failed to list rooms -- " + err, "error"));
