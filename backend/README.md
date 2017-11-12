@@ -38,18 +38,20 @@ Build File location: ./build/libs/WaitTimeManagement.war
 | /waitingroom           | GET    | list waitingroom patients |
 
 ### Example Payloads
+> Note: All durations should be integers representing the number of minutes.
+
 Patient
 
 ``` javascript
 {
+  "id": 1,
   "end_time": "",
   "expected_duration": 60,
-  "id": "1",
-  "location_id": "B32",
+  "room_id": 1,
   "name": "John",
-  "procedure": "surgery",
-  "start_time": "2017-11-02T01:03:09+00:00",
-  "procedure_status_id": 1
+  "procedure_id": 1,
+  "procedure_status_id": 1,
+  "start_time": "2017-11-02T01:03:09+00:00"
 }
 ```
 
@@ -57,11 +59,11 @@ Room
 
 ``` javascript
 {
+  "id": 1,
   "end_time": "",
   "expected_duration": 60,
-  "id": "1",
   "name": "B32",
-  "room_type": "post-op",
+  "room_type_id": 1,
   "start_time": "2017-11-02T01:03:09+00:00",
   "room_status_id": 1
 }
@@ -71,7 +73,7 @@ Room Type
 
 ```javascript
 {
-  "id": "OR",
+  "id": 1,
   "name": "Operating Room",
   "room_statuses": [1]
 }
@@ -83,7 +85,8 @@ Room Type Status
 {
   "id": 1,
   "name": "Vacant",
-  "room_type_id": "OR",
+  "room_type_id": 1,
+  "order": 1,
   "expected_duration": 10,
   "average_duration": 8
 }
@@ -93,7 +96,7 @@ Procedure
 
 ```javascript
 {
-  "id": "surgery",
+  "id": 1,
   "name": "Surgery",
   "procedure_statuses": [1]
 }
@@ -105,7 +108,7 @@ Procedure Status
 {
   "id": 1,
   "name": "Pre-op",
-  "procedure_id": "surgery",
+  "procedure_id": 1,
   "order": 1,
   "expected_duration": 10,
   "average_duration": 12
