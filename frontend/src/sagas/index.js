@@ -1,16 +1,16 @@
 import {all} from "redux-saga/effects"
 
-import loginHandler from "./login"
-import roomHandler from "./room"
-import procedureHandler from "./procedure"
-import patientHandler from "./patient"
+import loginSagas from "./login"
+import patientSagas from "./patient"
+import roomSagas from "./room"
+import procedureSagas from "./procedure"
 
 function* rootSaga() {
     yield all([
-        loginHandler(),
-        roomHandler(),
-        procedureHandler(),
-        patientHandler()
+        ...loginSagas,
+        ...roomSagas,
+        ...procedureSagas,
+        ...patientSagas
     ])
 }
 

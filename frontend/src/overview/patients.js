@@ -2,14 +2,87 @@ import React from "react"
 import { connect } from "react-redux"
 import deNormalizeObject from "../utils/de-normalize-object"
 import { formatTime, minutesSince } from "../utils/time-helper"
+import { addPatient, updatePatient, showPatientCard } from "../actions"
 
-import { addPatient, updatePatient } from "../actions";
+import PersonalCardContainer from "../containers/personal-card-container"
+import ProcedureSelect from "../settings/procedure/procedure-select"
+import ProcedureStatusSelectContainer from "./procedure-status-select"
+import RoomSelectContainer from "../containers/room-select-container";
+
 
 class PatientWidget extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            id: props.patientId,
+            name: props.name,
+            procedure_id: props.procedureId,
+            procedure_status_id: props.procedureStatusId,
+            room_id: props.roomId
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.id) {
+            let newState = {};
+            if (this.state.id !== nextProps.patientId) {
+                newState.id = nextProps.patientId;
+            }
+            if (this.state.name !== nextProps.name) {
+                newState.name = nextProps.name;
+            }
+            if (this.state.procedure_id !== nextProps.procedureId) {
+                newState.procedure_id = nextProps.procedureId;
+            }
+            if (this.state.procedure_status_id !== nextProps.procedureStatusId) {
+                newState.procedure_status_id = nextProps.procedureStatusId;
+            }
+            if (this.state.room_id !== nextProps.roomId) {
+                newState.room_id = nextProps.roomId;
+            }
+
+            this.setState(newState);
+        }
+    }
+
+    handleInputChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        let patient = {...this.state};
+
+        this.props.onFormSubmit(patient);
+    }
+
     render() {
         return (
             <tr>
-                <td colSpan="8">Widget goes here</td>
+                <td/>
+                <td>
+                    <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange} className="form-control" />
+                </td>
+                <td>
+                    <ProcedureSelect name="procedure_id" value={this.state.procedure_id} onChange={this.handleInputChange} className="form-control" />
+                </td>
+                <td colSpan="2">
+                    <ProcedureStatusSelectContainer name="procedure_status_id" procedureId={this.state.procedure_id} value={this.state.procedure_status_id} onChange={this.handleInputChange} className="form-control" />
+                </td>
+                <td colSpan="2">
+                    <RoomSelectContainer name="room_id" value={this.state.room_id} onChange={this.handleInputChange} className="form-control" />
+                </td>
+                <td>
+                    <div className="btn-group">
+                        <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.props.onCancel}>Cancel</a>
+                        <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                    </div>
+                </td>
             </tr>
         );
     }
@@ -38,15 +111,22 @@ class PatientRowItem extends React.Component {
         this.props.onUpdatePatient(patient);
     };
 
+    handlePatientSelect = (e) => {
+        e.preventDefault();
+        this.props.onPatientSelect(this.props.patientId);
+    };
+
     render() {
         if (this.state.editing) {
             return (
-                <PatientWidget {...this.props} onFormSubmit={this.handleFormSubmit} />
+                <PatientWidget {...this.props} onFormSubmit={this.handleFormSubmit} onCancel={this.toggleEdit} />
             )
         }
         return (
             <tr>
-                <td>{this.props.id}</td>
+                <td>
+                    <a href="#" role="button" onClick={this.handlePatientSelect} title="Show personal card">{this.props.patientId}</a>
+                </td>
                 <td>{this.props.name}</td>
                 <td>{this.props.procedureName}</td>
                 <td>{this.props.procedureStatusName}</td>
@@ -85,7 +165,7 @@ class Patients extends React.Component {
 
     renderAdd() {
         if (this.state.adding) {
-            return <PatientWidget onSubmit={this.handleAddPatient} />;
+            return <PatientWidget name="" procedureId="" procedureStatusId="" roomId="" onFormSubmit={this.handleAddPatient} onCancel={this.toggleAdding} />;
         }
         return null;
     }
@@ -94,7 +174,7 @@ class Patients extends React.Component {
         return this.props.patients.map((patient) => {
             return (
                 <PatientRowItem key={patient.id}
-                    id={patient.id}
+                    patientId={patient.id}
                     name={patient.name}
                     procedureId={patient.procedure_id}
                     procedureName={patient.procedure_name}
@@ -104,6 +184,7 @@ class Patients extends React.Component {
                     expectedDuration={patient.expected_duration}
                     roomId={patient.room_id}
                     roomName={patient.room_name}
+                    onPatientSelect={this.props.showPatientCard}
                     onUpdatePatient={this.handleUpdatePatient} />
             );
         });
@@ -112,6 +193,7 @@ class Patients extends React.Component {
     render() {
         return (
             <div className="patient-overview-container">
+                <PersonalCardContainer />
                 <table className="table table-striped">
                     <thead>
                         <tr>
@@ -140,21 +222,27 @@ const mapStateToProps = function (state, ownProps) {
         let updated_patient = { ...patient };
 
         // Procedure name
-        let procedure = state.procedure.procedures[patient.procedure_id];
-        if (procedure) {
-            updated_patient.procedure_name = procedure.name;
+        if (state.procedure.procedures) {
+            let procedure = state.procedure.procedures[patient.procedure_id];
+            if (procedure) {
+                updated_patient.procedure_name = procedure.name;
+            }
         }
 
         // Status name
-        let status = state.procedure.statuses[patient.procedure_status_id];
-        if (status) {
-            updated_patient.procedure_status_name = status.name;
+        if (state.procedure.statuses) {
+            let status = state.procedure.statuses[patient.procedure_status_id];
+            if (status) {
+                updated_patient.procedure_status_name = status.name;
+            }
         }
 
         // Room name
-        let room = state.room.rooms[patient.room_id];
-        if (room) {
-            updated_patient.room_name = room.name;
+        if (state.room.rooms) {
+            let room = state.room.rooms[patient.room_id];
+            if (room) {
+                updated_patient.room_name = room.name;
+            }
         }
 
         return updated_patient;
@@ -171,6 +259,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updatePatient: (patient) => {
             dispatch(updatePatient(patient));
+        },
+        showPatientCard: (patient_id) => {
+            dispatch(showPatientCard(patient_id));
         }
     }
 };

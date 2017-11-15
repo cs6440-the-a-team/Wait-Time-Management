@@ -9,10 +9,10 @@ import RoomWidget from "./room-widget"
 class RoomListItem extends Component {
 
     static propTypes = {
-        id: PropTypes.any,
+        roomId: PropTypes.any,
         name: PropTypes.string,
         roomTypeId: PropTypes.any,
-        type: PropTypes.string,
+        roomType: PropTypes.string,
         onRoomUpdate: PropTypes.func.isRequired
     };
 
@@ -42,7 +42,7 @@ class RoomListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <RoomWidget id={this.props.id} name={this.props.name} roomTypeId={this.props.roomTypeId} onFormSubmit={this.handleFormSubmit}>
+                <RoomWidget roomId={this.props.roomId} name={this.props.name} roomTypeId={this.props.roomTypeId} onFormSubmit={this.handleFormSubmit}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </RoomWidget>
             );
@@ -50,7 +50,7 @@ class RoomListItem extends Component {
         return (
             <tr>
                 <td>{this.props.name}</td>
-                <td>{this.props.type}</td>
+                <td>{this.props.roomType}</td>
                 <td><a href="#" role="button" className="btn btn-link" onClick={this.toggleEdit}>Edit</a></td>
             </tr>
         )
@@ -90,7 +90,7 @@ class RoomList extends Component {
     renderAddingRoom() {
         if (this.state.adding_room) {
             return (
-                <RoomWidget id={null} name="" roomTypeId="" onFormSubmit={this.onAddRoom}>
+                <RoomWidget roomId={null} name="" roomTypeId="" onFormSubmit={this.onAddRoom}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleAddingRoom}>Cancel</a>
                 </RoomWidget>
             );
@@ -108,7 +108,7 @@ class RoomList extends Component {
     if (this.props.rooms.length > 0) {
         roomItems = this.props.rooms.map((room) => {
             return (
-                <RoomListItem id={room.id} name={room.name} type={room.type} roomTypeId={room.room_type_id} key={room.id} onRoomUpdate={this.props.handleUpdateRoom}/>
+                <RoomListItem key={room.id} roomId={room.id} name={room.name} roomType={room.room_type} roomTypeId={room.room_type_id} onRoomUpdate={this.props.handleUpdateRoom}/>
             );
         })
     }
@@ -144,7 +144,7 @@ const mapStateToProps = (state) => {
             room_type = state.room.types[room.room_type_id].name;
         }
 
-        return {...room, type: room_type};
+        return {...room, room_type: room_type};
     }).sort(function(a, b) {
         return a.name.localeCompare(b.name);
     });
@@ -160,6 +160,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(addRoom(room))
         },
         handleUpdateRoom: (room) => {
+            //console.log("Updating room: ", room);
             dispatch(updateRoom(room));
         }
     }

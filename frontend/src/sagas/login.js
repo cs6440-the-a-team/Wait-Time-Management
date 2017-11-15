@@ -16,11 +16,6 @@ function* login(action) {
     yield put(networkStop());
 
     yield put(loginSuccess(token, role, expires));
-
 }
 
-function* loginHandler() {
-    yield takeLatest("session/LOGIN/attempt", login);
-}
-
-export default loginHandler;
+export default [takeLatest("session/LOGIN/attempt", login)];

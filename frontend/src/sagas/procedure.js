@@ -2,7 +2,6 @@ import {all, call, put, select, takeLatest} from "redux-saga/effects"
 import {makeRequest} from "./network"
 import * as Api from "../api"
 import {
-    networkStart, networkStop,
     listedProcedures, addedProcedure, updatedProcedure,
     listedProcedureStatuses, addedProcedureStatus, updatedProcedureStatus,
     addMessage
@@ -64,31 +63,11 @@ function* updateProcedureStatus(action) {
     }
 }
 
-function* listProceduresHandler() {
-    takeLatest('procedure/LIST', listProcedures);
-}
-function* addProcedureHandler() {
-    takeLatest('procedure/ADD', addProcedure);
-}
-function* updateProcedureHandler() {
-    takeLatest('procedure/UPDATE', updateProcedure);
-}
-
-function* listProcedureStatusesHandler() {
-    takeLatest('procedure-status/LIST', listProcedureStatuses);
-}
-function* addProcedureStatusHandler() {
-    takeLatest('procedure-status/ADD', addProcedureStatus);
-}
-function* updateProcedureStatusHandler() {
-    takeLatest('procedure-status/UPDATE', updateProcedureStatus);
-}
-
-function* procedureHandler() {
-    yield all([
-        listProceduresHandler(), addProcedureHandler(), updateProcedureHandler(),
-        listProcedureStatusesHandler(), addProcedureStatusHandler(), updateProcedureStatusHandler()
-    ]);
-}
-
-export default procedureHandler;
+export default [
+    takeLatest('procedure/LIST', listProcedures),
+    takeLatest('procedure/ADD', addProcedure),
+    takeLatest('procedure/UPDATE', updateProcedure),
+    takeLatest('procedure-status/LIST', listProcedureStatuses),
+    takeLatest('procedure-status/ADD', addProcedureStatus),
+    takeLatest('procedure-status/UPDATE', updateProcedureStatus)
+];

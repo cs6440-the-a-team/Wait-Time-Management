@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import deNormalizeObject from "../../utils/de-normalize-object"
 
 const ProcedureSelect = ({procedures, onChange, name, value}) => {
     return (
@@ -15,9 +16,7 @@ const ProcedureSelect = ({procedures, onChange, name, value}) => {
 }
 
 const mapStateToProps = function(state) {
-    let procedures = Object.keys(state.procedure.procedures).map(function(procedureId) {
-        return state.procedure.procedures[procedureId];
-    });
+    let procedures = deNormalizeObject(state.procedure.procedures);
     return {
         procedures
     }

@@ -9,7 +9,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Route, NavLink, Switch, Redirect } from "react-router-dom"
 import { Provider, connect } from "react-redux"
-import store from "./reducers"
+import store, { updateInformation } from "./reducers"
 
 window.app_store = store;
 
@@ -21,7 +21,7 @@ import PrivateRouteContainer from "./containers/private-route-container"
 import MessageContainer from "./containers/message-container"
 import LoadingIndicatorContainer from "./containers/loading-indicator-container"
 
-import { listRooms, listRoomTypes, listProcedures, listProcedureStatuses, listRoomTypeStatuses, listPatients, addMessage, loginAttempt, logout } from "./actions"
+import { logout } from "./actions"
 
 class App extends React.Component {
     render() {
@@ -51,7 +51,7 @@ class App extends React.Component {
                                                 <a href="#" role="button" className="nav-link" title="Logout" onClick={(e) => {
                                                     e.preventDefault();
                                                     store.dispatch(logout());
-                                                }}><i className="fa fa-sign-out"/></a>
+                                                }}><i className="fa fa-sign-out" /></a>
                                             </li>
                                         </ul>
                                     )
@@ -75,13 +75,10 @@ class App extends React.Component {
 class AuthorizedPortion extends React.Component {
     constructor(props) {
         super(props);
-
-        this.updateInterval = null;
     }
 
     componentDidMount() {
         updateInformation();
-        this.updateInterval = setInterval(updateInformation, (1000 * 60)); // Update every minute.
     }
 
     render() {
@@ -93,15 +90,6 @@ class AuthorizedPortion extends React.Component {
             </div>
         )
     }
-}
-
-function updateInformation() {
-    store.dispatch(listPatients());
-    store.dispatch(listProcedureStatuses());
-    store.dispatch(listProcedures());
-    store.dispatch(listRoomTypeStatuses());
-    store.dispatch(listRoomTypes());
-    store.dispatch(listRooms());
 }
 
 ReactDOM.render(

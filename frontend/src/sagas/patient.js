@@ -7,71 +7,54 @@ import {
 
 function* listPatients(action) {
     try {
-        let patients = makeRequest(Api.listPatients);
-        put(listedPatients(patients));
+        let patients = yield makeRequest(Api.getPatients);
+        yield put(listedPatients(patients));
     }
     catch(err) {
-        put(addErrorMessage("Failed to list patients -- " + err));
+        yield put(addErrorMessage("Failed to list patients -- " + err));
     }
 }
 
 function* addPatient(action) {
     try {
-        let patient = makeRequest(Api.addPatient, [action.patient]);
-        put(addedPatient(patient));
+        let patient = yield makeRequest(Api.addPatient, [action.patient]);
+        yield put(addedPatient(patient));
     }
     catch(err) {
-        put(addErrorMessage("Failed to add patient -- " + err));
+        yield put(addErrorMessage("Failed to add patient -- " + err));
     }
 }
 
 function* updatePatient(action) {
     try {
-        let patient = makeRequest(Api.updatePatient, [action.patient]);
-        put(updatedPatient(patient));
+        let patient = yield makeRequest(Api.updatePatient, [action.patient]);
+        yield put(updatedPatient(patient));
     }
     catch(err) {
-        put(addErrorMessage("Failed to update patient -- " + err));
+        yield put(addErrorMessage("Failed to update patient -- " + err));
     }
 }
 
 function* updatePatientStatus(action) {
     
-    let patient = select((state) => {
+    let patient = yield select((state) => {
         return {...state.patient.patients[action.patientId]};
     });
 
     patient.procedure_status_id = action.procedureStatusId;
 
     try {
-        let updatedPatient = makeRequest(Api.updatePatientStatus, [action.patientId, patient]);
-        put(updatePatient(updatedPatient));
+        let updatedPatient = yield makeRequest(Api.updatePatientStatus, [action.patientId, patient]);
+        yield put(updatePatient(updatedPatient));
     }
     catch(err) {
-        put(addErrorMessage("Failed to update patient status -- " + err));
+        yield put(addErrorMessage("Failed to update patient status -- " + err));
     }
 }
 
-function* listPatientHandler() {
-    takeLatest("patient/LIST", listPatients);
-}
-function* addPatientHandler() {
-    takeLatest("patient/ADD", addPatient);
-}
-function* updatePatientHandler() {
-    takeLatest("patient/UPDATE", updatePatient);
-}
-function* updatePatientStatusHandler() {
-    takeLatest("patient/status/UPDATE", updatePatientStatus);
-}
-
-function* patientHandler() {
-    yield all([
-        listPatientHandler(),
-        addPatientHandler(),
-        updatePatientHandler(),
-        updatePatientStatusHandler()
-    ]);
-}
-
-export default patientHandler;
+export default [
+    takeLatest('patient/LIST', listPatients),
+    takeLatest('patient/ADD', addPatient),
+    takeLatest('patient/UPDATE', updatePatient),
+    takeLatest('patient/status/UPDATE', updatePatientStatus)
+];

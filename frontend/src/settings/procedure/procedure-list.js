@@ -1,9 +1,9 @@
-import React, {Component} from "react"
-import {connect} from "react-redux"
+import React, { Component } from "react"
+import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
-import {addProcedure, updateProcedure} from "../../actions"
-import {formatTime} from "../../utils/time-helper"
+import { addProcedure, updateProcedure } from "../../actions"
+import { formatTime } from "../../utils/time-helper"
 
 class ProcedureWidget extends Component {
     static propTypes = {
@@ -25,18 +25,20 @@ class ProcedureWidget extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let newState = {...this.state};
-        if (this.state.id !== nextProps.id) {
-            newState.id = nextProps.id;
-        }
-        if (this.state.name !== nextProps.name) {
-            newState.name = nextProps.name;
-        }
-        if (this.state.expected_duration !== nextProps.expectedDuration) {
-            newState.expected_duration = nextProps.expectedDuration;
-        }
-        if (this.state.average_duration !== nextProps.averageDuration) {
-            newState.average_duration = nextProps.averageDuration;
+        let newState = { ...this.state };
+        if (this.state.id) {
+            if (this.state.id !== nextProps.id) {
+                newState.id = nextProps.id;
+            }
+            if (this.state.name !== nextProps.name) {
+                newState.name = nextProps.name;
+            }
+            if (this.state.expected_duration !== nextProps.expectedDuration) {
+                newState.expected_duration = nextProps.expectedDuration;
+            }
+            if (this.state.average_duration !== nextProps.averageDuration) {
+                newState.average_duration = nextProps.averageDuration;
+            }
         }
 
         this.setState(newState);
@@ -44,7 +46,7 @@ class ProcedureWidget extends Component {
 
     onInputChange = (e) => {
         let value = e.target.value;
-        switch(e.target.name) {
+        switch (e.target.name) {
             case 'average_duration':
             case 'expected_duration':
                 value = value.replace(/\D/g, "").trim().substring(0, 4);
@@ -66,7 +68,7 @@ class ProcedureWidget extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        let procedure = {...this.state};
+        let procedure = { ...this.state };
 
         this.props.onFormSubmit(procedure);
     }
@@ -75,17 +77,17 @@ class ProcedureWidget extends Component {
         return (
             <tr>
                 <td>
-                    <input className="form-control" type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown}/>
+                    <input className="form-control" type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <div className="input-group">
-                        <input className="form-control" type="number" maxLength={4} placeholder="Expected Duration" name="expected_duration" value={this.state.expected_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown}/>
+                        <input className="form-control" type="number" maxLength={4} placeholder="Expected Duration" name="expected_duration" value={this.state.expected_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                         <span className="input-group-addon">minutes</span>
                     </div>
                 </td>
                 <td>
                     <div className="input-group">
-                        <input className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown}/>
+                        <input className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                         <span className="input-group-addon">minutes</span>
                     </div>
                 </td>
@@ -127,9 +129,9 @@ class ProcedureListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <ProcedureWidget id={this.props.id} name={this.props.name} 
-                                 expectedDuration={this.props.expectedDuration} averageDuration={this.props.averageDuration} 
-                                 onFormSubmit={this.handleUpdateProcedure}>
+                <ProcedureWidget id={this.props.id} name={this.props.name}
+                    expectedDuration={this.props.expectedDuration} averageDuration={this.props.averageDuration}
+                    onFormSubmit={this.handleUpdateProcedure}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </ProcedureWidget>
             )
@@ -137,8 +139,8 @@ class ProcedureListItem extends Component {
         return (
             <tr>
                 <td>{this.props.name}</td>
-                <td>{formatTime({minutes: this.props.expectedDuration})}</td>
-                <td>{formatTime({minutes: this.props.averageDuration})}</td>
+                <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
+                <td>{formatTime({ minutes: this.props.averageDuration })}</td>
                 <td>
                     <a href="#" role="button" className="btn btn-link" onClick={this.toggleEdit}>Edit</a>
                 </td>
@@ -209,8 +211,8 @@ class ProcedureList extends Component {
 }
 
 
-const mapStateToProps = function(state, ownProps) {
-    let procedures = Object.keys(state.procedure.procedures).map(function(procedure_id) {
+const mapStateToProps = function (state, ownProps) {
+    let procedures = Object.keys(state.procedure.procedures).map(function (procedure_id) {
         return state.procedure.procedures[procedure_id];
     });
 
@@ -219,7 +221,7 @@ const mapStateToProps = function(state, ownProps) {
     }
 }
 
-const mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function (dispatch) {
     return {
         onAddProcedure: (procedure) => {
             dispatch(addProcedure(procedure));

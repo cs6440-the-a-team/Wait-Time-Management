@@ -4,6 +4,7 @@ import immutable from "immutable"
 const initialState = immutable.fromJS({
     messages: {},
     loading: false,
+    requests_pending: 0,
     is_logged_in: false,
     token: null,
     role: null,
@@ -23,9 +24,17 @@ function session(state=initialState, action) {
             break;
         case 'network/START':
             newState = state.set('loading', true);
+            newState = newState.set('requests_pending', state.get('requests_pending') + 1);
             break;
         case 'network/STOP':
-            newState = state.set('loading', false);
+            let requests_pending = state.get('requests_pending') - 1,
+                loading = state.get('loading');
+            if (requests_pending <= 0) {
+                requests_pending = 0;
+                loading = false;
+            }
+            newState = state.set('requests_pending', requests_pending);
+            newState = newState.set('loading', loading);
             break;
         case 'session/LOGIN/success':
             newState = state.set('is_logged_in', true);

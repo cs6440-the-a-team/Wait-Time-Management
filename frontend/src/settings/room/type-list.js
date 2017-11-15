@@ -1,8 +1,8 @@
-import React, {Component} from "react"
-import {connect} from "react-redux"
+import React, { Component } from "react"
+import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
-import {addRoomType, updateRoomType} from "../../actions"
+import { addRoomType, updateRoomType } from "../../actions"
 
 class RoomTypeWidget extends Component {
     static propTypes = {
@@ -20,13 +20,16 @@ class RoomTypeWidget extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let newState = {...this.state};
-        if (this.state.id !== nextProps.id) {
-            newState.id = nextProps.id;
-        }
+        let newState = { ...this.state };
 
-        if (this.state.name !== nextProps.name) {
-            newState.name = nextProps.name;
+        if (this.state.id) {
+            if (this.state.id !== nextProps.id) {
+                newState.id = nextProps.id;
+            }
+
+            if (this.state.name !== nextProps.name) {
+                newState.name = nextProps.name;
+            }
         }
 
         this.setState(newState);
@@ -48,7 +51,7 @@ class RoomTypeWidget extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        this.props.onFormSubmit({...this.state});
+        this.props.onFormSubmit({ ...this.state });
     }
 
     render() {
@@ -140,7 +143,7 @@ class RoomTypeList extends Component {
     render() {
         let roomTypeItems = this.props.roomTypes.map((roomType) => {
             return (
-                <RoomTypeListItem id={roomType.id} name={roomType.name} onRoomTypeUpdate={this.props.handleUpdateRoomType} key={roomType.id}/>
+                <RoomTypeListItem id={roomType.id} name={roomType.name} onRoomTypeUpdate={this.props.handleUpdateRoomType} key={roomType.id} />
             )
         });
 
@@ -163,8 +166,8 @@ class RoomTypeList extends Component {
     }
 }
 
-const mapStateToProps = function(state, ownProps) {
-    let room_types = Object.keys(state.room.types).map(function(roomTypeId) {
+const mapStateToProps = function (state, ownProps) {
+    let room_types = Object.keys(state.room.types).map(function (roomTypeId) {
         return state.room.types[roomTypeId];
     });
 
@@ -173,7 +176,7 @@ const mapStateToProps = function(state, ownProps) {
     }
 }
 
-const mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function (dispatch) {
     return {
         handleUpdateRoomType: (roomType) => {
             dispatch(updateRoomType(roomType));
@@ -187,4 +190,4 @@ const mapDispatchToProps = function(dispatch) {
 const RoomTypeListContainer = connect(mapStateToProps, mapDispatchToProps)(RoomTypeList);
 
 export default RoomTypeListContainer;
-export {RoomTypeList};
+export { RoomTypeList };

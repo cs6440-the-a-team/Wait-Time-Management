@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import RoomTypeSelect from "./room-type-select"
 
-import {timeFormat} from "../../utils/time-helper"
+import { timeFormat } from "../../utils/time-helper"
 import deNormalizeObject from "../../utils/de-normalize-object"
 
 import { addRoomTypeStatus, updateRoomTypeStatus } from "../../actions"
@@ -33,28 +33,31 @@ class RoomStatusWidget extends Component {
 
     componentWillReceiveProps(nextProps) {
         let newState = { ...this.state };
-        if (this.state.id !== nextProps.id) {
-            newState.id = nextProps.id;
-        }
 
-        if (this.state.name !== nextProps.name) {
-            newState.name = nextProps.name;
-        }
+        if (this.state.id) {
+            if (this.state.id !== nextProps.id) {
+                newState.id = nextProps.id;
+            }
 
-        if (this.state.room_type_id !== nextProps.roomTypeId) {
-            newState.room_type_id = nextProps.roomTypeId;
-        }
+            if (this.state.name !== nextProps.name) {
+                newState.name = nextProps.name;
+            }
 
-        if (this.state.order !== nextProps.order) {
-            newState.order = nextProps.order;
-        }
+            if (this.state.room_type_id !== nextProps.roomTypeId) {
+                newState.room_type_id = nextProps.roomTypeId;
+            }
 
-        if (this.state.expected_duration !== nextProps.expectedDuration) {
-            newState.expected_duration = nextProps.expectedDuration;
-        }
+            if (this.state.order !== nextProps.order) {
+                newState.order = nextProps.order;
+            }
 
-        if (this.state.average_duration !== nextProps.averageDuration) {
-            newState.average_duration = nextProps.averageDuration;
+            if (this.state.expected_duration !== nextProps.expectedDuration) {
+                newState.expected_duration = nextProps.expectedDuration;
+            }
+
+            if (this.state.average_duration !== nextProps.averageDuration) {
+                newState.average_duration = nextProps.averageDuration;
+            }
         }
 
         this.setState(newState);
@@ -62,7 +65,7 @@ class RoomStatusWidget extends Component {
 
     handleInputChange = (e) => {
         let value = e.target.value;
-        switch(e.target.name) {
+        switch (e.target.name) {
             case 'average_duration':
             case 'expected_duration':
             case 'order':
@@ -160,8 +163,8 @@ class RoomStatusListItem extends Component {
                 <td>{this.props.roomType}</td>
                 <td>{this.props.name}</td>
                 <td>{this.props.order}</td>
-                <td>{formatTime({minutes: this.props.expectedDuration})}</td>
-                <td>{formatTime({minutes: this.props.averageDuration})}</td>
+                <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
+                <td>{formatTime({ minutes: this.props.averageDuration })}</td>
                 <td>
                     <a href="#" role="button" className="btn btn-link" onClick={this.toggleEdit}>Edit</a>
                 </td>
@@ -208,15 +211,15 @@ class RoomStatusList extends Component {
     render() {
         let roomStatuses = this.props.roomStatuses.map((roomStatus) => {
             return (
-                <RoomStatusListItem id={roomStatus.id} 
-                                    name={roomStatus.name} 
-                                    roomTypeId={roomStatus.room_type_id} 
-                                    order={roomStatus.order}
-                                    roomType={roomStatus.room_type}
-                                    expectedDuration={roomStatus.expected_duration}
-                                    averageDuration={roomStatus.average_duration} 
-                                    onUpdateRoomStatus={this.props.onUpdateStatus} 
-                                    key={roomStatus.id} />
+                <RoomStatusListItem id={roomStatus.id}
+                    name={roomStatus.name}
+                    roomTypeId={roomStatus.room_type_id}
+                    order={roomStatus.order}
+                    roomType={roomStatus.room_type}
+                    expectedDuration={roomStatus.expected_duration}
+                    averageDuration={roomStatus.average_duration}
+                    onUpdateRoomStatus={this.props.onUpdateStatus}
+                    key={roomStatus.id} />
             )
         });
 
@@ -244,11 +247,11 @@ class RoomStatusList extends Component {
 }
 
 const mapStateToProps = function (state, ownProps) {
-    let room_statuses = deNormalizeObject(state.room.statuses).map(function(room_status) {
-        return {...room_status, room_type: state.room.types[room_status.room_type_id]};
-    }).sort(function(a, b) {
+    let room_statuses = deNormalizeObject(state.room.statuses).map(function (room_status) {
+        return { ...room_status, room_type: state.room.types[room_status.room_type_id] };
+    }).sort(function (a, b) {
         let order_a = parseInt(a.order || 0),
-        order_b = parseInt(b.order || 0);
+            order_b = parseInt(b.order || 0);
 
         return order_a - order_b;
     });

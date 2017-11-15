@@ -1,7 +1,11 @@
 function deNormalizeObject(obj) {
-    return Object.keys(obj).map(function(one_id) {
-        return obj[one_id];
-    });
+    if (obj) {
+        return Object.keys(obj).map(function(one_id) {
+            return obj[one_id];
+        });
+    }
+
+    return [];
 }
 
 export default deNormalizeObject;

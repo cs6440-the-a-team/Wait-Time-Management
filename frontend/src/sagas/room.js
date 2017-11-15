@@ -6,9 +6,7 @@ import {
     listedRooms, addedRoom, updatedRoom,
     listedRoomTypes, addedRoomType, updatedRoomType,
     listedRoomTypeStatuses, addedRoomTypeStatus, updatedRoomTypeStatus,
-    updatedRoomStatus,
-
-    networkStart, networkStop, addMessage
+    updatedRoomStatus, addMessage
 } from "../actions"
 
 function* listRooms(action) {
@@ -31,7 +29,8 @@ function* addRoom(action) {
 }
 function* updateRoom(action) {
     try {
-        let updatedRoom = yield makeRequest(Api.updateRoom, [action.room.id, action.room]);
+        //console.log("Sending update room request: ", action);
+        let updatedRoom = yield makeRequest(Api.updateRoom, [action.room]);
         yield put(updatedRoom(updatedRoom));
     }
     catch(err) {
@@ -59,7 +58,7 @@ function* addRoomType(action) {
 }
 function* updateRoomType(action) {
     try {
-        let updatedRoomType = yield makeRequest(Api.updateRoomType, [action.roomType.id, action.roomType]);
+        let updatedRoomType = yield makeRequest(Api.updateRoomType, [action.roomType]);
         yield put(updatedRoomType(updatedRoomType));
     }
     catch(err) {
@@ -75,8 +74,6 @@ function* listRoomTypeStatuses(action) {
     catch(err) {
         yield put(addMessage("Failed to list room type statuses -- " + err, "error"));
     }
-
-    yield put(networkStop());
 }
 function* addRoomTypeStatus(action) {
     try {
@@ -89,7 +86,7 @@ function* addRoomTypeStatus(action) {
 }
 function* updateRoomTypeStatus(action) {
     try {
-        let updatedRoomTypeStatus = yield makeRequest(Api.updateRoomTypeStatus, [action.roomTypeStatus.id, action.roomTypeStatus]);
+        let updatedRoomTypeStatus = yield makeRequest(Api.updateRoomTypeStatus, [action.roomTypeStatus]);
         yield put(updatedRoomTypeStatus(updatedRoomTypeStatus));
     }
     catch(err) {
@@ -114,47 +111,15 @@ function* updateRoomStatus(action) {
     }
 }
 
-function* listRoomsHandler() {
-    yield takeLatest('room/LIST', listRooms);
-}
-function* addRoomHandler() {
-    yield takeLatest('room/ADD', addRoom);
-}
-function* updateRoomHandler() {
-    yield takeLatest('room/UPDATE', updateRoom);
-}
-
-function* listRoomTypesHandler() {
-    yield takeLatest('room-type/LIST', listRoomTypes);
-}
-function* addRoomTypeHandler() {
-    yield takeLatest('room-type/ADD', addRoomType);
-}
-function* updateRoomTypeHandler() {
-    yield takeLatest('room-type/UPDATE', updateRoomType)
-}
-
-function* listRoomTypeStatusesHandler() {
-    yield takeLatest('room-type-status/LIST', listRoomTypeStatuses);
-}
-function* addRoomTypeStatusHandler() {
-    yield takeLatest('room-type-status/ADD', addRoomTypeStatus);
-}
-function* updateRoomTypeStatusHandler() {
-    yield takeLatest('room-type-status/UPDATE', updateRoomTypeStatus)
-}
-
-function* updateRoomStatusHandler() {
-    yield takeLatest('room/status/UPDATE', updateRoomStatus);
-}
-
-function* roomHandler() {
-    yield all([
-        listRoomsHandler(), addRoomHandler(), updateRoomHandler(),
-        listRoomTypesHandler(), addRoomTypeHandler(), updateRoomTypeHandler(),
-        listRoomTypeStatusesHandler(),  addRoomTypeStatusHandler(), updateRoomTypeStatusHandler(),        
-        updateRoomStatusHandler()
-    ]);
-}
-
-export default roomHandler;
+export default [
+    takeLatest('room/LIST', listRooms),
+    takeLatest('room/ADD', addRoom),
+    takeLatest('room/UPDATE', updateRoom),
+    takeLatest('room-type/LIST', listRoomTypes),
+    takeLatest('room-type/ADD', addRoomType),
+    takeLatest('room-type/UPDATE', updateRoomType),
+    takeLatest('room-type-status/LIST', listRoomTypeStatuses),
+    takeLatest('room-type-status/ADD', addRoomTypeStatus),
+    takeLatest('room-type-status/UPDATE', updateRoomTypeStatus),
+    takeLatest('room/status/UPDATE', updateRoomStatus)
+];

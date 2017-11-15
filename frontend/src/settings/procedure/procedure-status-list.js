@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 import { addProcedureStatus, updateProcedureStatus } from "../../actions"
 import { formatTime } from "../../utils/time-helper"
+import deNormalizeObject from "../../utils/de-normalize-object"
 
 import ProcedureSelect from "./procedure-select"
 
@@ -32,32 +33,35 @@ class ProcedureStatusWidget extends Component {
 
     componentWillReceiveProps(nextProps) {
         let newState = { ...this.state };
-        if (this.state.id !== nextProps.id) {
-            newState.id = nextProps.id;
-        }
-        if (this.state.name !== nextProps.name) {
-            newState.name = nextProps.name;
-        }
-        if (this.state.order !== nextProps.order) {
-            newState.order = nextProps.order;
-        }
-        if (this.state.procedure_id !== nextProps.procedureId) {
-            newState.procedure_id = nextProps.procedureId;
-        }
-        if (this.state.expected_duration !== nextProps.expectedDuration) {
-            newState.expected_duration = nextProps.expectedDuration;
-        }
-        if (this.state.average_duration !== nextProps.averageDuration) {
-            newState.average_duration = nextProps.averageDuration;
+
+        if (this.state.id) {
+            if (this.state.id !== nextProps.id) {
+                newState.id = nextProps.id;
+            }
+            if (this.state.name !== nextProps.name) {
+                newState.name = nextProps.name;
+            }
+            if (this.state.order !== nextProps.order) {
+                newState.order = nextProps.order;
+            }
+            if (this.state.procedure_id !== nextProps.procedureId) {
+                newState.procedure_id = nextProps.procedureId;
+            }
+            if (this.state.expected_duration !== nextProps.expectedDuration) {
+                newState.expected_duration = nextProps.expectedDuration;
+            }
+            if (this.state.average_duration !== nextProps.averageDuration) {
+                newState.average_duration = nextProps.averageDuration;
+            }
         }
 
         this.setState(newState);
     }
 
     onInputChange = (e) => {
-        
+
         let value = e.target.value;
-        switch(e.target.name) {
+        switch (e.target.name) {
             case 'average_duration':
             case 'expected_duration':
             case 'order':
@@ -68,7 +72,7 @@ class ProcedureStatusWidget extends Component {
         this.setState({
             [e.target.name]: value
         });
-    
+
     };
 
     handleKeyDown = (e) => {
@@ -81,9 +85,9 @@ class ProcedureStatusWidget extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        let patientStatus = { ...this.state };
+        let procedureStatus = { ...this.state };
 
-        this.props.onFormSubmit(patientStatus);
+        this.props.onFormSubmit(procedureStatus);
     }
 
     render() {
@@ -136,8 +140,8 @@ class ProcedureStatusListItem extends Component {
         });
     }
 
-    handleupdateProcedureStatus = (patientStatus) => {
-        this.props.onupdateProcedureStatus(patientStatus);
+    handleupdateProcedureStatus = (procedureStatus) => {
+        this.props.onupdateProcedureStatus(procedureStatus);
         this.setState({
             editing: false
         });
@@ -185,8 +189,8 @@ class ProcedureStatusList extends Component {
         });
     }
 
-    handleaddProcedureStatus = (patientStatus) => {
-        this.props.onaddProcedureStatus(patientStatus);
+    handleaddProcedureStatus = (procedureStatus) => {
+        this.props.onaddProcedureStatus(procedureStatus);
         this.setState({
             adding: false
         });
@@ -206,11 +210,11 @@ class ProcedureStatusList extends Component {
     }
 
     render() {
-        let patientStatusItems = this.props.patientStatuses.map((patientStatus) => {
+        let procedureStatusItems = this.props.procedureStatuses.map((procedureStatus) => {
             return (
-                <ProcedureStatusListItem key={patientStatus.id} id={patientStatus.id} name={patientStatus.name}
-                    procedureId={patientStatus.procedure_id} procedureName={patientStatus.procedure_name}
-                    order={patientStatus.order} expectedDuration={patientStatus.expected_duration} averageDuration={patientStatus.average_duration}
+                <ProcedureStatusListItem key={procedureStatus.id} id={procedureStatus.id} name={procedureStatus.name}
+                    procedureId={procedureStatus.procedure_id} procedureName={procedureStatus.procedure_name}
+                    order={procedureStatus.order} expectedDuration={procedureStatus.expected_duration} averageDuration={procedureStatus.average_duration}
                     onupdateProcedureStatus={this.props.onupdateProcedureStatus} />
             )
         });
@@ -231,7 +235,7 @@ class ProcedureStatusList extends Component {
                 </thead>
                 <tbody>
                     {this.renderAdd()}
-                    {patientStatusItems}
+                    {procedureStatusItems}
                 </tbody>
             </table>
         )
@@ -239,29 +243,29 @@ class ProcedureStatusList extends Component {
 }
 
 const mapStateToProps = function (state, ownProps) {
-    let patientStatuses = Object.keys(state.procedure.statuses).map(function (patientStatusId) {
-        let patientStatus = { ...state.procedure.statuses[patientStatusId] };
-        if (patientStatus.procedure_id && state.procedure.procedures[patientStatus.procedure_id] !== undefined) {
-            patientStatus.procedure_name = state.procedure.procedures[patientStatus.procedure_id].name;
+    let procedureStatuses = deNormalizeObject(state.procedure.statuses).map(function (procedureStatus) {
+        
+        if (procedureStatus.procedure_id && state.procedure.procedures[procedureStatus.procedure_id] !== undefined) {
+            procedureStatus = {...procedureStatus, procedure_name: state.procedure.procedures[procedureStatus.procedure_id].name};
         }
 
-        return patientStatus;
+        return procedureStatus;
     }).sort(function (a, b) {
         return a.order - b.order;
     });
 
     return {
-        patientStatuses
+        procedureStatuses
     }
 }
 
 const mapDispatchToProps = function (dispatch) {
     return {
-        onaddProcedureStatus: (patientStatus) => {
-            dispatch(addProcedureStatus(patientStatus));
+        onaddProcedureStatus: (procedureStatus) => {
+            dispatch(addProcedureStatus(procedureStatus));
         },
-        onupdateProcedureStatus: (patientStatus) => {
-            dispatch(updateProcedureStatus(patientStatus));
+        onupdateProcedureStatus: (procedureStatus) => {
+            dispatch(updateProcedureStatus(procedureStatus));
         }
     }
 }

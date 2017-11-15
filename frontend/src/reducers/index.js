@@ -6,6 +6,10 @@ import procedure from "./procedure"
 import patient from "./patient"
 import session from "./session"
 
+import logger from "redux-logger"
+
+import {listRooms, listRoomTypes, listProcedures, listProcedureStatuses, listRoomTypeStatuses, listPatients} from "../actions"
+
 const sagaMiddleware = createSagaMiddleware();
 
 let store = createStore(combineReducers({
@@ -13,8 +17,19 @@ let store = createStore(combineReducers({
     room,
     procedure,
     patient
-}), applyMiddleware(sagaMiddleware));
+}), applyMiddleware(sagaMiddleware, logger));
 
 sagaMiddleware.run(rootSaga);
 
+function updateInformation() {
+    store.dispatch(listPatients());
+    store.dispatch(listProcedureStatuses());
+    store.dispatch(listProcedures());
+    store.dispatch(listRoomTypeStatuses());
+    store.dispatch(listRoomTypes());
+    store.dispatch(listRooms());
+}
+
 export default store;
+
+export {updateInformation};
