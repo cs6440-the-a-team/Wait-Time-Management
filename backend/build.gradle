@@ -12,6 +12,7 @@ dependencies {
     
     compile 'com.google.guava:guava:23.3-jre'    
     
+	compile group: 'org.mybatis', name: 'mybatis', version: '3.4.5'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.12.Final'
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     
