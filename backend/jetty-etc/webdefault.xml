@@ -546,6 +546,18 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
+			<role-name>staffplus</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/admin</url-pattern>
+			<url-pattern>/admin/*</url-pattern>
+    			<http-method>GET</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>staff</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<login-config>
