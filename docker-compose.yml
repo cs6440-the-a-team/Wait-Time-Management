@@ -13,8 +13,6 @@ services:
   backend:
     restart: always
     build: ./backend
-    ports:
-      - "8080:8080"
     depends_on:
       - db
   # This database service is only accessible within this set of services. The hostname is the same as the service: db

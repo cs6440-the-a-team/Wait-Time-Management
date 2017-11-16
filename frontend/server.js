@@ -20,7 +20,7 @@ var restream = function(proxyReq, req, res, options) {
 }
 
 let apiProxy = server.utils.modern(proxy("/api", {
-    target: 'http://localhost:8080',
+    target: 'http://backend:8080',
     changeOrigin: true,
     onProxyReq: restream
 }));
