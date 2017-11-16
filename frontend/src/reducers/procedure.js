@@ -24,6 +24,9 @@ function procedure(state=initialState, action) {
         case 'procedure-status/LISTED':
             newState = {...state, statuses: normalizeArray(action.statuses)};
             break;
+        case 'session/LOGOUT':
+            newState = initialState;
+            break;
     }
 
     return newState || state;

@@ -37,6 +37,9 @@ const room = function(state=initialState, action) {
             let updatedRoom = {...state.rooms[action.roomId], room_status_id: action.roomStatusId};
             newState = {...state, loading: false, error: null, rooms: {...state.rooms, [action.roomId]: updatedRoom}};
             break;
+        case 'session/LOGOUT':
+            newState = initialState;
+            break;
     }
 
     return newState || state;

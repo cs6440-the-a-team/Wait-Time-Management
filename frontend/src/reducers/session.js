@@ -7,7 +7,7 @@ const initialState = immutable.fromJS({
     requests_pending: 0,
     is_logged_in: false,
     token: null,
-    role: null,
+    role: "",
     expires: 0 // TODO make expiration work?
 });
 
@@ -43,10 +43,7 @@ function session(state=initialState, action) {
             newState = newState.set('expires', action.expires);
             break;
         case 'session/LOGOUT':
-            newState = state.set('is_logged_in', false);
-            newState = newState.set('token', null);
-            newState = newState.set('role', null);
-            newState = newState.set('expires', 0);
+            newState = initialState;
             break;
     }
 

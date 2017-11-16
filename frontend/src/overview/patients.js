@@ -7,8 +7,11 @@ import { addPatient, updatePatient, showPatientCard } from "../actions"
 import PersonalCardContainer from "../containers/personal-card-container"
 import ProcedureSelect from "../settings/procedure/procedure-select"
 import ProcedureStatusSelectContainer from "./procedure-status-select"
-import RoomSelectContainer from "../containers/room-select-container";
+import RoomSelectContainer from "../containers/room-select-container"
+import AuthorizedComponentContainer from "../containers/authorized-component-container"
 
+
+const EDIT_ROLES = ['admin'];
 
 class PatientWidget extends React.Component {
 
@@ -56,7 +59,7 @@ class PatientWidget extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        let patient = {...this.state};
+        let patient = { ...this.state };
 
         this.props.onFormSubmit(patient);
     }
@@ -64,7 +67,7 @@ class PatientWidget extends React.Component {
     render() {
         return (
             <tr>
-                <td/>
+                <td />
                 <td>
                     <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange} className="form-control" />
                 </td>
@@ -77,12 +80,14 @@ class PatientWidget extends React.Component {
                 <td colSpan="2">
                     <RoomSelectContainer name="room_id" value={this.state.room_id} onChange={this.handleInputChange} className="form-control" />
                 </td>
-                <td>
-                    <div className="btn-group">
-                        <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.props.onCancel}>Cancel</a>
-                        <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
-                    </div>
-                </td>
+                <AuthorizedComponentContainer authorizedRoles={EDIT_ROLES}>
+                    <td>
+                        <div className="btn-group">
+                            <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.props.onCancel}>Cancel</a>
+                            <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                        </div>
+                    </td>
+                </AuthorizedComponentContainer>
             </tr>
         );
     }
@@ -133,7 +138,11 @@ class PatientRowItem extends React.Component {
                 <td>{formatTime({ minutes: minutesSince(this.props.startTime) })}</td>
                 <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
                 <td>{this.props.roomName}</td>
-                <td><a href="#" role="button" onClick={this.toggleEdit}>Edit</a></td>
+                <AuthorizedComponentContainer authorizedRoles={EDIT_ROLES}>
+                    <td>
+                        <a href="#" role="button" onClick={this.toggleEdit}>Edit</a>
+                    </td>
+                </AuthorizedComponentContainer>
             </tr>
         )
     }
@@ -204,7 +213,11 @@ class Patients extends React.Component {
                             <th>Time Elapsed</th>
                             <th>Expected Duration</th>
                             <th>Location</th>
-                            <th><a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdding}>Add</a></th>
+                            <AuthorizedComponentContainer authorizedRoles={EDIT_ROLES}>
+                                <th>
+                                    <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdding}>Add</a>
+                                </th>
+                            </AuthorizedComponentContainer>
                         </tr>
                     </thead>
                     <tbody>

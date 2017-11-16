@@ -18,10 +18,13 @@ import Overview from "./overview"
 import LoginContainer from "./containers/login-container"
 
 import PrivateRouteContainer from "./containers/private-route-container"
+import AuthorizedComponentContainer from "./containers/authorized-component-container"
 import MessageContainer from "./containers/message-container"
 import LoadingIndicatorContainer from "./containers/loading-indicator-container"
 
 import { logout } from "./actions"
+
+const SETTINGS_ROLES = ['admin'];
 
 class App extends React.Component {
     render() {
@@ -37,16 +40,18 @@ class App extends React.Component {
                                 <Route path="/admin*" render={() => {
                                     return (
                                         <ul className="nav justify-content-end">
-                                            <li className="nav-item">
-                                                <NavLink to="/admin/overview" title="Home" className="nav-link" activeClassName="active">
-                                                    <i className="fa fa-home" />
-                                                </NavLink>
-                                            </li>
-                                            <li className="nav-item">
-                                                <NavLink to="/admin/settings" title="Settings" className="nav-link" activeClassName="active">
-                                                    <i className="fa fa-cog" />
-                                                </NavLink>
-                                            </li>
+                                            <AuthorizedComponentContainer authorizedRoles={['admin']}>
+                                                <li className="nav-item">
+                                                    <NavLink to="/admin/overview" title="Home" className="nav-link" activeClassName="active">
+                                                        <i className="fa fa-home" />
+                                                    </NavLink>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <NavLink to="/admin/settings" title="Settings" className="nav-link" activeClassName="active">
+                                                        <i className="fa fa-cog" />
+                                                    </NavLink>
+                                                </li>
+                                            </AuthorizedComponentContainer>
                                             <li>
                                                 <a href="#" role="button" className="nav-link" title="Logout" onClick={(e) => {
                                                     e.preventDefault();
@@ -83,8 +88,8 @@ class AuthorizedPortion extends React.Component {
 
     render() {
         return (
-            <div>
-                <Route path={`/admin/settings`} component={Settings} />
+            <div className="sub-body-container">
+                <PrivateRouteContainer authorizedRoles={SETTINGS_ROLES} path={`/admin/settings`} component={Settings} />
                 <Route path={`/admin/overview`} component={Overview} />
                 <Route path={`/admin`} exact={true} render={({ match }) => (<Redirect to={`/admin/overview`} />)} />
             </div>

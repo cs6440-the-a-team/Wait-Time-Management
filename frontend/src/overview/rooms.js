@@ -7,6 +7,10 @@ import Message from "../components/message"
 import RoomStatusSelect from "./room-status-select"
 import {updateRoomStatus, dismissRoomError} from "../actions"
 import {minutesSince, formatTime} from "../utils/time-helper"
+import AuthorizedComponentContainer from "../containers/authorized-component-container"
+
+
+const EDIT_ROLES = ['admin'];
 
 class RoomItem extends React.Component {
 
@@ -72,9 +76,11 @@ class RoomItem extends React.Component {
                 <td>{statusView}</td>
                 <td>{formatTime({minutes: elapsed_time})}</td>
                 <td>{formatTime({minutes: this.props.expectedDuration})} </td>
+                <AuthorizedComponentContainer authorizedRoles={EDIT_ROLES}>
                 <td>
                     <a href="#" role="button" onClick={this.toggleEdit}>{buttonText}</a>
                 </td>
+                </AuthorizedComponentContainer>
             </tr>
         )
     }
@@ -125,7 +131,9 @@ const Rooms = ({isLoading, error, rooms, onRoomStatusUpdate, dismissRoomError}) 
                         <th>Status</th>
                         <th>Time Elapsed</th>
                         <th>Expected Time</th>
+                        <AuthorizedComponentContainer authorizedRoles={EDIT_ROLES}>
                         <th />
+                        </AuthorizedComponentContainer>
                     </tr>
                 </thead>
                 <tbody>

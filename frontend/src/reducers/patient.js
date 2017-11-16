@@ -30,6 +30,9 @@ function patient(state=initialState, action) {
         case 'patient/LISTED':
             newState = {...state, patients: normalizeArray(action.patients)};
             break;
+        case 'session/LOGOUT':
+            newState = initialState;
+            break;
     }
 
     return newState || state;
