@@ -11,7 +11,7 @@ import RoomSelectContainer from "../containers/room-select-container"
 import AuthorizedComponentContainer from "../containers/authorized-component-container"
 
 
-const EDIT_ROLES = ['admin'];
+const EDIT_ROLES = ['staffplus'];
 
 class PatientWidget extends React.Component {
 

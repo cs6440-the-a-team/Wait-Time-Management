@@ -8,7 +8,7 @@ import { networkStart, networkStop, loginSuccess } from "../actions";
 function* login(action) {
     // Fake it for now
     let token = base64.encode(action.username + ":" + action.password),
-        role = action.username === "admin" ? "admin" : "user",
+        role = ["admin", "staffplus"].indexOf(action.username) >= 0 ? "staffplus" : "staff",
         expires = Date.now() + (1000 * 60 * 60 * 1); // Expires in 1 hour
 
     yield put(networkStart());

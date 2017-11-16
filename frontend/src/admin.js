@@ -24,7 +24,7 @@ import LoadingIndicatorContainer from "./containers/loading-indicator-container"
 
 import { logout } from "./actions"
 
-const SETTINGS_ROLES = ['admin'];
+const SETTINGS_ROLES = ['staffplus'];
 
 class App extends React.Component {
     render() {

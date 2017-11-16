@@ -10,7 +10,7 @@ import {minutesSince, formatTime} from "../utils/time-helper"
 import AuthorizedComponentContainer from "../containers/authorized-component-container"
 
 
-const EDIT_ROLES = ['admin'];
+const EDIT_ROLES = ['staffplus'];
 
 class RoomItem extends React.Component {
 
