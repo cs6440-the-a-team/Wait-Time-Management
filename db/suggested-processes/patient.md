@@ -70,7 +70,9 @@ UPDATE dim_patient SET last_patient_log_id=1 /* <-- MySQL id you got from the lo
 
 ## Update
 1. Update the appropriate fields. You **may or may not** receive all of these fields: `{"name": "New name", "procedure_id": 2, "procedure_status_id": 1, "room_id": 2}`.
-Only update the field you are given.
+
+Only update the fields you are given.
+
 2. If the procedure_status_id changed:
    - Update the last log entry's duration field by using the last_patient_log_id on the patient entity
     ```SQL
