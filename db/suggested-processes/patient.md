@@ -37,7 +37,7 @@ INSERT INTO dim_patient (alias, patient_name, room_id, procedure_id, procedure_s
 
 5. Make an entry into the fact_patient_log
 ```SQL
-INSERT INTO fact_patient_log (patient_id, procedure_status_id, time_sk) VALUES (1, /* <-- MySQL id you got from the patient insert */, 2, NOW())
+INSERT INTO fact_patient_log (patient_id, procedure_status_id, time_sk) VALUES (1 /* <-- MySQL id you got from the patient insert */, 2, NOW())
 ```
 
 6. Grab the id from the log insert
