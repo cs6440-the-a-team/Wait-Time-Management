@@ -1,7 +1,7 @@
 import React from "react"
 import Modal from "react-modal"
 
-const PersonalCard = ({patientId, procedureName, onCloseRequest}) => {
+const PersonalCard = ({patientId, patientAlias, onCloseRequest}) => {
     return (
         <Modal isOpen={!!patientId} onRequestClose={onCloseRequest}>
             <button type="button" className="close" style={{cursor: "pointer"}} onClick={onCloseRequest}>&times;</button>
@@ -10,8 +10,12 @@ const PersonalCard = ({patientId, procedureName, onCloseRequest}) => {
             <div className="card">
                 <div className="card-body">
                     <h4 className="card-subtitle mb-2 text-muted">Patient Procedure ID:</h4>
-                    <h2 className="card-title">{patientId}</h2>
-                    <p className="card-text">{procedureName}</p>
+                    <h2 className="card-title">{patientAlias}</h2>
+                    <p>Please contact the front desk if you have any questions.</p>
+                    <p className="text-muted">
+                        You can see your patient status at any time at:
+                        {window.location.origin}/
+                    </p>
                 </div>
             </div>
         </Modal>

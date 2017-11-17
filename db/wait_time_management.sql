@@ -4,6 +4,8 @@ CREATE TABLE dim_room_type (
     room_type_id int PRIMARY KEY AUTO_INCREMENT,
     room_type varchar(75),
 
+	active BOOLEAN DEFAULT TRUE,
+
 	UNIQUE KEY (room_type) /* Unique name for room type */
 );
 
@@ -28,6 +30,9 @@ CREATE TABLE dim_room_status (
 	room_type_id int,
 	expected_duration int,
 	average_duration int,
+	`order` int DEFAULT 1,
+
+	active BOOLEAN DEFAULT TRUE,
 
 	UNIQUE KEY (room_status, room_type_id), /* Don't allow room statuses with the same name and type */
 	KEY (room_type_id)
@@ -50,6 +55,8 @@ CREATE TABLE dim_procedure (
 	`procedure_name` varchar(75),
 	expected_duration int,
 	average_duration int,
+	
+	active BOOLEAN DEFAULT TRUE,
 
 	UNIQUE KEY (`procedure_name`) /* Procedure names should be unique */
 );
@@ -69,6 +76,7 @@ CREATE TABLE dim_patient (
 	active BOOLEAN DEFAULT TRUE,
 
 	UNIQUE KEY (alias), /* Aliases should always be unique */
+	KEY (room_id),
 	KEY (active)
 );
 
@@ -79,6 +87,8 @@ CREATE TABLE dim_procedure_status (
 	`status` varchar(75),
 	expected_duration int,
 	average_duration int,
+
+	active BOOLEAN DEFAULT TRUE,
 
 	UNIQUE KEY (`status`, procedure_id), /* Don't want more than one status for the same procedure to have the same name */
 	KEY (procedure_id)
@@ -143,48 +153,48 @@ INSERT INTO dim_patient (patient_id, alias, patient_name, procedure_id, procedur
 INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (1, 1, 4, '2017-11-03 08:00:00', 15);
 INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (2, 2, 4,	'2017-11-03 08:15:00', 10);
 INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (3, 1, 5,	'2017-11-03 08:15:00', 20);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (4, 3, 12, '2017-11-03 08:45:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (5, 1, 6,	'2017-11-03 08:35:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (6, 2, 5,	'2017-11-03 08:30:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (7, 4, 5,	'2017-11-03 09:00:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (8, 3, 13, '2017-11-03 09:00:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (9, 1, 7,	'2017-11-03 09:05:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (10, 4, 6,	'2017-11-03 11:15:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (11, 3, 1,	'2017-11-03 09:10:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (12, 1, 8,	'2017-11-03 09:40:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (13, 1, 9,	'2017-11-03 10:25:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (14, 2, 6,	'2017-11-03 10:30:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (15, 2, 7,	'2017-11-03 11:00:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (16, 2, 8, '2017-11-03 11:35:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (17, 3, 2, '2017-11-03 09:40:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (18, 3, 3, '2017-11-03 10:10:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (19, 1, 10, '2017-11-03 11:15:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (20, 2, 9, '2017-11-03 11:15:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (21, 2, 10, '2017-11-03 12:00:00', 15);
-INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (22, 5, 12, '2017-11-03 12:00:00', 15);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (4, 3, 12, '2017-11-03 08:45:00', 16);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (5, 1, 6,	'2017-11-03 08:35:00', 13);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (6, 2, 5,	'2017-11-03 08:30:00', 5);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (7, 4, 5,	'2017-11-03 09:00:00', 8);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (8, 3, 13, '2017-11-03 09:00:00', 4);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (9, 1, 7,	'2017-11-03 09:05:00', 49);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (10, 4, 6,	'2017-11-03 11:15:00', 2);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (11, 3, 1,	'2017-11-03 09:10:00', 70);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (12, 1, 8,	'2017-11-03 09:40:00', 32);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (13, 1, 9,	'2017-11-03 10:25:00', 23);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (14, 2, 6,	'2017-11-03 10:30:00', 65);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (15, 2, 7,	'2017-11-03 11:00:00', 12);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (16, 2, 8, '2017-11-03 11:35:00', 21);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (17, 3, 2, '2017-11-03 09:40:00', 13);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (18, 3, 3, '2017-11-03 10:10:00', 43);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (19, 1, 10, '2017-11-03 11:15:00', 1);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (20, 2, 9, '2017-11-03 11:15:00', 3);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (21, 2, 10, '2017-11-03 12:00:00', 3);
+INSERT INTO fact_patient_log (id, patient_id, procedure_status_id, time_sk, duration) VALUES (22, 5, 12, '2017-11-03 12:00:00', 6);
 
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (1, 1, 1, '2017-11-03 08:00:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (2, 1, 2, '2017-11-03 08:35:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (3, 1, 3, '2017-11-03 09:05:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (4, 1, 4, '2017-11-03 09:40:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (5, 1, 5, '2017-11-03 09:50:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (6, 1, 6, '2017-11-03 10:00:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (7, 1, 1, '2017-11-03 10:10:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (8, 1, 2, '2017-11-03 10:30:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (9, 1, 3, '2017-11-03 11:00:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (10, 1, 4, '2017-11-03 11:35:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (11, 1, 5, '2017-11-03 11:40:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (12, 1, 6, '2017-11-03 11:50:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (13, 2, 1, '2017-11-03 08:00:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (14, 2, 2, '2017-11-03 09:10:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (15, 2, 3, '2017-11-03 09:40:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (16, 2, 4, '2017-11-03 10:10:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (17, 2, 5, '2017-11-03 10:40:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (18, 2, 6, '2017-11-03 10:50:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (19, 3, 7, '2017-11-03 08:00:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (20, 3, 8, '2017-11-03 10:25:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (21, 3, 9, '2017-11-03 11:10:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (22, 3, 10, '2017-11-03 11:14:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (23, 3, 7, '2017-11-03 11:15:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (24, 3, 9, '2017-11-03 12:00:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (25, 3, 10, '2017-11-03 12:10:00', 15);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (1, 1, 1, '2017-11-03 08:00:00', 5);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (2, 1, 2, '2017-11-03 08:35:00', 10);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (3, 1, 3, '2017-11-03 09:05:00', 25);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (4, 1, 4, '2017-11-03 09:40:00', 35);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (5, 1, 5, '2017-11-03 09:50:00', 2);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (6, 1, 6, '2017-11-03 10:00:00', 8);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (7, 1, 1, '2017-11-03 10:10:00', 6);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (8, 1, 2, '2017-11-03 10:30:00', 45);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (9, 1, 3, '2017-11-03 11:00:00', 9);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (10, 1, 4, '2017-11-03 11:35:00', 3);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (11, 1, 5, '2017-11-03 11:40:00', 90);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (12, 1, 6, '2017-11-03 11:50:00', 23);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (13, 2, 1, '2017-11-03 08:00:00', 54);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (14, 2, 2, '2017-11-03 09:10:00', 11);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (15, 2, 3, '2017-11-03 09:40:00', 13);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (16, 2, 4, '2017-11-03 10:10:00', 1);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (17, 2, 5, '2017-11-03 10:40:00', 4);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (18, 2, 6, '2017-11-03 10:50:00', 6);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (19, 3, 7, '2017-11-03 08:00:00', 3);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (20, 3, 8, '2017-11-03 10:25:00', 18);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (21, 3, 9, '2017-11-03 11:10:00', 27);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (22, 3, 10, '2017-11-03 11:14:00', 39);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (23, 3, 7, '2017-11-03 11:15:00', 4);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (24, 3, 9, '2017-11-03 12:00:00', 5);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (25, 3, 10, '2017-11-03 12:10:00', 3);

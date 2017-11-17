@@ -67,7 +67,7 @@ class PatientWidget extends React.Component {
     render() {
         return (
             <tr>
-                <td />
+                <td>{this.props.patientAlias}</td>
                 <td>
                     <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange} className="form-control" />
                 </td>
@@ -130,7 +130,7 @@ class PatientRowItem extends React.Component {
         return (
             <tr>
                 <td>
-                    <a href="#" role="button" onClick={this.handlePatientSelect} title="Show personal card">{this.props.patientId}</a>
+                    <a href="#" role="button" onClick={this.handlePatientSelect} title="Show personal card">{this.props.patientAlias}</a>
                 </td>
                 <td>{this.props.name}</td>
                 <td>{this.props.procedureName}</td>
@@ -174,7 +174,7 @@ class Patients extends React.Component {
 
     renderAdd() {
         if (this.state.adding) {
-            return <PatientWidget name="" procedureId="" procedureStatusId="" roomId="" onFormSubmit={this.handleAddPatient} onCancel={this.toggleAdding} />;
+            return <PatientWidget patientAlias="" name="" procedureId="" procedureStatusId="" roomId="" onFormSubmit={this.handleAddPatient} onCancel={this.toggleAdding} />;
         }
         return null;
     }
@@ -184,6 +184,7 @@ class Patients extends React.Component {
             return (
                 <PatientRowItem key={patient.id}
                     patientId={patient.id}
+                    patientAlias={patient.alias}
                     name={patient.name}
                     procedureId={patient.procedure_id}
                     procedureName={patient.procedure_name}

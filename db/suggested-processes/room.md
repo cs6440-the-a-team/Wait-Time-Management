@@ -15,7 +15,7 @@ LEFT JOIN fact_room_log AS frl ON r.last_room_log_id=frl.id
 WHERE r.active=TRUE
 ```
 
-## Retrieve a single instance
+## Select single entity
 ```SQL
 SELECT
     r.room_id AS id,
