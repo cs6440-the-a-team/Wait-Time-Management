@@ -13,6 +13,8 @@ import Clock from "react-live-clock"
 import LoadingIndicator from "./components/loading-indicator"
 import Message from "./components/message"
 
+import {minutesSince, formatTime} from "./utils/time-helper"
+
 import "whatwg-fetch"
 
 let ENDPOINT = window.location.origin + "/api";
@@ -146,7 +148,7 @@ const PatientDataRow = ({patientId, status, startTime, location}) => {
         <tr>
             <td>{patientId}</td>
             <td>{status}</td>
-            <td>{startTime && moment(startTime).fromNow(true)}</td>
+            <td>{startTime && formatTime(minutesSince(startTime))}</td>
             <td>{location}</td>
         </tr>
     );
