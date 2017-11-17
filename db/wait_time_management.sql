@@ -75,12 +75,12 @@ CREATE TABLE dim_patient (
 CREATE TABLE dim_procedure_status (
 	procedure_status_id int PRIMARY KEY AUTO_INCREMENT,
 	procedure_id int,
-	`order` int,
+	`order` int DEFAULT 1,
 	`status` varchar(75),
 	expected_duration int,
 	average_duration int,
 
-	UNIQUE KEY (`status`),
+	UNIQUE KEY (`status`, procedure_id), /* Don't want more than one status for the same procedure to have the same name */
 	KEY (procedure_id)
 );
 
@@ -117,8 +117,8 @@ INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, r
 INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (3, 2, 10, 26, 'Waiting Room 1');
 INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (4, 3, 1, NULL, 'Waiting Area');
 
-INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration, room_type_id) VALUES (1221, 'XRAY', 30, 1);
-INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration, room_type_id) VALUES (2211, 'Surgery', 30, 1);
+INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (1221, 'XRAY', 30);
+INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (2211, 'Surgery', 30);
 
 INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (12, 1221, 'Patient Check In', 15);
 INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (13, 1221, 'Patient in Waiting Area', 10);
@@ -186,6 +186,5 @@ INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUE
 INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (21, 3, 9, '2017-11-03 11:10:00', 15);
 INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (22, 3, 10, '2017-11-03 11:14:00', 15);
 INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (23, 3, 7, '2017-11-03 11:15:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (24, 3, 8, '2017-11-03 11:15:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (25, 3, 9, '2017-11-03 12:00:00', 15);
-INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (26, 3, 10, '2017-11-03 12:10:00', 15);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (24, 3, 9, '2017-11-03 12:00:00', 15);
+INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (25, 3, 10, '2017-11-03 12:10:00', 15);
