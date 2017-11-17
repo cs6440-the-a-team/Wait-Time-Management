@@ -23,7 +23,7 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
 			return mapper.contains(id);
 		} finally {
-			session.close();
+			if (session!=null) session.close();
 		}
 	}
 
@@ -37,7 +37,7 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 			session.commit();
 			return v;
 		} finally {
-			session.close();
+			if (session!=null) session.close();
 		}
 	}
 
@@ -49,7 +49,7 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
 			return mapper.retrieve(id);
 		} finally {
-			session.close();
+			if (session!=null) session.close();
 		}
 	}
 
@@ -63,7 +63,7 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 			session.commit();
 			return v;
 		} finally {
-			session.close();
+			if (session!=null) session.close();
 		}
 	}
 
@@ -77,7 +77,7 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 			session.commit();
 			return retrieve(id);
 		} finally {
-			session.close();
+			if (session!=null) session.close();
 		}
 	}
 
@@ -89,7 +89,7 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
 			return mapper.list();
 		} finally {
-			session.close();
+			if (session!=null) session.close();
 		}
 	}
 

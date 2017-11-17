@@ -17,22 +17,10 @@ public class WaitingRoomApi {
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	public WaitingRoom hello() {
-//		LinkedList<WaitingRoomPatient> patients = new LinkedList<>();
-//		for (Patient p : Dbs.patients.list()) {
-//			WaitingRoomPatient pat = new WaitingRoomPatient();
-//			pat.setPatient_id(p.getId());
-//			pat.setStatus(p.getStatus());
-//			pat.setExpected_duration(p.getExpected_duration());
-//			pat.setLocation(p.getLocation_id());
-//			pat.setTime_elapsed("");
-//			patients.add(pat);
-//		}
-//		WaitingRoom room = new WaitingRoom();
-//		room.setPatients(patients);
-//		return room;
+		SqlSession session = null;
 		try {
 			WaitingRoom room = new WaitingRoom();
-			SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+			session = MyBatisUtil.getSqlSessionFactory().openSession();
 			WaitingRoomMapper mapper = session.getMapper(WaitingRoomMapper.class);
 			room.setPatients(mapper.patients());
 			session.commit();
@@ -41,7 +29,8 @@ public class WaitingRoomApi {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new javax.ws.rs.ServiceUnavailableException();
-		}
-		
+		} finally {
+			if (session!=null) session.close();
+		}	
 	}
 }
