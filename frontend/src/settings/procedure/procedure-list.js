@@ -7,8 +7,8 @@ import { formatTime } from "../../utils/time-helper"
 
 class ProcedureWidget extends Component {
     static propTypes = {
-        id: PropTypes.any,
-        name: PropTypes.string,
+        procedureId: PropTypes.any,
+        procedureName: PropTypes.string,
         expectedDuration: PropTypes.any,
         averageDuration: PropTypes.any,
         onFormSubmit: PropTypes.func.isRequired
@@ -17,8 +17,8 @@ class ProcedureWidget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id,
-            name: props.name,
+            procedure_id: props.procedureId,
+            procedure_name: props.procedureName,
             expected_duration: props.expectedDuration,
             average_duration: props.averageDuration
         }
@@ -26,12 +26,12 @@ class ProcedureWidget extends Component {
 
     componentWillReceiveProps(nextProps) {
         let newState = { ...this.state };
-        if (this.state.id) {
-            if (this.state.id !== nextProps.id) {
-                newState.id = nextProps.id;
+        if (this.state.procedure_id) {
+            if (this.state.procedure_id !== nextProps.procedureId) {
+                newState.procedure_id = nextProps.procedureId;
             }
-            if (this.state.name !== nextProps.name) {
-                newState.name = nextProps.name;
+            if (this.state.procedure_name !== nextProps.procedureName) {
+                newState.procedure_name = nextProps.procedureName;
             }
             if (this.state.expected_duration !== nextProps.expectedDuration) {
                 newState.expected_duration = nextProps.expectedDuration;
@@ -77,7 +77,7 @@ class ProcedureWidget extends Component {
         return (
             <tr>
                 <td>
-                    <input className="form-control" type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
+                    <input className="form-control" type="text" placeholder="Name" name="procedure_name" value={this.state.procedure_name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <div className="input-group">
@@ -87,7 +87,7 @@ class ProcedureWidget extends Component {
                 </td>
                 <td>
                     <div className="input-group">
-                        <input className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
+                        <input disabled={true} className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                         <span className="input-group-addon">minutes</span>
                     </div>
                 </td>
@@ -129,16 +129,14 @@ class ProcedureListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <ProcedureWidget id={this.props.id} name={this.props.name}
-                    expectedDuration={this.props.expectedDuration} averageDuration={this.props.averageDuration}
-                    onFormSubmit={this.handleUpdateProcedure}>
+                <ProcedureWidget {...this.props} onFormSubmit={this.handleUpdateProcedure}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </ProcedureWidget>
             )
         }
         return (
             <tr>
-                <td>{this.props.name}</td>
+                <td>{this.props.procedureName}</td>
                 <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
                 <td>{formatTime({ minutes: this.props.averageDuration })}</td>
                 <td>
@@ -175,7 +173,7 @@ class ProcedureList extends Component {
     renderAdding() {
         if (this.state.adding) {
             return (
-                <ProcedureWidget id={null} name="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddProcedure}>
+                <ProcedureWidget procedureId={null} procedureName="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddProcedure}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </ProcedureWidget>
             );
@@ -186,7 +184,7 @@ class ProcedureList extends Component {
     render() {
         let procedureItems = this.props.procedures.map((procedure) => {
             return (
-                <ProcedureListItem key={procedure.id} id={procedure.id} name={procedure.name} expectedDuration={procedure.expected_duration} averageDuration={procedure.average_duration} onUpdateProcedure={this.props.onUpdateProcedure} />
+                <ProcedureListItem key={procedure.procedure_id} procedureId={procedure.procedure_id} procedureName={procedure.procedure_name} expectedDuration={procedure.expected_duration} averageDuration={procedure.average_duration} onUpdateProcedure={this.props.onUpdateProcedure} />
             )
         });
         return (

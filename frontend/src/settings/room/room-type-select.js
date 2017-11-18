@@ -7,7 +7,7 @@ const RoomTypeSelect = ({roomTypes, onChange, name, value}) => {
             <option value=""> -- Select a Room Type -- </option>
             {roomTypes.map(function(roomType) {
                 return (
-                    <option value={roomType.id} key={roomType.id}>{roomType.name}</option>
+                    <option value={roomType.room_type_id} key={roomType.room_type_id}>{roomType.room_type}</option>
                 )
             })}
         </select>

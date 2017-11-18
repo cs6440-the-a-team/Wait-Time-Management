@@ -8,7 +8,7 @@ const ProcedureSelect = ({procedures, onChange, name, value}) => {
             <option value=""> -- Select a Procedure -- </option>
             {procedures.map(function(procedure) {
                 return (
-                    <option value={procedure.id} key={procedure.id}>{procedure.name}</option>
+                    <option value={procedure.procedure_id} key={procedure.procedure_id}>{procedure.procedure_name}</option>
                 )
             })}
         </select>

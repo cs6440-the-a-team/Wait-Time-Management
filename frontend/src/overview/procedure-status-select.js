@@ -22,8 +22,8 @@ const ProcedureStatusSelect = ({name, value, onChange, procedureStatuses}) => {
 const mapStateToProps = (state, ownProps) => {
     let statuses = [];
     if (ownProps.procedureId && state.procedure.procedures[ownProps.procedureId]) {
-        let status_ids = state.procedure.procedures[ownProps.procedureId].procedure_statuses;
-        
+        let status_ids = state.procedure.procedures[ownProps.procedureId].procedure_statuses || [];
+    
         if (state.procedure.statuses) {
             statuses = status_ids.map(function(status_id) {
                 return state.procedure.statuses[status_id];

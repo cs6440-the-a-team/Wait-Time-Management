@@ -148,7 +148,7 @@ const PatientDataRow = ({patientId, status, startTime, location}) => {
         <tr>
             <td>{patientId}</td>
             <td>{status}</td>
-            <td>{startTime && formatTime(minutesSince(startTime))}</td>
+            <td>{startTime && formatTime({minutes: minutesSince(startTime)})}</td>
             <td>{location}</td>
         </tr>
     );

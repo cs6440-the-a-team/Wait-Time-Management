@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
     if (state.patient.personal_card_to_show && state.patient.patients[state.patient.personal_card_to_show] !== undefined) {
         let patient = state.patient.patients[state.patient.personal_card_to_show];
 
-        patientId = patient.id;
+        patientId = patient.patient_id;
         patientAlias = patient.alias;
     }
 

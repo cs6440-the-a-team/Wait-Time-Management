@@ -23,12 +23,10 @@ sagaMiddleware.run(rootSaga);
 
 function updateInformation() {
     store.dispatch(listPatients());
-    if (store.getState().session.get('role') === "admin") {
-        store.dispatch(listProcedureStatuses());
-        store.dispatch(listProcedures());
-        store.dispatch(listRoomTypeStatuses());
-        store.dispatch(listRoomTypes());
-    }
+    store.dispatch(listProcedureStatuses());
+    store.dispatch(listProcedures());
+    store.dispatch(listRoomTypeStatuses());
+    store.dispatch(listRoomTypes());
     store.dispatch(listRooms());
 }
 

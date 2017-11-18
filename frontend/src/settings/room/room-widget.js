@@ -6,7 +6,7 @@ class RoomWidget extends Component {
 
     static propTypes = {
         roomId: PropTypes.any,
-        name: PropTypes.string,
+        roomName: PropTypes.string,
         roomTypeId: PropTypes.any,
         onFormSubmit: PropTypes.func.isRequired
     }
@@ -15,7 +15,7 @@ class RoomWidget extends Component {
         super(props);
         this.state = {
             id: props.roomId,
-            name: props.name,
+            room_name: props.roomName,
             room_type_id: props.roomTypeId
         };
     }
@@ -27,8 +27,8 @@ class RoomWidget extends Component {
             if (this.state.id != nextProps.roomId) {
                 newState.id = nextProps.roomId;
             }
-            if (this.state.name != nextProps.name) {
-                newState.name = nextProps.name;
+            if (this.state.room_name != nextProps.roomName) {
+                newState.room_name = nextProps.roomName;
             }
             if (this.state.room_type_id != nextProps.roomTypeId) {
                 newState.room_type_id = nextProps.roomTypeId;
@@ -63,7 +63,7 @@ class RoomWidget extends Component {
         return (
             <tr>
                 <td>
-                    <input className="form-control" type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
+                    <input className="form-control" type="text" placeholder="Name" name="room_name" value={this.state.room_name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <RoomTypeSelect onChange={this.onInputChange} name="room_type_id" value={this.state.room_type_id} />

@@ -23,6 +23,8 @@ const addRoom = (room) => ({ type: "room/ADD", room });
 const addedRoom = (room) => ({ type: "room/ADDED", room });
 const updateRoom = (room) => ({ type: "room/UPDATE", room });
 const updatedRoom = (room) => ({ type: "room/UPDATED", room });
+const deleteRoom = (roomId) => ({ type: "room/DELETE", roomId });
+const deletedRoom = (roomId) => ({ type: "room/DELETED", roomId });
 
 const listRoomTypes = () => ({ type: "room-type/LIST" });
 const listedRoomTypes = (roomTypes) => ({ type: "room-type/LISTED", roomTypes });
@@ -30,6 +32,8 @@ const addRoomType = (roomType) => ({ type: "room-type/ADD", roomType });
 const addedRoomType = (roomType) => ({ type: 'room-type/ADDED', roomType });
 const updateRoomType = (roomType) => ({ type: "room-type/UPDATE", roomType });
 const updatedRoomType = (roomType) => ({ type: "room-type/UPDATED", roomType });
+const deleteRoomType = (roomTypeId) => ({ type: "room-type/DELETE", roomTypeId });
+const deletedRoomType = (roomTypeId) => ({ type: "room-type/DELETED", roomTypeId });
 
 const listRoomTypeStatuses = () => ({ type: "room-type-status/LIST" });
 const listedRoomTypeStatuses = (roomTypeStatuses) => ({ type: "room-type-status/LISTED", roomTypeStatuses });
@@ -37,6 +41,8 @@ const addRoomTypeStatus = (roomTypeStatus) => ({ type: "room-type-status/ADD", r
 const addedRoomTypeStatus = (roomTypeStatus) => ({ type: "room-type-status/ADDED", roomTypeStatus });
 const updateRoomTypeStatus = (roomTypeStatus) => ({ type: "room-type-status/UPDATE", roomTypeStatus });
 const updatedRoomTypeStatus = (roomTypeStatus) => ({ type: "room-type-status/UPDATED", roomTypeStatus });
+const deleteRoomTypeStatus = (roomTypeStatusId) => ({ type: "room-type-status/DELETE", roomTypeStatusId });
+const deletedRoomTypeStatus = (roomTypeStatusId) => ({ type: "room-type-status/DELETED", roomTypeStatusId });
 
 const updateRoomStatus = (roomId, roomStatusId) => ({ type: "room/status/UPDATE", roomId, roomStatusId });
 const updatedRoomStatus = (roomId, roomStatusId) => ({ type: "room/status/UPDATED", roomId, roomStatusId });
@@ -47,6 +53,8 @@ const addProcedure = (procedure) => ({ type: 'procedure/ADD', procedure });
 const addedProcedure = (procedure) => ({ type: 'procedure/ADDED', procedure });
 const updateProcedure = (procedure) => ({ type: 'procedure/UPDATE', procedure });
 const updatedProcedure = (procedure) => ({ type: 'procedure/UPDATED', procedure });
+const deleteProcedure = (procedureId) => ({ type: 'procedure/DELETE', procedureId});
+const deletedProcedure = (procedureId) => ({ type: 'procedure/DELETED', procedureId});
 
 const listProcedureStatuses = () => ({ type: "procedure-status/LIST" });
 const listedProcedureStatuses = (procedureStatuses) => ({ type: "procedure-status/LISTED", procedureStatuses });
@@ -54,6 +62,8 @@ const addProcedureStatus = (procedureStatus) => ({ type: "procedure-status/ADD",
 const addedProcedureStatus = (procedureStatus) => ({ type: "procedure-status/ADDED", procedureStatus });
 const updateProcedureStatus = (procedureStatus) => ({ type: "procedure-status/UPDATE", procedureStatus });
 const updatedProcedureStatus = (procedureStatus) => ({ type: "procedure-status/UPDATED", procedureStatus });
+const deleteProcedureStatus = (procedureStatusId) => ({ type: "procedure-status/DELETE", procedureStatusId});
+const deletedProcedureStatus = (procedureStatusId) => ({ type: "procedure-status/DELETED", procedureStatusId});
 
 const listPatients = () => ({ type: "patient/LIST" });
 const listedPatients = (patients) => ({ type: "patient/LISTED", patients });
@@ -61,7 +71,10 @@ const addPatient = (patient) => ({ type: "patient/ADD", patient });
 const addedPatient = (patient) => ({ type: "patient/ADDED", patient });
 const updatePatient = (patient) => ({ type: "patient/UPDATE", patient });
 const updatedPatient = (patient) => ({ type: "patient/UPDATED", patient });
-const showPatientCard = (patient_id) => ({ type: "patient/show-card", patient_id });
+const deletePatient = (patientId) => ({type: "patient/DELETE", patientId});
+const deletedPatient = (patientId) => ({type: "patient/DELETED", patientId});
+
+const showPatientCard = (patientId) => ({ type: "patient/show-card", patientId });
 const dismissPatientCard = () => ({ type: "patient/dismiss-card" });
 
 const updatePatientStatus = (patientId, procedureStatusId) => ({ type: 'patient/status/UPDATE', patientId, procedureStatusId });
@@ -79,26 +92,32 @@ export {
     listRooms, listedRooms,
     addRoom, addedRoom,
     updateRoom, updatedRoom,
+    deleteRoom, deletedRoom,
 
     listRoomTypes, listedRoomTypes,
     addRoomType, addedRoomType,
     updateRoomType, updatedRoomType,
+    deleteRoomType, deletedRoomType,
 
     listRoomTypeStatuses, listedRoomTypeStatuses,
     addRoomTypeStatus, addedRoomTypeStatus,
     updateRoomTypeStatus, updatedRoomTypeStatus,
+    deleteRoomTypeStatus, deletedRoomTypeStatus,
 
     listProcedures, listedProcedures,
     addProcedure, addedProcedure,
     updateProcedure, updatedProcedure,
+    deleteProcedure, deletedProcedure,
 
     listProcedureStatuses, listedProcedureStatuses,
     addProcedureStatus, addedProcedureStatus,
     updateProcedureStatus, updatedProcedureStatus,
+    deleteProcedureStatus, deletedProcedureStatus,
 
     listPatients, listedPatients,
     addPatient, addedPatient,
     updatePatient, updatedPatient,
+    deletePatient, deletedPatient,
     showPatientCard, dismissPatientCard,
 
     updateRoomStatus, updatedRoomStatus,

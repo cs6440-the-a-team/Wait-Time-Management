@@ -24,7 +24,7 @@ import LoadingIndicatorContainer from "./containers/loading-indicator-container"
 
 import { logout } from "./actions"
 
-const SETTINGS_ROLES = ['staffplus'];
+const SETTINGS_ROLES = ['admin', 'staffplus'];
 
 class App extends React.Component {
     render() {
@@ -36,11 +36,11 @@ class App extends React.Component {
                         <header className="container-fluid">
                             <h3 className="display-4">Wait Time Management</h3>
                             <Switch>
-                                <Route path="/admin/login" render={() => (null)} />
+                                <Route path="/admin/login" render={() => (null)} /> {/* Don't show the menu on the login screen */}
                                 <Route path="/admin*" render={() => {
                                     return (
                                         <ul className="nav justify-content-end">
-                                            <AuthorizedComponentContainer authorizedRoles={['admin']}>
+                                            <AuthorizedComponentContainer authorizedRoles={SETTINGS_ROLES}>
                                                 <li className="nav-item">
                                                     <NavLink to="/admin/overview" title="Home" className="nav-link" activeClassName="active">
                                                         <i className="fa fa-home" />

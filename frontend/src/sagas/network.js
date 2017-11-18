@@ -5,7 +5,6 @@ function* makeRequest(fn, args=[]) {
     let response = null,
         error = null;
 
-
     //console.log("Network request prepping...", fn, args);
     yield put(networkStart());
 

@@ -5,7 +5,7 @@ import deNormalizeObject from "../utils/de-normalize-object"
 const RoomSelect = ({name, options, value, onChange}) => {
 
     let roomOptions = options.map(function(option) {
-        return <option key={option.id} value={option.id}>{option.name}</option>
+        return <option key={option.room_id} value={option.room_id}>{option.room_name}</option>
     });
 
     return (

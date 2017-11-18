@@ -3,15 +3,15 @@ import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import RoomTypeSelect from "./room-type-select"
 
-import { timeFormat } from "../../utils/time-helper"
+import { formatTime } from "../../utils/time-helper"
 import deNormalizeObject from "../../utils/de-normalize-object"
 
 import { addRoomTypeStatus, updateRoomTypeStatus } from "../../actions"
 
 class RoomStatusWidget extends Component {
     static propTypes = {
-        id: PropTypes.any,
-        name: PropTypes.string,
+        roomStatusId: PropTypes.any,
+        roomStatus: PropTypes.string,
         roomTypeId: PropTypes.any,
         order: PropTypes.any,
         expectedDuration: PropTypes.any,
@@ -22,8 +22,8 @@ class RoomStatusWidget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id,
-            name: props.name,
+            room_status_id: props.roomStatusId,
+            room_status: props.roomStatus,
             room_type_id: props.roomTypeId,
             order: props.order,
             expected_duration: props.expectedDuration,
@@ -34,13 +34,13 @@ class RoomStatusWidget extends Component {
     componentWillReceiveProps(nextProps) {
         let newState = { ...this.state };
 
-        if (this.state.id) {
-            if (this.state.id !== nextProps.id) {
-                newState.id = nextProps.id;
+        if (this.state.room_status_id) {
+            if (this.state.room_status_id !== nextProps.roomStatusId) {
+                newState.room_status_id = nextProps.roomStatusId;
             }
 
-            if (this.state.name !== nextProps.name) {
-                newState.name = nextProps.name;
+            if (this.state.room_status !== nextProps.roomStatus) {
+                newState.room_status = nextProps.roomStatus;
             }
 
             if (this.state.room_type_id !== nextProps.roomTypeId) {
@@ -98,7 +98,7 @@ class RoomStatusWidget extends Component {
                     <RoomTypeSelect name="room_type_id" value={this.state.room_type_id} onChange={this.handleInputChange} />
                 </td>
                 <td>
-                    <input type="text" name="name" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                    <input type="text" name="room_status" className="form-control" placeholder="Name" value={this.state.room_status} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <input type="number" name="order" className="form-control" placeholder="Order" maxLength="4" value={this.state.order} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
@@ -111,7 +111,7 @@ class RoomStatusWidget extends Component {
                 </td>
                 <td>
                     <div className="input-group">
-                        <input type="number" name="average_duration" className="form-control" placeholder="Average duration" maxLength="4" value={this.state.average_duration} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                        <input disabled={true} type="number" name="average_duration" className="form-control" placeholder="Average duration" maxLength="4" value={this.state.average_duration} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
                         <span className="input-group-addon">minutes</span>
                     </div>
                 </td>
@@ -153,7 +153,7 @@ class RoomStatusListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <RoomStatusWidget id={this.props.id} name={this.props.name} order={this.props.order} roomTypeId={this.props.roomTypeId} expectedDuration={this.props.expectedDuration} averageDuration={this.props.averageDuration} onFormSubmit={this.handleUpdateRoomStatus}>
+                <RoomStatusWidget {...this.props} onFormSubmit={this.handleUpdateRoomStatus}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </RoomStatusWidget>
             )
@@ -161,7 +161,7 @@ class RoomStatusListItem extends Component {
         return (
             <tr>
                 <td>{this.props.roomType}</td>
-                <td>{this.props.name}</td>
+                <td>{this.props.roomStatus}</td>
                 <td>{this.props.order}</td>
                 <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
                 <td>{formatTime({ minutes: this.props.averageDuration })}</td>
@@ -199,7 +199,7 @@ class RoomStatusList extends Component {
     renderAdding() {
         if (this.state.adding) {
             return (
-                <RoomStatusWidget id={null} name="" order="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddRoomStatus}>
+                <RoomStatusWidget roomStatusId={null} roomStatus="" order="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddRoomStatus}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </RoomStatusWidget>
             )
@@ -211,15 +211,15 @@ class RoomStatusList extends Component {
     render() {
         let roomStatuses = this.props.roomStatuses.map((roomStatus) => {
             return (
-                <RoomStatusListItem id={roomStatus.id}
-                    name={roomStatus.name}
+                <RoomStatusListItem roomStatusId={roomStatus.room_status_id}
+                    key={roomStatus.room_status_id}
+                    roomStatus={roomStatus.room_status}
                     roomTypeId={roomStatus.room_type_id}
-                    order={roomStatus.order}
                     roomType={roomStatus.room_type}
+                    order={roomStatus.order}
                     expectedDuration={roomStatus.expected_duration}
                     averageDuration={roomStatus.average_duration}
-                    onUpdateRoomStatus={this.props.onUpdateStatus}
-                    key={roomStatus.id} />
+                    onUpdateRoomStatus={this.props.onUpdateStatus} />
             )
         });
 
@@ -248,7 +248,7 @@ class RoomStatusList extends Component {
 
 const mapStateToProps = function (state, ownProps) {
     let room_statuses = deNormalizeObject(state.room.statuses).map(function (room_status) {
-        return { ...room_status, room_type: state.room.types[room_status.room_type_id] };
+        return { ...room_status, room_type: state.room.types[room_status.room_type_id].room_type };
     }).sort(function (a, b) {
         let order_a = parseInt(a.order || 0),
             order_b = parseInt(b.order || 0);

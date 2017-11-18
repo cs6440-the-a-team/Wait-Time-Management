@@ -2,7 +2,7 @@ import {all, call, put, select, takeLatest} from "redux-saga/effects"
 import {makeRequest} from "./network"
 import * as Api from "../api"
 import {
-    listedPatients, addedPatient, updatedPatient, updatedPatientStatus, addErrorMessage
+    listedPatients, addedPatient, updatedPatient, deletedPatient, updatedPatientStatus, addErrorMessage
 } from "../actions"
 
 function* listPatients(action) {
@@ -34,6 +34,15 @@ function* updatePatient(action) {
         yield put(addErrorMessage("Failed to update patient -- " + err));
     }
 }
+function* deletePatient(action) {
+    try {
+        let deleteResponse = yield makeRequest(Api.deletePatient, [action.patientId]);
+        yield put(deletedPatient(action.patientId));
+    }
+    catch(err) {
+        yield put(addErrorMessage("Failed to remove patient -- " + err));
+    }
+}
 
 function* updatePatientStatus(action) {
     
@@ -56,5 +65,6 @@ export default [
     takeLatest('patient/LIST', listPatients),
     takeLatest('patient/ADD', addPatient),
     takeLatest('patient/UPDATE', updatePatient),
+    takeLatest('patient/DELETE', deletePatient),
     takeLatest('patient/status/UPDATE', updatePatientStatus)
 ];

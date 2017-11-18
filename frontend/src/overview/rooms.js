@@ -5,7 +5,7 @@ import LoadingIndicator from "../components/loading-indicator"
 import deNormalizeObject from "../utils/de-normalize-object"
 import Message from "../components/message"
 import RoomStatusSelect from "./room-status-select"
-import {updateRoomStatus, dismissRoomError} from "../actions"
+import {updateRoomStatus} from "../actions"
 import {minutesSince, formatTime} from "../utils/time-helper"
 import AuthorizedComponentContainer from "../containers/authorized-component-container"
 
@@ -18,14 +18,14 @@ class RoomItem extends React.Component {
         super(props);
         this.state = {
             editing: false,
-            status: props.status
+            room_status_id: props.roomStatusId
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.state.status !== nextProps.status) {
+        if (this.state.status !== nextProps.roomStatusId) {
             this.setState({
-                status: nextProps.status
+                room_status_id: nextProps.roomStatusId
             });
         }
     }
@@ -47,16 +47,16 @@ class RoomItem extends React.Component {
     }
 
     handleFormSubmit = () => {
-        this.props.onRoomStatusUpdate(this.props.roomId, this.state.status);
+        this.props.onRoomStatusUpdate(this.props.roomId, this.state.room_status_id);
     }
 
     render() {
-        let statusView = this.state.status,
+        let statusView = this.state.roomStatus,
             buttonText = "Edit",
             trClasses = [];
         if (this.state.editing) {
             statusView = (
-                <RoomStatusSelect name="status" roomType={this.props.roomType} value={this.state.status} onChange={this.handleInputChange} />
+                <RoomStatusSelect name="room_status_id" roomTypeId={this.props.roomTypeId} value={this.state.roomStatusId} onChange={this.handleInputChange} />
             );
             buttonText = "Cancel";
         }
@@ -72,7 +72,7 @@ class RoomItem extends React.Component {
 
         return (
             <tr className={trClasses.join(" ")}>
-                <td>{this.props.name}</td>
+                <td>{this.props.roomName}</td>
                 <td>{statusView}</td>
                 <td>{formatTime({minutes: elapsed_time})}</td>
                 <td>{formatTime({minutes: this.props.expectedDuration})} </td>
@@ -86,7 +86,7 @@ class RoomItem extends React.Component {
     }
 };
 
-const Rooms = ({isLoading, error, rooms, onRoomStatusUpdate, dismissRoomError}) => {
+const Rooms = ({rooms, onRoomStatusUpdate, dismissRoomError}) => {
 
     let roomItems = (
         <tr>
@@ -94,17 +94,17 @@ const Rooms = ({isLoading, error, rooms, onRoomStatusUpdate, dismissRoomError}) 
                 No rooms yet...
             </td>
         </tr>
-    ),
-    errorMsg = null;
+    );
 
     if (rooms.length > 0) {
         roomItems = rooms.map((room) => {
             return (
-                <RoomItem key={room.id} 
-                          roomId={room.id} 
-                          name={room.name} 
-                          status={room.status} 
-                          roomType={room.room_type} 
+                <RoomItem key={room.room_id} 
+                          roomId={room.room_id} 
+                          roomName={room.room_name} 
+                          roomStatusId={room.room_status_id} 
+                          roomStatus={room.status}
+                          roomTypeId={room.room_type_id} 
                           expectedDuration={room.expected_duration} 
                           startTime={room.start_time}
                           onRoomStatusUpdate={onRoomStatusUpdate} />
@@ -112,18 +112,8 @@ const Rooms = ({isLoading, error, rooms, onRoomStatusUpdate, dismissRoomError}) 
         });
     }
 
-    if (error) {
-        errorMsg = (
-            <Message id="error-message" onClose={dismissRoomError} type="error">
-                {error.toString()}
-            </Message>
-        )
-    }
-
     return (
         <div className="rooms-wrapper">
-            <LoadingIndicator active={isLoading} />
-            {errorMsg}
             <table className="table table-striped">
                 <thead>
                     <tr>
@@ -147,14 +137,12 @@ const Rooms = ({isLoading, error, rooms, onRoomStatusUpdate, dismissRoomError}) 
 const mapStateToProps = function (state, ownProps) {
 
     let rooms = deNormalizeObject(state.room.rooms).map(function(room) {
-        room.status = state.room.statuses[room.room_status_id];
+        room.status = state.room.statuses[room.room_status_id].room_status;
         return room;
     });
 
     return {
-        isLoading: state.room.loading,
-        error: state.room.error,
-        rooms: rooms
+        rooms
     }
 }
 
@@ -162,9 +150,6 @@ const mapDispatchToProps = function (dispatch) {
     return {
         onRoomStatusUpdate: (roomId, status) => {
             dispatch(updateRoomStatus(roomId, status));
-        },
-        dismissRoomError: () => {
-            dispatch(dismissRoomError());
         }
     }
 }

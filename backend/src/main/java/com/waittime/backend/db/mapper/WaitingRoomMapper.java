@@ -13,7 +13,7 @@ public interface WaitingRoomMapper {
 			"    p.alias AS patient_id, \n" + 
 			"    r.room_name AS `location`, \n" + 
 			"    s.status, \n" + 
-			"    fpl.time_sk AS start_time \n" + 
+			"    DATE_FORMAT(fpl.time_sk, '%Y-%m-%dT%TZ') AS start_time \n" + 
 			"FROM dim_patient AS p \n" + 
 			"INNER JOIN dim_room AS r ON p.room_id=r.room_id \n" + 
 			"INNER JOIN dim_procedure_status AS s ON p.procedure_status_id=s.procedure_status_id \n" + 

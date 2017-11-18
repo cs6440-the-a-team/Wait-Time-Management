@@ -3,9 +3,9 @@ import {makeRequest} from "./network"
 
 import * as Api from "../api"
 import {
-    listedRooms, addedRoom, updatedRoom,
-    listedRoomTypes, addedRoomType, updatedRoomType,
-    listedRoomTypeStatuses, addedRoomTypeStatus, updatedRoomTypeStatus,
+    listedRooms, addedRoom, updatedRoom, deletedRoom,
+    listedRoomTypes, addedRoomType, updatedRoomType, deletedRoomType,
+    listedRoomTypeStatuses, addedRoomTypeStatus, updatedRoomTypeStatus, deletedRoomTypeStatus,
     updatedRoomStatus, addMessage
 } from "../actions"
 
@@ -37,6 +37,15 @@ function* updateRoom(action) {
         yield put(addMessage("Failed to update room --" + err, "error"));
     }
 }
+function* deleteRoom(action) {
+    try {
+        let deleteResponse = yield makeRequest(Api.deleteRoom, [action.roomId]);
+        yield put(deletedRoom(action.roomId));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to remove room -- " + err, "error"));
+    }
+}
 
 function* listRoomTypes(action) {
     try {
@@ -63,6 +72,15 @@ function* updateRoomType(action) {
     }
     catch(err) {
         yield put(addMessage("Failed to update room type --" + err, "error"));
+    }
+}
+function* deleteRoomType(action) {
+    try {
+        let deleteResponse = yield makeRequest(Api.deleteRoomType, [action.roomTypeId]);
+        yield put(deletedRoomType(action.roomTypeId));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to remove room type -- " + err, "error"));
     }
 }
 
@@ -93,6 +111,15 @@ function* updateRoomTypeStatus(action) {
         yield put(addMessage("Failed to update room type status --" + err, "error"));
     }
 }
+function* deleteRoomTypeStatus(action) {
+    try {
+        let deleteResponse = yield makeRequest(Api.deleteRoomTypeStatus, [action.roomTypeStatusId]);
+        yield put(deletedRoomTypeStatus(action.roomTypeStatusId));
+    }
+    catch(err) {
+        yield put(addMessage("Failed to remove room type status -- " + err, "error"));
+    }
+}
 
 
 function* updateRoomStatus(action) {
@@ -115,11 +142,14 @@ export default [
     takeLatest('room/LIST', listRooms),
     takeLatest('room/ADD', addRoom),
     takeLatest('room/UPDATE', updateRoom),
+    takeLatest('room/DELETE', deleteRoom),
     takeLatest('room-type/LIST', listRoomTypes),
     takeLatest('room-type/ADD', addRoomType),
     takeLatest('room-type/UPDATE', updateRoomType),
+    takeLatest('room-type/DELETE', deleteRoomType),
     takeLatest('room-type-status/LIST', listRoomTypeStatuses),
     takeLatest('room-type-status/ADD', addRoomTypeStatus),
     takeLatest('room-type-status/UPDATE', updateRoomTypeStatus),
+    takeLatest('room-type-status/DELETE', deleteRoomTypeStatus),
     takeLatest('room/status/UPDATE', updateRoomStatus)
 ];

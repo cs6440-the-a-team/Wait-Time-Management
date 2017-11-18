@@ -19,8 +19,7 @@ public class WaitingRoom {
 
 		private String patient_id;
 		private String status;
-		private String time_elapsed;
-		private int expected_duration;
+		private String start_time;
 		private String location;
 
 		public String getPatient_id() {
@@ -39,20 +38,12 @@ public class WaitingRoom {
 			this.status = status;
 		}
 
-		public String getTime_elapsed() {
-			return time_elapsed;
+		public String getStart_time() {
+			return start_time;
 		}
 
-		public void setTime_elapsed(String time_elapsed) {
-			this.time_elapsed = time_elapsed;
-		}
-
-		public int getExpected_duration() {
-			return expected_duration;
-		}
-
-		public void setExpected_duration(int expected_duration) {
-			this.expected_duration = expected_duration;
+		public void setStart_time(String start_time) {
+			this.start_time = start_time;
 		}
 
 		public String getLocation() {
@@ -64,6 +55,4 @@ public class WaitingRoom {
 		}
 
 	}
-
-	
 }

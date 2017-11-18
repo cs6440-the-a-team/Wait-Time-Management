@@ -6,13 +6,13 @@ import base64 from "base-64"
 import { networkStart, networkStop, loginSuccess } from "../actions";
 
 function* login(action) {
-    // Fake it for now
+    // Fake it for now, but this should be a replaced with a login process, such as LDAP or OAuth.
     let token = base64.encode(action.username + ":" + action.password),
         role = ["admin", "staffplus"].indexOf(action.username) >= 0 ? "staffplus" : "staff",
         expires = Date.now() + (1000 * 60 * 60 * 1); // Expires in 1 hour
 
     yield put(networkStart());
-    yield delay(1500);
+    yield delay(700);
     yield put(networkStop());
 
     yield put(loginSuccess(token, role, expires));

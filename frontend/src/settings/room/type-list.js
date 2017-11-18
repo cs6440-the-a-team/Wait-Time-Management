@@ -6,29 +6,29 @@ import { addRoomType, updateRoomType } from "../../actions"
 
 class RoomTypeWidget extends Component {
     static propTypes = {
-        id: PropTypes.any,
-        name: PropTypes.string,
+        roomTypeId: PropTypes.any,
+        roomType: PropTypes.string,
         onFormSubmit: PropTypes.func.isRequired
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id,
-            name: props.name
+            room_type_id: props.roomTypeId,
+            room_type: props.roomType
         }
     }
 
     componentWillReceiveProps(nextProps) {
         let newState = { ...this.state };
 
-        if (this.state.id) {
-            if (this.state.id !== nextProps.id) {
-                newState.id = nextProps.id;
+        if (this.state.room_type_id) {
+            if (this.state.room_type_id !== nextProps.roomTypeId) {
+                newState.room_type_id = nextProps.roomTypeId;
             }
 
-            if (this.state.name !== nextProps.name) {
-                newState.name = nextProps.name;
+            if (this.state.room_type !== nextProps.roomType) {
+                newState.room_type = nextProps.roomType;
             }
         }
 
@@ -58,7 +58,7 @@ class RoomTypeWidget extends Component {
         return (
             <tr>
                 <td>
-                    <input type="text" name="name" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                    <input type="text" name="room_type" className="form-control" placeholder="Name" value={this.state.room_type} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <div className="btn-group">
@@ -90,14 +90,14 @@ class RoomTypeListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <RoomTypeWidget id={this.props.id} name={this.props.name} onFormSubmit={this.props.onRoomTypeUpdate}>
+                <RoomTypeWidget {...this.props} onFormSubmit={this.props.onRoomTypeUpdate}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </RoomTypeWidget>
             )
         }
         return (
             <tr>
-                <td>{this.props.name}</td>
+                <td>{this.props.roomType}</td>
                 <td>
                     <a href="#" role="button" className="btn btn-link" onClick={this.toggleEdit}>Edit</a>
                 </td>
@@ -131,7 +131,7 @@ class RoomTypeList extends Component {
     renderAdding() {
         if (this.state.adding) {
             return (
-                <RoomTypeWidget id={null} name="" onFormSubmit={this.handleAddRoomType}>
+                <RoomTypeWidget roomTypeId={null} roomType="" onFormSubmit={this.handleAddRoomType}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </RoomTypeWidget>
             )
@@ -143,7 +143,7 @@ class RoomTypeList extends Component {
     render() {
         let roomTypeItems = this.props.roomTypes.map((roomType) => {
             return (
-                <RoomTypeListItem id={roomType.id} name={roomType.name} onRoomTypeUpdate={this.props.handleUpdateRoomType} key={roomType.id} />
+                <RoomTypeListItem roomTypeId={roomType.room_type_id} roomType={roomType.room_type} onRoomTypeUpdate={this.props.handleUpdateRoomType} key={roomType.room_type_id} />
             )
         });
 

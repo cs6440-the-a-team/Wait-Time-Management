@@ -10,9 +10,9 @@ import ProcedureSelect from "./procedure-select"
 
 class ProcedureStatusWidget extends Component {
     static propTypes = {
-        id: PropTypes.any,
-        name: PropTypes.string,
-        procedure_id: PropTypes.any,
+        procedureStatusId: PropTypes.any,
+        status: PropTypes.string,
+        procedureId: PropTypes.any,
         order: PropTypes.any,
         expectedDuration: PropTypes.any,
         averageDuration: PropTypes.any,
@@ -22,8 +22,8 @@ class ProcedureStatusWidget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id,
-            name: props.name,
+            procedure_status_id: props.procedureStatusId,
+            status: props.status,
             order: props.order,
             procedure_id: props.procedureId,
             expected_duration: props.expectedDuration,
@@ -34,12 +34,12 @@ class ProcedureStatusWidget extends Component {
     componentWillReceiveProps(nextProps) {
         let newState = { ...this.state };
 
-        if (this.state.id) {
-            if (this.state.id !== nextProps.id) {
-                newState.id = nextProps.id;
+        if (this.state.procedure_status_id) {
+            if (this.state.procedure_status_id !== nextProps.procedureStatusId) {
+                newState.procedure_status_id = nextProps.procedureStatusId;
             }
-            if (this.state.name !== nextProps.name) {
-                newState.name = nextProps.name;
+            if (this.state.status !== nextProps.status) {
+                newState.status = nextProps.status;
             }
             if (this.state.order !== nextProps.order) {
                 newState.order = nextProps.order;
@@ -97,7 +97,7 @@ class ProcedureStatusWidget extends Component {
                     <ProcedureSelect name="procedure_id" value={this.state.procedure_id} onChange={this.onInputChange} />
                 </td>
                 <td>
-                    <input className="form-control" type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
+                    <input className="form-control" type="text" placeholder="Name" name="status" value={this.state.status} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <input className="form-control" type="number" placeholder="Order" name="order" value={this.state.order} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
@@ -110,7 +110,7 @@ class ProcedureStatusWidget extends Component {
                 </td>
                 <td>
                     <div className="input-group">
-                        <input className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
+                        <input disabled={true} className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                         <span className="input-group-addon">minutes</span>
                     </div>
                 </td>
@@ -141,7 +141,7 @@ class ProcedureStatusListItem extends Component {
     }
 
     handleupdateProcedureStatus = (procedureStatus) => {
-        this.props.onupdateProcedureStatus(procedureStatus);
+        this.props.onUpdateProcedureStatus(procedureStatus);
         this.setState({
             editing: false
         });
@@ -150,10 +150,8 @@ class ProcedureStatusListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <ProcedureStatusWidget id={this.props.id} name={this.props.name}
-                    procedureId={this.props.procedureId} procedureName={this.props.procedureName}
-                    order={this.props.order} expectedDuration={this.props.expectedDuration} averageDuration={this.props.averageDuration}
-                    onFormSubmit={this.handleupdateProcedureStatus}>
+                <ProcedureStatusWidget {...this.props}
+                    onFormSubmit={this.handleUpdateProcedureStatus}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </ProcedureStatusWidget>
             )
@@ -161,7 +159,7 @@ class ProcedureStatusListItem extends Component {
         return (
             <tr>
                 <td>{this.props.procedureName}</td>
-                <td>{this.props.name}</td>
+                <td>{this.props.status}</td>
                 <td>{this.props.order}</td>
                 <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
                 <td>{formatTime({ minutes: this.props.averageDuration })}</td>
@@ -189,8 +187,8 @@ class ProcedureStatusList extends Component {
         });
     }
 
-    handleaddProcedureStatus = (procedureStatus) => {
-        this.props.onaddProcedureStatus(procedureStatus);
+    handleAddProcedureStatus = (procedureStatus) => {
+        this.props.onAddProcedureStatus(procedureStatus);
         this.setState({
             adding: false
         });
@@ -199,9 +197,9 @@ class ProcedureStatusList extends Component {
     renderAdd() {
         if (this.state.adding) {
             return (
-                <ProcedureStatusWidget id={null} name="" procedureId="" procedureName=""
+                <ProcedureStatusWidget procedureStatusId={null} status="" procedureId="" procedureName=""
                     order="" expectedDuration="" averageDuration=""
-                    onFormSubmit={this.handleaddProcedureStatus}>
+                    onFormSubmit={this.handleAddProcedureStatus}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </ProcedureStatusWidget>
             );
@@ -212,10 +210,10 @@ class ProcedureStatusList extends Component {
     render() {
         let procedureStatusItems = this.props.procedureStatuses.map((procedureStatus) => {
             return (
-                <ProcedureStatusListItem key={procedureStatus.id} id={procedureStatus.id} name={procedureStatus.name}
+                <ProcedureStatusListItem key={procedureStatus.procedure_status_id} procedureStatusId={procedureStatus.procedure_status_id} status={procedureStatus.status}
                     procedureId={procedureStatus.procedure_id} procedureName={procedureStatus.procedure_name}
                     order={procedureStatus.order} expectedDuration={procedureStatus.expected_duration} averageDuration={procedureStatus.average_duration}
-                    onupdateProcedureStatus={this.props.onupdateProcedureStatus} />
+                    onUpdateProcedureStatus={this.props.onUpdateProcedureStatus} />
             )
         });
 
@@ -246,7 +244,7 @@ const mapStateToProps = function (state, ownProps) {
     let procedureStatuses = deNormalizeObject(state.procedure.statuses).map(function (procedureStatus) {
         
         if (procedureStatus.procedure_id && state.procedure.procedures[procedureStatus.procedure_id] !== undefined) {
-            procedureStatus = {...procedureStatus, procedure_name: state.procedure.procedures[procedureStatus.procedure_id].name};
+            procedureStatus = {...procedureStatus, procedure_name: state.procedure.procedures[procedureStatus.procedure_id].procedure_name};
         }
 
         return procedureStatus;
@@ -261,10 +259,10 @@ const mapStateToProps = function (state, ownProps) {
 
 const mapDispatchToProps = function (dispatch) {
     return {
-        onaddProcedureStatus: (procedureStatus) => {
+        onAddProcedureStatus: (procedureStatus) => {
             dispatch(addProcedureStatus(procedureStatus));
         },
-        onupdateProcedureStatus: (procedureStatus) => {
+        onUpdateProcedureStatus: (procedureStatus) => {
             dispatch(updateProcedureStatus(procedureStatus));
         }
     }
