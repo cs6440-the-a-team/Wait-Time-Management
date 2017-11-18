@@ -19,9 +19,9 @@ import com.waittime.backend.db.Db;
 @Consumes(MediaType.APPLICATION_JSON)
 public abstract class ResourceApi<V> {
 
-	private final Db<String, V> db;
+	private final Db<Integer, V> db;
 
-	public ResourceApi(Db<String, V> db) {
+	public ResourceApi(Db<Integer, V> db) {
 		this.db = db;
 	}
 	
@@ -40,28 +40,28 @@ public abstract class ResourceApi<V> {
 
 	@PUT
 	@Path("/{id}")
-	public V update(@PathParam("id") String id, V v) {
+	public V update(@PathParam("id") Integer id, V v) {
 		contains(id);
 		return db.update(id, v);
 	}
 	
 	@GET
 	@Path("/{id}")
-	public V retrieve(@PathParam("id") String id) {
+	public V retrieve(@PathParam("id") Integer id) {
 		contains(id);
 		return db.retrieve(id);
 	}
 
 	@DELETE
 	@Path("/{id}")
-	public V delete(@PathParam("id") String id) {
+	public V delete(@PathParam("id") Integer id) {
 		contains(id);
 		return db.delete(id);
 	}
 	
 	@HEAD
 	@Path("/{id}")
-	public void contains(@PathParam("id") String id) {
+	public void contains(@PathParam("id") Integer id) {
 		if (!db.contains(id)) {
 			throw new javax.ws.rs.NotFoundException();
 		}

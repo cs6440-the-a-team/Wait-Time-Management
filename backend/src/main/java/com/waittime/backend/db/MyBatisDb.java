@@ -54,7 +54,7 @@ public class MyBatisDb<E,V> implements Db<E, V> {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			session.insert(statements.get("insert"), v);
+			session.insert(statements.get("update"), v);
 			session.commit();
 			return retrieve(id);
 		} finally {
