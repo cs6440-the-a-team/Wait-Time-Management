@@ -1,27 +1,25 @@
 package com.waittime.backend.db;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.waittime.backend.db.mapper.MyBatisMapper;
-import com.waittime.backend.model.Model;
+public class MyBatisDb<E,V> implements Db<E, V> {
 
-public class MyBatisDb<V extends Model> implements Db<String, V> {
+	private Map<String, String> statements;
 
-	private final Class<MyBatisMapper<V>> mapperClass;
-
-	public MyBatisDb(Class<MyBatisMapper<V>> mapperClass) {
-		this.mapperClass = mapperClass;
+	public MyBatisDb(Map<String, String> statements) {
+		this.statements = statements;
 	}
 
 	@Override
-	public boolean contains(String id) {
+	public boolean contains(E id) {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
-			return mapper.contains(id);
+			return null != session.selectOne(statements.get("retrieve"), id);
 		} finally {
 			if (session!=null) session.close();
 		}
@@ -32,8 +30,7 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
-			mapper.create(v);
+			session.insert(statements.get("insert"), v);
 			session.commit();
 			return v;
 		} finally {
@@ -42,40 +39,38 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 	}
 
 	@Override
-	public V retrieve(String id) {
+	public V retrieve(E id) {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
-			return mapper.retrieve(id);
+			return session.selectOne(statements.get("retrieve"), id);
 		} finally {
 			if (session!=null) session.close();
 		}
 	}
 
 	@Override
-	public V update(String id, V v) {
+	public V update(E id, V v) {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
-			mapper.update(id, v);
-			session.commit();
-			return v;
-		} finally {
-			if (session!=null) session.close();
-		}
-	}
-
-	@Override
-	public V delete(String id) {
-		SqlSession session = null;
-		try {
-			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
-			mapper.delete(id);
+			session.insert(statements.get("insert"), v);
 			session.commit();
 			return retrieve(id);
+		} finally {
+			if (session!=null) session.close();
+		}
+	}
+
+	@Override
+	public V delete(E id) {
+		SqlSession session = null;
+		try {
+			session = MyBatisUtil.getSqlSessionFactory().openSession();
+			V v = retrieve(id);
+			session.delete(statements.get("delete"), id);
+			session.commit();
+			return v;
 		} finally {
 			if (session!=null) session.close();
 		}
@@ -86,8 +81,8 @@ public class MyBatisDb<V extends Model> implements Db<String, V> {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			MyBatisMapper<V> mapper = session.getMapper(mapperClass);
-			return mapper.list();
+			List<V> selectList = session.selectList(statements.get("list"),null);
+			return new LinkedList<V>(selectList);
 		} finally {
 			if (session!=null) session.close();
 		}

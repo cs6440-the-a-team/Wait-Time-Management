@@ -14,11 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.waittime.backend.db.Db;
-import com.waittime.backend.model.Model;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public abstract class ResourceApi<V extends Model> {
+public abstract class ResourceApi<V> {
 
 	private final Db<String, V> db;
 
@@ -33,9 +32,9 @@ public abstract class ResourceApi<V extends Model> {
 	
 	@POST
 	public V create(V v) {
-		if (db.contains(v.getId())) {
-			throw new javax.ws.rs.BadRequestException();
-		}
+//		if (db.contains(v.getId())) {
+//			throw new javax.ws.rs.BadRequestException();
+//		}
 		return db.create(v);
 	}
 

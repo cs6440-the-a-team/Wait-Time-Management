@@ -18,6 +18,7 @@ public class WaitingRoomApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public WaitingRoom hello() {
 		SqlSession session = null;
+		
 		try {
 			WaitingRoom room = new WaitingRoom();
 			session = MyBatisUtil.getSqlSessionFactory().openSession();

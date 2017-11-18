@@ -16,5 +16,11 @@
   </environments>
   <mappers>
     <mapper class="com.waittime.backend.db.mapper.WaitingRoomMapper" />
+    <mapper resource="mappers/DimPatientMapper.xml" />
+    <mapper resource="mappers/DimProcedureMapper.xml" />
+    <mapper resource="mappers/DimProcedureStatusMapper.xml" />
+    <mapper resource="mappers/DimRoomMapper.xml" />
+    <mapper resource="mappers/DimRoomStatusMapper.xml" />
+    <mapper resource="mappers/DimRoomTypeMapper.xml" />
   </mappers>
 </configuration>

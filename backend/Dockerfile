@@ -3,11 +3,6 @@ FROM java:8 AS BUILD_IMAGE
 ENV APP_HOME=/root/dev/myapp/
 WORKDIR $APP_HOME
 COPY . $APP_HOME
-
-# cache dependencies on volume 
-RUN mkdir -p /root/.gradle
-ENV HOME /root
-
 RUN ./gradlew clean build
 
 # fetch jetty image
