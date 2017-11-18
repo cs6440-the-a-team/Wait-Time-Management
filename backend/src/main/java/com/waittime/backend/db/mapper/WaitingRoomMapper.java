@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import org.apache.ibatis.annotations.Select;
 
-import com.waittime.backend.model.WaitingRoomPatient;
+import com.waittime.backend.model.WaitingRoom;
 
 public interface WaitingRoomMapper {
 
@@ -19,5 +19,5 @@ public interface WaitingRoomMapper {
 			"INNER JOIN dim_procedure_status AS s ON p.procedure_status_id=s.procedure_status_id \n" + 
 			"INNER JOIN fact_patient_log AS fpl ON p.last_patient_log_id=fpl.id \n" + 
 			"WHERE p.active=TRUE")
-	LinkedList<WaitingRoomPatient> patients();
+	LinkedList<WaitingRoom.WaitingRoomPatient> patients();
 }

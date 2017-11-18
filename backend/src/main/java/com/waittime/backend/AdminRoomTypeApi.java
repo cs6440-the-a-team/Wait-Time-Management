@@ -6,7 +6,7 @@ import com.waittime.backend.db.Dbs;
 import com.waittime.backend.db.gen.model.DimRoomType;
 
 @Path("/admin/room_type")
-public class AdminRoomTypeApi extends ResourceApi<DimRoomType> {
+public class AdminRoomTypeApi extends ResourceApi<Integer, DimRoomType> {
 
 	public AdminRoomTypeApi() {
 		super(Dbs.roomTypes);

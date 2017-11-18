@@ -14,57 +14,95 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.waittime.backend.db.Db;
+import com.waittime.backend.db.SearchExample;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public abstract class ResourceApi<V> {
+public abstract class ResourceApi<E, V> {
 
-	private final Db<Integer, V> db;
+	private final Db<E, V> db;
 
-	public ResourceApi(Db<Integer, V> db) {
+	public ResourceApi(Db<E, V> db) {
 		this.db = db;
 	}
-	
+
 	@GET
 	public LinkedList<V> list() {
-		return db.list();
+		try {
+			return db.search(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new javax.ws.rs.ServiceUnavailableException();
+		}
 	}
-	
+
+	@POST
+	@Path("/search")
+	public LinkedList<V> search(SearchExample criteria) {
+		try {
+			return db.search(criteria);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new javax.ws.rs.ServiceUnavailableException();
+		}
+	}
+
 	@POST
 	public V create(V v) {
-//		if (db.contains(v.getId())) {
-//			throw new javax.ws.rs.BadRequestException();
-//		}
-		return db.create(v);
+		try {
+			return db.create(v);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new javax.ws.rs.ServiceUnavailableException();
+		}
 	}
 
 	@PUT
 	@Path("/{id}")
-	public V update(@PathParam("id") Integer id, V v) {
+	public V update(@PathParam("id") E id, V v) {
 		contains(id);
-		return db.update(id, v);
+		try {
+			return db.update(id, v);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new javax.ws.rs.ServiceUnavailableException();
+		}
 	}
-	
+
 	@GET
 	@Path("/{id}")
-	public V retrieve(@PathParam("id") Integer id) {
+	public V retrieve(@PathParam("id") E id) {
 		contains(id);
-		return db.retrieve(id);
+		try {
+			return db.retrieve(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new javax.ws.rs.ServiceUnavailableException();
+		}
 	}
 
 	@DELETE
 	@Path("/{id}")
-	public V delete(@PathParam("id") Integer id) {
+	public V delete(@PathParam("id") E id) {
 		contains(id);
-		return db.delete(id);
-	}
-	
-	@HEAD
-	@Path("/{id}")
-	public void contains(@PathParam("id") Integer id) {
-		if (!db.contains(id)) {
-			throw new javax.ws.rs.NotFoundException();
+		try {
+			return db.delete(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new javax.ws.rs.ServiceUnavailableException();
 		}
 	}
 
+	@HEAD
+	@Path("/{id}")
+	public void contains(@PathParam("id") E id) {
+		try {
+			if (!db.contains(id)) {
+				throw new javax.ws.rs.NotFoundException();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new javax.ws.rs.ServiceUnavailableException();
+		}
+	}
 }

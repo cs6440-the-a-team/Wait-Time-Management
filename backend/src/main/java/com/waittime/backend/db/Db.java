@@ -14,6 +14,6 @@ public interface Db<E, V> {
 
 	public V delete(E id);
 	
-	public LinkedList<V> list();
+	public LinkedList<V> search(SearchExample criteria);
 
 }
