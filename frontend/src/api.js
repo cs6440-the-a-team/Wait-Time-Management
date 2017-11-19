@@ -22,7 +22,7 @@ const makeRequest = (path, data=null, method="GET") => {
 
     let url = ENDPOINT + path;
 
-    console.log(`Sending request to ${url} with options: `, options);
+    //console.log(`Sending request to ${url} with options: `, options);
 
     return fetch(url, options);
 } 
@@ -34,7 +34,7 @@ const addPatient = (patient) => {
     return makeRequest(`/admin/patient`, patient, "POST");
 }
 const updatePatient = (patient) => {
-    return makeRequest(`/admin/patient/${patient.id}`, patient, "PUT");
+    return makeRequest(`/admin/patient/${patient.patient_id}`, patient, "PUT");
 }
 const deletePatient = (patientId) => {
     return makeRequest(`/admin/patient/${patientId}`, null, "DELETE");
@@ -51,7 +51,7 @@ const addRoom = (room) => {
     return makeRequest(`/admin/room`, room, "POST");
 }
 const updateRoom = (room) => {
-    return makeRequest(`/admin/room/${room.id}`, room, "PUT");
+    return makeRequest(`/admin/room/${room.room_id}`, room, "PUT");
 }
 const deleteRoom = (roomId) => {
     return makeRequest(`/admin/room/${roomId}`, null, "DELETE");
@@ -64,7 +64,7 @@ const addRoomType = (roomType) => {
     return makeRequest(`/admin/room_type`, roomType, "POST");
 }
 const updateRoomType = (roomType) => {
-    return makeRequest(`/admin/room_type/${roomType.id}`, roomType, "PUT");
+    return makeRequest(`/admin/room_type/${roomType.room_type_id}`, roomType, "PUT");
 }
 const deleteRoomType = (roomTypeId) => {
     return makeRequest(`/admin/room_type/${roomTypeId}`, null, "DELETE");
@@ -77,7 +77,7 @@ const addRoomTypeStatus = (roomTypeStatus) => {
     return makeRequest(`/admin/room_type_status`, roomTypeStatus, "POST");
 }
 const updateRoomTypeStatus = (roomTypeStatus) => {
-    return makeRequest(`/admin/room_type_status/${roomTypeStatus.id}`, roomTypeStatus, "PUT");
+    return makeRequest(`/admin/room_type_status/${roomTypeStatus.room_status_id}`, roomTypeStatus, "PUT");
 }
 const deleteRoomTypeStatus = (roomTypeStatusId) => {
     return makeRequest(`/admin/room_type_status/${roomTypeStatusId}`, null, "DELETE");
@@ -94,7 +94,7 @@ const addProcedure = (procedure) => {
     return makeRequest(`/admin/procedure`, procedure, "POST");
 }
 const updateProcedure = (procedure) => {
-    return makeRequest(`/admin/procedure/${procedure.id}`, procedure, "PUT");
+    return makeRequest(`/admin/procedure/${procedure.procedure_id}`, procedure, "PUT");
 }
 const deleteProcedure = (procedureId) => {
     return makeRequest(`/admin/procedure/${procedureId}`, null, "DELETE");
@@ -107,7 +107,7 @@ const addProcedureStatus = (procedureStatus) => {
     return makeRequest(`/admin/procedure_status`, procedureStatus, "POST");
 }
 const updateProcedureStatus = (procedureStatus) => {
-    return makeRequest(`/admin/procedure_status/${procedureStatus.id}`, procedureStatus, "PUT");
+    return makeRequest(`/admin/procedure_status/${procedureStatus.procedure_status_id}`, procedureStatus, "PUT");
 }
 const deleteProcedureStatus = (procedureStatusId) => {
     return makeRequest(`/admin/procedure_status/${procedureStatusId}`, null, "DELETE");

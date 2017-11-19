@@ -67,7 +67,7 @@ class PatientWidget extends React.Component {
     handleDoneClicked = (e) => {
         e.preventDefault();
 
-        let confirmed = confirm("Are you sure this patient is done?");
+        let confirmed = confirm("Are you sure this patient is done? Continuing will remove this patient from the active list.");
 
         if (confirmed) {
             this.props.onRemovePatient(this.props.patientId);
@@ -77,7 +77,7 @@ class PatientWidget extends React.Component {
     renderDeleteButton() {
         if (this.props.patientId) {
             return (
-                <a href="#" role="button" className="btn btn-sm btn-outline-success" onClick={this.handleDoneClicked} title="Done"><i className="fa fa-check"/></a>
+                <a href="#" role="button" className="btn btn-sm btn-outline-success" onClick={this.handleDoneClicked} title="Done"><i className="fa fa-check"/> Done</a>
             );
         }
 
@@ -88,7 +88,7 @@ class PatientWidget extends React.Component {
         return (
             <tr>
                 <td>
-                    {this.renderDeleteButton()}&nbsp;{this.props.patientAlias}
+                    {this.props.patientAlias}
                 </td>
                 <td>
                     <input type="text" name="patient_name" value={this.state.patient_name} onChange={this.handleInputChange} className="form-control" />
@@ -105,8 +105,9 @@ class PatientWidget extends React.Component {
                 <AuthorizedComponentContainer authorizedRoles={EDIT_ROLES}>
                     <td>
                         <div className="btn-group">
-                            <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.props.onCancel}>Cancel</a>
-                            <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                            <a href="#" role="button" className="btn btn-sm btn-outline-secondary" onClick={this.props.onCancel}>Cancel</a>
+                            <a href="#" role="button" className="btn btn-sm btn-primary" onClick={this.handleSubmit}>Save</a>
+                            {this.renderDeleteButton()}
                         </div>
                     </td>
                 </AuthorizedComponentContainer>

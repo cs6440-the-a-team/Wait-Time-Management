@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
-import { addProcedureStatus, updateProcedureStatus } from "../../actions"
+import { addProcedureStatus, updateProcedureStatus, deleteProcedureStatus } from "../../actions"
 import { formatTime } from "../../utils/time-helper"
 import deNormalizeObject from "../../utils/de-normalize-object"
 
@@ -90,6 +90,26 @@ class ProcedureStatusWidget extends Component {
         this.props.onFormSubmit(procedureStatus);
     }
 
+    handleDoneClicked = (e) => {
+        e.preventDefault();
+
+        let confirmed = confirm("Are you sure you want to remove this procedure status from the active system? Historical data will not be removed.");
+
+        if (confirmed) {
+            this.props.onRemoveProcedureStatus(this.props.procedureStatusId);
+        }
+    };
+
+    renderDeleteButton() {
+        if (this.props.procedureStatusId) {
+            return (
+                <a href="#" role="button" className="btn btn-outline-danger" onClick={this.handleDoneClicked} title="Remove"><i className="fa fa-close"/> Remove</a>
+            );
+        }
+
+        return null;
+    }
+
     render() {
         return (
             <tr>
@@ -109,15 +129,13 @@ class ProcedureStatusWidget extends Component {
                     </div>
                 </td>
                 <td>
-                    <div className="input-group">
-                        <input disabled={true} className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
-                        <span className="input-group-addon">minutes</span>
-                    </div>
+                    {this.state.average_duration && `${this.state.average_duration} minutes`}
                 </td>
                 <td>
                     <div className="btn-group">
                         {this.props.children}
                         <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                        {this.renderDeleteButton()}
                     </div>
                 </td>
             </tr>
@@ -140,7 +158,7 @@ class ProcedureStatusListItem extends Component {
         });
     }
 
-    handleupdateProcedureStatus = (procedureStatus) => {
+    handleUpdateProcedureStatus = (procedureStatus) => {
         this.props.onUpdateProcedureStatus(procedureStatus);
         this.setState({
             editing: false
@@ -210,9 +228,15 @@ class ProcedureStatusList extends Component {
     render() {
         let procedureStatusItems = this.props.procedureStatuses.map((procedureStatus) => {
             return (
-                <ProcedureStatusListItem key={procedureStatus.procedure_status_id} procedureStatusId={procedureStatus.procedure_status_id} status={procedureStatus.status}
-                    procedureId={procedureStatus.procedure_id} procedureName={procedureStatus.procedure_name}
-                    order={procedureStatus.order} expectedDuration={procedureStatus.expected_duration} averageDuration={procedureStatus.average_duration}
+                <ProcedureStatusListItem key={procedureStatus.procedure_status_id} 
+                    procedureStatusId={procedureStatus.procedure_status_id} 
+                    status={procedureStatus.status}
+                    procedureId={procedureStatus.procedure_id} 
+                    procedureName={procedureStatus.procedure_name}
+                    order={procedureStatus.order} 
+                    expectedDuration={procedureStatus.expected_duration} 
+                    averageDuration={procedureStatus.average_duration}
+                    onRemoveProcedureStatus={this.props.onRemoveProcedureStatus}
                     onUpdateProcedureStatus={this.props.onUpdateProcedureStatus} />
             )
         });
@@ -264,6 +288,9 @@ const mapDispatchToProps = function (dispatch) {
         },
         onUpdateProcedureStatus: (procedureStatus) => {
             dispatch(updateProcedureStatus(procedureStatus));
+        },
+        onRemoveProcedureStatus: (procedureStatusId) => {
+            dispatch(deleteProcedureStatus(procedureStatusId));
         }
     }
 }

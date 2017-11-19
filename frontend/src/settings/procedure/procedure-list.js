@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
-import { addProcedure, updateProcedure } from "../../actions"
+import { addProcedure, updateProcedure, deleteProcedure } from "../../actions"
 import { formatTime } from "../../utils/time-helper"
 
 class ProcedureWidget extends Component {
@@ -73,6 +73,26 @@ class ProcedureWidget extends Component {
         this.props.onFormSubmit(procedure);
     }
 
+    handleDoneClicked = (e) => {
+        e.preventDefault();
+
+        let confirmed = confirm("Are you sure you want to remove this procedure from the active system? Historical data will not be removed.");
+
+        if (confirmed) {
+            this.props.onRemoveProcedure(this.props.procedureId);
+        }
+    };
+
+    renderDeleteButton() {
+        if (this.props.procedureId) {
+            return (
+                <a href="#" role="button" className="btn btn-outline-danger" onClick={this.handleDoneClicked} title="Remove"><i className="fa fa-close"/> Remove</a>
+            );
+        }
+
+        return null;
+    }
+
     render() {
         return (
             <tr>
@@ -86,15 +106,13 @@ class ProcedureWidget extends Component {
                     </div>
                 </td>
                 <td>
-                    <div className="input-group">
-                        <input disabled={true} className="form-control" type="number" maxLength={4} placeholder="Average Duration" name="average_duration" value={this.state.average_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
-                        <span className="input-group-addon">minutes</span>
-                    </div>
+                    {this.state.average_duration && `${this.state.average_duration} minutes`}
                 </td>
                 <td>
                     <div className="btn-group">
                         {this.props.children}
                         <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                        {this.renderDeleteButton()}
                     </div>
                 </td>
             </tr>
@@ -184,7 +202,13 @@ class ProcedureList extends Component {
     render() {
         let procedureItems = this.props.procedures.map((procedure) => {
             return (
-                <ProcedureListItem key={procedure.procedure_id} procedureId={procedure.procedure_id} procedureName={procedure.procedure_name} expectedDuration={procedure.expected_duration} averageDuration={procedure.average_duration} onUpdateProcedure={this.props.onUpdateProcedure} />
+                <ProcedureListItem key={procedure.procedure_id} 
+                                   procedureId={procedure.procedure_id} 
+                                   procedureName={procedure.procedure_name} 
+                                   expectedDuration={procedure.expected_duration} 
+                                   averageDuration={procedure.average_duration} 
+                                   onRemoveProcedure={this.props.onRemoveProcedure}
+                                   onUpdateProcedure={this.props.onUpdateProcedure} />
             )
         });
         return (
@@ -226,6 +250,9 @@ const mapDispatchToProps = function (dispatch) {
         },
         onUpdateProcedure: (procedure) => {
             dispatch(updateProcedure(procedure));
+        },
+        onRemoveProcedure: (procedureId) => {
+            dispatch(deleteProcedure(procedureId));
         }
     }
 }

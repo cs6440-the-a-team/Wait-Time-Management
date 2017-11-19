@@ -59,6 +59,26 @@ class RoomWidget extends Component {
         this.props.onFormSubmit(room);
     }
 
+    handleDoneClicked = (e) => {
+        e.preventDefault();
+
+        let confirmed = confirm("Are you sure you want to remove this room from the active system? Historical data will not be removed.");
+
+        if (confirmed) {
+            this.props.onRemoveRoom(this.props.roomId);
+        }
+    };
+
+    renderDeleteButton() {
+        if (this.props.roomId) {
+            return (
+                <a href="#" role="button" className="btn btn-outline-danger" onClick={this.handleDoneClicked} title="Remove"><i className="fa fa-close"/> Remove</a>
+            );
+        }
+
+        return null;
+    }
+
     render() {
         return (
             <tr>
@@ -72,6 +92,7 @@ class RoomWidget extends Component {
                     <div className="btn-group">
                         {this.props.children}
                         <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                        {this.renderDeleteButton()}
                     </div>
                 </td>
             </tr>

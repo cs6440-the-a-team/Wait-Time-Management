@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
-import { addRoom, updateRoom } from "../../actions"
+import { addRoom, updateRoom, deleteRoom } from "../../actions"
 
 import RoomWidget from "./room-widget"
 
@@ -13,7 +13,7 @@ class RoomListItem extends Component {
         roomName: PropTypes.string,
         roomTypeId: PropTypes.any,
         roomType: PropTypes.string,
-        onRoomUpdate: PropTypes.func.isRequired
+        onUpdateRoom: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -36,13 +36,17 @@ class RoomListItem extends Component {
             editing: false
         });
 
-        this.props.onRoomUpdate(room);
+        this.props.onUpdateRoom(room);
     };
 
     render() {
         if (this.state.editing) {
             return (
-                <RoomWidget roomId={this.props.roomId} roomName={this.props.roomName} roomTypeId={this.props.roomTypeId} onFormSubmit={this.handleFormSubmit}>
+                <RoomWidget roomId={this.props.roomId} 
+                            roomName={this.props.roomName} 
+                            roomTypeId={this.props.roomTypeId} 
+                            onFormSubmit={this.handleFormSubmit} 
+                            onRemoveRoom={this.props.onRemoveRoom}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </RoomWidget>
             );
@@ -62,7 +66,8 @@ class RoomList extends Component {
     static propTypes = {
         rooms: PropTypes.array,
         handleAddRoom: PropTypes.func.isRequired,
-        handleUpdateRoom: PropTypes.func.isRequired
+        handleUpdateRoom: PropTypes.func.isRequired,
+        handleRemoveRoom: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -108,7 +113,13 @@ class RoomList extends Component {
     if (this.props.rooms.length > 0) {
         roomItems = this.props.rooms.map((room) => {
             return (
-                <RoomListItem key={room.room_id} roomId={room.room_id} roomName={room.room_name} roomType={room.room_type} roomTypeId={room.room_type_id} onRoomUpdate={this.props.handleUpdateRoom}/>
+                <RoomListItem key={room.room_id} 
+                              roomId={room.room_id} 
+                              roomName={room.room_name} 
+                              roomType={room.room_type} 
+                              roomTypeId={room.room_type_id} 
+                              onRemoveRoom={this.props.handleRemoveRoom}
+                              onUpdateRoom={this.props.handleUpdateRoom}/>
             );
         })
     }
@@ -161,6 +172,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         handleUpdateRoom: (room) => {
             dispatch(updateRoom(room));
+        },
+        handleRemoveRoom: (roomId) => {
+            dispatch(deleteRoom(roomId));
         }
     }
 }

@@ -2,13 +2,14 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
-import { addRoomType, updateRoomType } from "../../actions"
+import { addRoomType, updateRoomType, deleteRoomType } from "../../actions"
 
 class RoomTypeWidget extends Component {
     static propTypes = {
         roomTypeId: PropTypes.any,
         roomType: PropTypes.string,
-        onFormSubmit: PropTypes.func.isRequired
+        onFormSubmit: PropTypes.func.isRequired,
+        onRemoveRoomType: PropTypes.func
     }
 
     constructor(props) {
@@ -54,6 +55,26 @@ class RoomTypeWidget extends Component {
         this.props.onFormSubmit({ ...this.state });
     }
 
+    handleDoneClicked = (e) => {
+        e.preventDefault();
+
+        let confirmed = confirm("Are you sure you want to remove this room type from the active system? Historical data will not be removed.");
+
+        if (confirmed) {
+            this.props.onRemoveRoomType(this.props.roomTypeId);
+        }
+    };
+
+    renderDeleteButton() {
+        if (this.props.roomTypeId) {
+            return (
+                <a href="#" role="button" className="btn btn-outline-danger" onClick={this.handleDoneClicked} title="Remove"><i className="fa fa-close"/> Remove</a>
+            );
+        }
+
+        return null;
+    }
+
     render() {
         return (
             <tr>
@@ -64,6 +85,7 @@ class RoomTypeWidget extends Component {
                     <div className="btn-group">
                         {this.props.children}
                         <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                        {this.renderDeleteButton()}
                     </div>
                 </td>
             </tr>
@@ -90,7 +112,7 @@ class RoomTypeListItem extends Component {
     render() {
         if (this.state.editing) {
             return (
-                <RoomTypeWidget {...this.props} onFormSubmit={this.props.onRoomTypeUpdate}>
+                <RoomTypeWidget {...this.props} onFormSubmit={this.props.onUpdateRoomType}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleEdit}>Cancel</a>
                 </RoomTypeWidget>
             )
@@ -143,7 +165,11 @@ class RoomTypeList extends Component {
     render() {
         let roomTypeItems = this.props.roomTypes.map((roomType) => {
             return (
-                <RoomTypeListItem roomTypeId={roomType.room_type_id} roomType={roomType.room_type} onRoomTypeUpdate={this.props.handleUpdateRoomType} key={roomType.room_type_id} />
+                <RoomTypeListItem roomTypeId={roomType.room_type_id} 
+                                  roomType={roomType.room_type} 
+                                  onUpdateRoomType={this.props.handleUpdateRoomType} 
+                                  onRemoveRoomType={this.props.handleRemoveRoomType}
+                                  key={roomType.room_type_id} />
             )
         });
 
@@ -183,6 +209,9 @@ const mapDispatchToProps = function (dispatch) {
         },
         handleAddRoomType: (roomType) => {
             dispatch(addRoomType(roomType));
+        },
+        handleRemoveRoomType: (roomTypeId) => {
+            dispatch(deleteRoomType(roomTypeId));
         }
     }
 }

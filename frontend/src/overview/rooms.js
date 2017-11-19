@@ -51,14 +51,16 @@ class RoomItem extends React.Component {
     }
 
     render() {
-        let statusView = this.state.roomStatus,
+        let statusView = this.props.roomStatus,
             buttonText = "Edit",
+            extraBtnProps = {},
             trClasses = [];
         if (this.state.editing) {
             statusView = (
-                <RoomStatusSelect name="room_status_id" roomTypeId={this.props.roomTypeId} value={this.state.roomStatusId} onChange={this.handleInputChange} />
+                <RoomStatusSelect name="room_status_id" roomTypeId={this.props.roomTypeId} value={this.state.room_status_id} onChange={this.handleInputChange} />
             );
             buttonText = "Cancel";
+            extraBtnProps.className = "btn btn-outline-secondary";
         }
 
         let elapsed_time = null;
@@ -78,7 +80,7 @@ class RoomItem extends React.Component {
                 <td>{formatTime({minutes: this.props.expectedDuration})} </td>
                 <AuthorizedComponentContainer authorizedRoles={EDIT_ROLES}>
                 <td>
-                    <a href="#" role="button" onClick={this.toggleEdit}>{buttonText}</a>
+                    <a href="#" role="button" onClick={this.toggleEdit} {...extraBtnProps}>{buttonText}</a>
                 </td>
                 </AuthorizedComponentContainer>
             </tr>

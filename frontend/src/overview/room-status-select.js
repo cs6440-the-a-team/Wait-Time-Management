@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 
 const RoomStatusSelect = ({name, value, onChange, roomStatuses}) => {
     return (
-        <select name={name} value={value} onChange={onChange}>
+        <select name={name} value={value} onChange={onChange} className="form-control">
             <option value=""> -- Select Room Status -- </option>
             {roomStatuses.map(function(roomStatus) {
                 return <option key={roomStatus.room_status_id} value={roomStatus.room_status_id}>{roomStatus.room_status}</option>

@@ -6,7 +6,7 @@ import RoomTypeSelect from "./room-type-select"
 import { formatTime } from "../../utils/time-helper"
 import deNormalizeObject from "../../utils/de-normalize-object"
 
-import { addRoomTypeStatus, updateRoomTypeStatus } from "../../actions"
+import { addRoomTypeStatus, updateRoomTypeStatus, deleteRoomTypeStatus } from "../../actions"
 
 class RoomStatusWidget extends Component {
     static propTypes = {
@@ -16,7 +16,8 @@ class RoomStatusWidget extends Component {
         order: PropTypes.any,
         expectedDuration: PropTypes.any,
         averageDuration: PropTypes.any,
-        onFormSubmit: PropTypes.func.isRequired
+        onFormSubmit: PropTypes.func.isRequired,
+        onRemoveRoomStatus: PropTypes.func
     }
 
     constructor(props) {
@@ -91,6 +92,26 @@ class RoomStatusWidget extends Component {
         this.props.onFormSubmit({ ...this.state });
     }
 
+    handleDoneClicked = (e) => {
+        e.preventDefault();
+
+        let confirmed = confirm("Are you sure you want to remove this room status from the active system? Historical data will not be removed.");
+
+        if (confirmed) {
+            this.props.onRemoveRoomStatus(this.props.roomStatusId);
+        }
+    };
+
+    renderDeleteButton() {
+        if (this.props.roomStatusId) {
+            return (
+                <a href="#" role="button" className="btn btn-outline-danger" onClick={this.handleDoneClicked} title="Remove"><i className="fa fa-close"/> Remove</a>
+            );
+        }
+
+        return null;
+    }
+
     render() {
         return (
             <tr>
@@ -110,15 +131,13 @@ class RoomStatusWidget extends Component {
                     </div>
                 </td>
                 <td>
-                    <div className="input-group">
-                        <input disabled={true} type="number" name="average_duration" className="form-control" placeholder="Average duration" maxLength="4" value={this.state.average_duration} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
-                        <span className="input-group-addon">minutes</span>
-                    </div>
+                    {this.state.average_duration && `${this.state.average_duration} minutes`}
                 </td>
                 <td>
                     <div className="btn-group">
                         {this.props.children}
                         <a href="#" role="button" className="btn btn-primary" onClick={this.handleSubmit}>Save</a>
+                        {this.renderDeleteButton()}
                     </div>
                 </td>
             </tr>
@@ -199,7 +218,7 @@ class RoomStatusList extends Component {
     renderAdding() {
         if (this.state.adding) {
             return (
-                <RoomStatusWidget roomStatusId={null} roomStatus="" order="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddRoomStatus}>
+                <RoomStatusWidget roomStatusId={null} roomStatus="" roomTypeId="" order="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddRoomStatus}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </RoomStatusWidget>
             )
@@ -219,6 +238,7 @@ class RoomStatusList extends Component {
                     order={roomStatus.order}
                     expectedDuration={roomStatus.expected_duration}
                     averageDuration={roomStatus.average_duration}
+                    onRemoveRoomStatus={this.props.onRemoveStatus}
                     onUpdateRoomStatus={this.props.onUpdateStatus} />
             )
         });
@@ -268,6 +288,9 @@ const mapDispatchToProps = function (dispatch) {
         },
         onUpdateStatus: (status) => {
             dispatch(updateRoomTypeStatus(status));
+        },
+        onRemoveStatus: (statusId) => {
+            dispatch(deleteRoomTypeStatus(statusId));
         }
     }
 }
