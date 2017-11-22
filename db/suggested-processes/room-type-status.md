@@ -3,8 +3,8 @@
 ## List
 ```SQL
 SELECT 
-    rs.room_status_id AS id,
-    rs.room_status AS `name`,
+    rs.room_status_id,
+    rs.room_status,
     rs.room_type_id,
     rs.`order`,
     rs.expected_duration,
@@ -18,8 +18,8 @@ GROUP BY rs.room_status_id
 ## Select single entity
 ```SQL
 SELECT 
-    rs.room_status_id AS id,
-    rs.room_status AS `name`,
+    rs.room_status_id,
+    rs.room_status,
     rs.room_type_id,
     rs.`order`,
     rs.expected_duration,
