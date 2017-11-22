@@ -28,7 +28,7 @@ CREATE TABLE dim_room_status (
 	room_status_id int PRIMARY KEY AUTO_INCREMENT,
 	room_status varchar(75),
 	room_type_id int,
-	expected_duration int,
+	expected_duration int, /* If the expected duration is -1, then it gets the expected duration from the procedure status that patient in that room has. */
 	room_status_order int DEFAULT 1,
 
 	active BOOLEAN DEFAULT TRUE,
@@ -87,7 +87,7 @@ CREATE TABLE dim_procedure_status (
 	active BOOLEAN DEFAULT TRUE,
 
 	UNIQUE KEY (procedure_status, procedure_id), /* Don't want more than one status for the same procedure to have the same name */
-	KEY (procedure_id
+	KEY (procedure_id)
 );
 
 CREATE TABLE fact_patient_log (
@@ -123,22 +123,22 @@ INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, r
 INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (3, 2, 10, 26, 'Waiting Room 1');
 INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (4, 3, 1, NULL, 'Waiting Area');
 
-INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (1221, 'XRAY');
-INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (2211, 'Surgery');
+INSERT INTO dim_procedure (procedure_id, `procedure_name`) VALUES (1221, 'XRAY');
+INSERT INTO dim_procedure (procedure_id, `procedure_name`) VALUES (2211, 'Surgery');
 
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (12, 1221, 'Patient Check In', 15);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (13, 1221, 'Patient in Waiting Area', 10);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (1, 1221, 'Changed', 30);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (2, 1221, 'Picture', 30);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (3, 1221, 'Development', 30);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (4, 2211, 'Patient Check In', 15);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (5, 2211, 'Patient in Waiting Area', 20);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (6, 2211, 'Patient Prepped for Procedure', 30);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (7, 2211, 'Physician Performs Procedure', 35);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (8, 2211, 'Patient Leaving Procedure', 40);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (9, 2211, 'Patient Entering Recovery', 45);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (10, 2211, 'Patient Ready for Discharge', 50);
-INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (11, 2211, 'Patient Transported to Inpatient', 60);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (12, 1221, 'Patient Check In', 15);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (13, 1221, 'Patient in Waiting Area', 10);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (1, 1221, 'Changed', 30);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (2, 1221, 'Picture', 30);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (3, 1221, 'Development', 30);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (4, 2211, 'Patient Check In', 15);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (5, 2211, 'Patient in Waiting Area', 20);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (6, 2211, 'Patient Prepped for Procedure', 30);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (7, 2211, 'Physician Performs Procedure', 35);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (8, 2211, 'Patient Leaving Procedure', 40);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (9, 2211, 'Patient Entering Recovery', 45);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (10, 2211, 'Patient Ready for Discharge', 50);
+INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (11, 2211, 'Patient Transported to Inpatient', 60);
 
 INSERT INTO dim_patient (patient_id, alias, patient_name, procedure_id, procedure_status_id, room_id, last_patient_log_id) VALUES (1, 'Alias 1', 'Name 1', 2211, 10, 5, 19);
 INSERT INTO dim_patient (patient_id, alias, patient_name, procedure_id, procedure_status_id, room_id, last_patient_log_id) VALUES (2, 'Alias 2', 'Name 2', 2211, 10, 5, 21);

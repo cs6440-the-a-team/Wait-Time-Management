@@ -7,11 +7,13 @@ SELECT
     r.room_name,
     r.room_type_id,
     r.room_status_id,
-    s.expected_duration,
+    (CASE WHEN s.expected_duration = -1 THEN ps.expected_duration ELSE s.expected_duration END) AS expected_duration,
     DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ'),
     r.last_room_log_id
 FROM dim_room AS r
 LEFT JOIN dim_room_status AS s ON r.room_status_id=s.room_status_id
+LEFT JOIN dim_patient AS p ON p.room_id=r.room_id AND p.active=TRUE
+LEFT JOIN dim_procedure_status AS ps ON ps.procedure_status_id=p.procedure_status_id
 LEFT JOIN fact_room_log AS frl ON r.last_room_log_id=frl.id
 WHERE r.active=TRUE
 ```
@@ -23,11 +25,13 @@ SELECT
     r.room_name,
     r.room_type_id,
     r.room_status_id,
-    s.expected_duration,
+    (CASE WHEN s.expected_duration = -1 THEN ps.expected_duration ELSE s.expected_duration END) AS expected_duration,
     DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ'),
     r.last_room_log_id
 FROM dim_room AS r
 LEFT JOIN dim_room_status AS s ON r.room_status_id=s.room_status_id
+LEFT JOIN dim_patient AS p ON p.room_id=r.room_id AND p.active=TRUE
+LEFT JOIN dim_procedure_status AS ps ON ps.procedure_status_id=p.procedure_status_id
 LEFT JOIN fact_room_log AS frl ON r.last_room_log_id=frl.id
 WHERE r.room_id=:room_id
 ```
