@@ -3,9 +3,9 @@
 ## List
 ```SQL
 SELECT
-    p.patient_id AS id,
-    p.alias AS alias,
-    p.patient_name AS `name`,
+    p.patient_id,
+    p.alias,
+    p.patient_name,
     p.room_id,
     p.procedure_id,
     p.procedure_status_id,
@@ -21,9 +21,9 @@ WHERE p.active=TRUE
 ## Select single entity
 ```SQL
 SELECT
-    p.patient_id AS id,
-    p.alias AS alias,
-    p.patient_name AS `name`,
+    p.patient_id,
+    p.alias,
+    p.patient_name,
     p.room_id,
     p.procedure_id,
     p.procedure_status_id,
