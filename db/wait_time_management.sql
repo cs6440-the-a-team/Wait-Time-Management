@@ -29,8 +29,7 @@ CREATE TABLE dim_room_status (
 	room_status varchar(75),
 	room_type_id int,
 	expected_duration int,
-	average_duration int,
-	`order` int DEFAULT 1,
+	room_status_order int DEFAULT 1,
 
 	active BOOLEAN DEFAULT TRUE,
 
@@ -53,8 +52,6 @@ CREATE TABLE fact_room_log (
 CREATE TABLE dim_procedure (
 	procedure_id int PRIMARY KEY AUTO_INCREMENT,
 	`procedure_name` varchar(75),
-	expected_duration int,
-	average_duration int,
 	
 	active BOOLEAN DEFAULT TRUE,
 
@@ -82,16 +79,15 @@ CREATE TABLE dim_patient (
 
 CREATE TABLE dim_procedure_status (
 	procedure_status_id int PRIMARY KEY AUTO_INCREMENT,
+	procedure_status varchar(75),
 	procedure_id int,
-	`order` int DEFAULT 1,
-	`status` varchar(75),
+	procedure_status_order int DEFAULT 1,
 	expected_duration int,
-	average_duration int,
 
 	active BOOLEAN DEFAULT TRUE,
 
-	UNIQUE KEY (`status`, procedure_id), /* Don't want more than one status for the same procedure to have the same name */
-	KEY (procedure_id)
+	UNIQUE KEY (procedure_status, procedure_id), /* Don't want more than one status for the same procedure to have the same name */
+	KEY (procedure_id
 );
 
 CREATE TABLE fact_patient_log (
@@ -127,8 +123,8 @@ INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, r
 INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (3, 2, 10, 26, 'Waiting Room 1');
 INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (4, 3, 1, NULL, 'Waiting Area');
 
-INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (1221, 'XRAY', 30);
-INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (2211, 'Surgery', 30);
+INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (1221, 'XRAY');
+INSERT INTO dim_procedure (procedure_id, `procedure_name`, expected_duration) VALUES (2211, 'Surgery');
 
 INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (12, 1221, 'Patient Check In', 15);
 INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, `status`, expected_duration) VALUES (13, 1221, 'Patient in Waiting Area', 10);

@@ -16,8 +16,8 @@ WHERE p.active=TRUE
 
 ## Other suggestions
 * [Patient](patient.md)
-* Partial TODO [Room](room.md)
-* Partial TODO [Room Type Status](room-type-status.md)
-* TODO [Room Type](room-type.md)
-* TODO [Procedure](procedure.md)
-* TODO [Procedure Status](procedure-status.md)
+* [Room](room.md)
+* [Room Type Status](room-type-status.md)
+* [Room Type](room-type.md)
+* [Procedure](procedure.md)
+* [Procedure Status](procedure-status.md)
