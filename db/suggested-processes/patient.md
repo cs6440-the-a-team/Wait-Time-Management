@@ -10,7 +10,7 @@ SELECT
     p.procedure_id,
     p.procedure_status_id,
     s.expected_duration,
-    fpl.time_sk AS start_time
+    DATE_FORMAT(fpl.time_sk, '%Y-%m-%dT%TZ') AS start_time
 FROM dim_patient AS p
 LEFT JOIN dim_room AS r ON p.room_id=r.room_id
 LEFT JOIN dim_procedure_status AS s ON p.procedure_status_id=s.procedure_status_id 
@@ -28,7 +28,7 @@ SELECT
     p.procedure_id,
     p.procedure_status_id,
     s.expected_duration,
-    fpl.time_sk AS start_time
+    DATE_FORMAT(fpl.time_sk, '%Y-%m-%dT%TZ') AS start_time
 FROM dim_patient AS p
 LEFT JOIN dim_room AS r ON p.room_id=r.room_id
 LEFT JOIN dim_procedure_status AS s ON p.procedure_status_id=s.procedure_status_id 
