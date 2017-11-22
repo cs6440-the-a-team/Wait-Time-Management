@@ -3,12 +3,12 @@
 ## List
 ```SQL
 SELECT
-    r.room_id AS id,
-    r.room_name AS `name`,
+    r.room_id,
+    r.room_name,
     r.room_type_id,
     r.room_status_id,
     s.expected_duration,
-    frl.time_sk AS start_time
+    DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ')
 FROM dim_room AS r
 LEFT JOIN dim_room_status AS s ON r.room_status_id=s.room_status_id
 LEFT JOIN fact_room_log AS frl ON r.last_room_log_id=frl.id
@@ -18,12 +18,12 @@ WHERE r.active=TRUE
 ## Select single entity
 ```SQL
 SELECT
-    r.room_id AS id,
-    r.room_name AS `name`,
+    r.room_id,
+    r.room_name,
     r.room_type_id,
     r.room_status_id,
     s.expected_duration,
-    frl.time_sk AS start_time
+    DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ')
 FROM dim_room AS r
 LEFT JOIN dim_room_status AS s ON r.room_status_id=s.room_status_id
 LEFT JOIN fact_room_log AS frl ON r.last_room_log_id=frl.id
