@@ -12,7 +12,7 @@ public interface WaitingRoomMapper {
 	@Select("SELECT \n" + 
 			"    p.alias AS patient_id, \n" + 
 			"    r.room_name AS `location`, \n" + 
-			"    s.status, \n" + 
+			"    s.procedure_status AS status, \n" + 
 			"    DATE_FORMAT(fpl.time_sk, '%Y-%m-%dT%TZ') AS start_time \n" + 
 			"FROM dim_patient AS p \n" + 
 			"INNER JOIN dim_room AS r ON p.room_id=r.room_id \n" + 

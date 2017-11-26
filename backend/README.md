@@ -37,55 +37,116 @@ Each resource field matches each database column exactly. Consult Database docum
 | /admin/{resource}/{id} 	| DELETE | delete {resource}         |
 | /admin/{resource}/{id} 	| HEAD   | contains {resource}       |
 | /admin/{resource}      	| GET    | list all {resource}       |
-| /admin/{resource}/search	| POST   | search {resource}         |
 | /waitingroom           	| GET    | list waitingroom patients |
 
-### Search Payload Examples
-POST - /admin/patient/search
+Patient
 
 ``` javascript
 {
-    "oredCriteria": [
-	    	{
-	    		"criteria": [
-	    			{
-	    				"condition": "Alias =",
-	    				"value": "Alias 1",
-	    				"singleValue": true
-	    			}
-	    		]
-	    		
-	    	}
-    ]
+  "alias": "Alias 1",
+  "expected_duration": 50,
+  "last_patient_log_id": 19,
+  "patient_id": 1,
+  "patient_name": "Name 1",
+  "procedure_id": 2211,
+  "procedure_status_id": 10,
+  "room_id": 5,
+  "start_time": "2017-11-03T11:15:00Z"
 }
 ```
 
-POST - /admin/room/search
+Room
 
 ``` javascript
 {
-    "oredCriteria": [
-	    	{
-	    		"criteria": [
-	    			{
-	    				"condition": "room_status_id <=",
-	    				"value": 6,
-	    				"singleValue": true
-	    			},
-					{
-	    				"condition": "room_id between",
-	    				"value": 2,
-	    				"secondValue": 4,
-	    				"betweenValue": true
-	    			},
-	    			{
-	    				"condition": "active =",
-	    				"value": true,
-	    				"singleValue": true
-	    			}
-	    		]
-	    		
-	    	}
-    ]
+  "id": 1,
+  "expected_duration": 60,
+  "name": "B32",
+  "room_type_id": 1,
+  "start_time": "2017-11-02T01:03:09+00:00",
+  "room_status_id": 1
+}
+```
+
+Room Type
+
+```javascript
+{
+  "room_type_id": 1,
+  "name": "Operating Room",
+}
+```
+
+Room Type Status
+
+```javascript
+{
+  "average_duration": 21.0,
+  "expected_duration": 30,
+  "room_status": "Room Available",
+  "room_status_id": 1,
+  "room_status_order": 1,
+  "room_type_id": 1
+}
+```
+
+Procedure
+
+```javascript
+{
+  "procedure_id": 1221,
+  "procedure_name": "XRAY"
+}
+```
+
+Procedure Status
+
+```javascript
+{
+  "average_duration": 70.0,
+  "expected_duration": 30,
+  "procedure_id": 1221,
+  "procedure_status": "Changed",
+  "procedure_status_id": 1,
+  "procedure_status_order": 1
+}
+```
+
+Waitingroom - GET - /waitingroom
+
+```javascript
+{
+  "patients": [
+    {
+      "location": "H1",
+      "patient_id": "B32",
+      "start_time": "2017-11-02T01:03:09+00:00",
+      "status": "In Procedure"
+    },
+    {
+      "location": "ICU",
+      "patient_id": "I55",
+      "start_time": "2017-11-02T12:00:09+00:00",
+      "status": "Recovery"
+    },
+    {
+      "location": "R32",
+      "patient_id": "D42",
+      "start_time": "2017-11-02T01:25:09+00:00",
+      "status": "In Procedure"
+    },
+    {
+      "location": "O1",
+      "patient_id": "K71",
+      "start_time": "2017-11-02T01:40:09+00:00",
+      "status": "In Triage"
+    },
+    {
+      "location": "T1",
+      "patient_id": "P12",
+      "start_time": "2017-11-02T03:00:09+00:00",
+      "status": "In Procedure"
+    }
+  ]
 }
 ```
