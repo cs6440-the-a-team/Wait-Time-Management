@@ -11,9 +11,9 @@ import ProcedureSelect from "./procedure-select"
 class ProcedureStatusWidget extends Component {
     static propTypes = {
         procedureStatusId: PropTypes.any,
-        status: PropTypes.string,
+        procedureStatus: PropTypes.string,
         procedureId: PropTypes.any,
-        order: PropTypes.any,
+        procedure_status_order: PropTypes.any,
         expectedDuration: PropTypes.any,
         averageDuration: PropTypes.any,
         onFormSubmit: PropTypes.func.isRequired
@@ -23,11 +23,10 @@ class ProcedureStatusWidget extends Component {
         super(props);
         this.state = {
             procedure_status_id: props.procedureStatusId,
-            status: props.status,
-            order: props.order,
+            procedure_status: props.procedureStatus,
+            procedure_status_order: props.procedureStatusOrder,
             procedure_id: props.procedureId,
-            expected_duration: props.expectedDuration,
-            average_duration: props.averageDuration
+            expected_duration: props.expectedDuration
         }
     }
 
@@ -38,20 +37,17 @@ class ProcedureStatusWidget extends Component {
             if (this.state.procedure_status_id !== nextProps.procedureStatusId) {
                 newState.procedure_status_id = nextProps.procedureStatusId;
             }
-            if (this.state.status !== nextProps.status) {
-                newState.status = nextProps.status;
+            if (this.state.procedure_status !== nextProps.procedureStatus) {
+                newState.procedure_status = nextProps.procedureStatus;
             }
-            if (this.state.order !== nextProps.order) {
-                newState.order = nextProps.order;
+            if (this.state.procedure_status_order !== nextProps.procedureStatusOrder) {
+                newState.procedure_status_order = nextProps.procedureStatusOrder;
             }
             if (this.state.procedure_id !== nextProps.procedureId) {
                 newState.procedure_id = nextProps.procedureId;
             }
             if (this.state.expected_duration !== nextProps.expectedDuration) {
                 newState.expected_duration = nextProps.expectedDuration;
-            }
-            if (this.state.average_duration !== nextProps.averageDuration) {
-                newState.average_duration = nextProps.averageDuration;
             }
         }
 
@@ -64,7 +60,7 @@ class ProcedureStatusWidget extends Component {
         switch (e.target.name) {
             case 'average_duration':
             case 'expected_duration':
-            case 'order':
+            case 'procedure_status_order':
                 value = value.replace(/\D/g, "").trim().substring(0, 4);
                 value = parseInt(value || 0);
                 break;
@@ -117,10 +113,10 @@ class ProcedureStatusWidget extends Component {
                     <ProcedureSelect name="procedure_id" value={this.state.procedure_id} onChange={this.onInputChange} />
                 </td>
                 <td>
-                    <input className="form-control" type="text" placeholder="Name" name="status" value={this.state.status} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
+                    <input className="form-control" type="text" placeholder="Name" name="procedure_status" value={this.state.procedure_status} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
-                    <input className="form-control" type="number" placeholder="Order" name="order" value={this.state.order} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
+                    <input className="form-control" type="number" placeholder="Order" name="procedure_status_order" value={this.state.procedure_status_order} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <div className="input-group">
@@ -129,7 +125,7 @@ class ProcedureStatusWidget extends Component {
                     </div>
                 </td>
                 <td>
-                    {this.state.average_duration && `${this.state.average_duration} minutes`}
+                    {formatTime({ minutes: this.props.averageDuration })}
                 </td>
                 <td>
                     <div className="btn-group">
@@ -177,8 +173,8 @@ class ProcedureStatusListItem extends Component {
         return (
             <tr>
                 <td>{this.props.procedureName}</td>
-                <td>{this.props.status}</td>
-                <td>{this.props.order}</td>
+                <td>{this.props.procedureStatus}</td>
+                <td>{this.props.procedureStatusOrder}</td>
                 <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
                 <td>{formatTime({ minutes: this.props.averageDuration })}</td>
                 <td>
@@ -215,8 +211,8 @@ class ProcedureStatusList extends Component {
     renderAdd() {
         if (this.state.adding) {
             return (
-                <ProcedureStatusWidget procedureStatusId={null} status="" procedureId="" procedureName=""
-                    order="" expectedDuration="" averageDuration=""
+                <ProcedureStatusWidget procedureStatusId={null} procedureStatus="" procedureId="" procedureName=""
+                    procedureStatusOrder="" expectedDuration="" averageDuration=""
                     onFormSubmit={this.handleAddProcedureStatus}>
                     <a role="button" href="#" className="btn btn-xs btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </ProcedureStatusWidget>
@@ -230,10 +226,10 @@ class ProcedureStatusList extends Component {
             return (
                 <ProcedureStatusListItem key={procedureStatus.procedure_status_id} 
                     procedureStatusId={procedureStatus.procedure_status_id} 
-                    status={procedureStatus.status}
+                    procedureStatus={procedureStatus.procedure_status}
                     procedureId={procedureStatus.procedure_id} 
                     procedureName={procedureStatus.procedure_name}
-                    order={procedureStatus.order} 
+                    procedureStatusOrder={procedureStatus.procedure_status_order} 
                     expectedDuration={procedureStatus.expected_duration} 
                     averageDuration={procedureStatus.average_duration}
                     onRemoveProcedureStatus={this.props.onRemoveProcedureStatus}

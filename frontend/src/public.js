@@ -124,6 +124,8 @@ class PublicApp extends React.Component {
                     </div>
 
                     {this.renderError()}
+
+                    <p>Please contact the front desk if you have any questions.</p>
                     <table className="table table-striped table-sm">
                     <thead>
                         <tr>

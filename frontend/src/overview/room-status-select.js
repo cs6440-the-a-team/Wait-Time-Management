@@ -13,16 +13,15 @@ const RoomStatusSelect = ({name, value, onChange, roomStatuses}) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    let status_ids = (state.room.types[ownProps.roomTypeId].room_statuses || []),
-        statuses = status_ids.map(function(status_id) {
+    let statuses = Object.keys(state.room.statuses).map(function(status_id) {
             return state.room.statuses[status_id];
+        }).filter(function(status) {
+            return status.room_type_id = ownProps.roomTypeId;
         }).sort(function(a,b) {
-            let order_a = parseInt(a.order || 0),
-                order_b = parseInt(b.order || 0);
+            let order_a = parseInt(a.room_status_order || 0),
+                order_b = parseInt(b.room_status_order || 0);
 
             return order_a - order_b;
-        }).filter(function(status) {
-            return status || false;
         });
 
     //console.log("Statuses found: ", statuses);

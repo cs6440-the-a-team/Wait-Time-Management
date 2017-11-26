@@ -13,7 +13,7 @@ const ProcedureStatusSelect = ({name, value, onChange, procedureStatuses}) => {
         <select name={name} value={value} onChange={onChange} className="form-control" {...extra_props}>
             <option value=""> -- Select Procedure Status -- </option>
             {procedureStatuses.map(function(procedureStatus) {
-                return <option key={procedureStatus.id} value={procedureStatus.id}>{procedureStatus.name}</option>
+                return <option key={procedureStatus.procedure_status_id} value={procedureStatus.procedure_status_id}>{procedureStatus.procedure_status}</option>
             })}
         </select>
     )
@@ -22,16 +22,14 @@ const ProcedureStatusSelect = ({name, value, onChange, procedureStatuses}) => {
 const mapStateToProps = (state, ownProps) => {
     let statuses = [];
     if (ownProps.procedureId && state.procedure.procedures[ownProps.procedureId]) {
-        let status_ids = state.procedure.procedures[ownProps.procedureId].procedure_statuses || [];
-    
         if (state.procedure.statuses) {
-            statuses = status_ids.map(function(status_id) {
+            statuses = Object.keys(state.procedure.statuses).map(function(status_id) {
                 return state.procedure.statuses[status_id];
             }).filter(function(status) {
-                return !!status;
+                return status.procedure_id === ownProps.procedureId;
             }).sort(function(a, b) {
-                let order_a = parseInt(a.order || 0),
-                    order_b = parseInt(b.order || 0);
+                let order_a = parseInt(a.procedure_status_order || 0),
+                    order_b = parseInt(b.procedure_status_order || 0);
 
                 return order_a - b_order;
             });

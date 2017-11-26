@@ -13,7 +13,7 @@ class RoomStatusWidget extends Component {
         roomStatusId: PropTypes.any,
         roomStatus: PropTypes.string,
         roomTypeId: PropTypes.any,
-        order: PropTypes.any,
+        roomStatusOrder: PropTypes.any,
         expectedDuration: PropTypes.any,
         averageDuration: PropTypes.any,
         onFormSubmit: PropTypes.func.isRequired,
@@ -26,7 +26,7 @@ class RoomStatusWidget extends Component {
             room_status_id: props.roomStatusId,
             room_status: props.roomStatus,
             room_type_id: props.roomTypeId,
-            order: props.order,
+            room_status_order: props.roomStatusOrder,
             expected_duration: props.expectedDuration,
             average_duration: props.averageDuration
         }
@@ -48,8 +48,8 @@ class RoomStatusWidget extends Component {
                 newState.room_type_id = nextProps.roomTypeId;
             }
 
-            if (this.state.order !== nextProps.order) {
-                newState.order = nextProps.order;
+            if (this.state.room_status_order !== nextProps.roomStatusOrder) {
+                newState.room_status_order = nextProps.roomStatusOrder;
             }
 
             if (this.state.expected_duration !== nextProps.expectedDuration) {
@@ -69,7 +69,7 @@ class RoomStatusWidget extends Component {
         switch (e.target.name) {
             case 'average_duration':
             case 'expected_duration':
-            case 'order':
+            case 'room_status_order':
                 value = value.replace(/\D/g, "").trim().substring(0, 4);
                 value = parseInt(value || 0);
                 break;
@@ -122,7 +122,7 @@ class RoomStatusWidget extends Component {
                     <input type="text" name="room_status" className="form-control" placeholder="Name" value={this.state.room_status} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
-                    <input type="number" name="order" className="form-control" placeholder="Order" maxLength="4" value={this.state.order} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                    <input type="number" name="room_status_order" className="form-control" placeholder="Order" maxLength="4" value={this.state.room_status_order} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
                 </td>
                 <td>
                     <div className="input-group">
@@ -181,7 +181,7 @@ class RoomStatusListItem extends Component {
             <tr>
                 <td>{this.props.roomType}</td>
                 <td>{this.props.roomStatus}</td>
-                <td>{this.props.order}</td>
+                <td>{this.props.roomStatusOrder}</td>
                 <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
                 <td>{formatTime({ minutes: this.props.averageDuration })}</td>
                 <td>
@@ -218,7 +218,7 @@ class RoomStatusList extends Component {
     renderAdding() {
         if (this.state.adding) {
             return (
-                <RoomStatusWidget roomStatusId={null} roomStatus="" roomTypeId="" order="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddRoomStatus}>
+                <RoomStatusWidget roomStatusId={null} roomStatus="" roomTypeId="" roomStatusOrder="" expectedDuration="" averageDuration="" onFormSubmit={this.handleAddRoomStatus}>
                     <a href="#" role="button" className="btn btn-outline-secondary" onClick={this.toggleAdd}>Cancel</a>
                 </RoomStatusWidget>
             )
@@ -235,7 +235,7 @@ class RoomStatusList extends Component {
                     roomStatus={roomStatus.room_status}
                     roomTypeId={roomStatus.room_type_id}
                     roomType={roomStatus.room_type}
-                    order={roomStatus.order}
+                    roomStatusOrder={roomStatus.room_status_order}
                     expectedDuration={roomStatus.expected_duration}
                     averageDuration={roomStatus.average_duration}
                     onRemoveRoomStatus={this.props.onRemoveStatus}
