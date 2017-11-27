@@ -13,13 +13,9 @@ services:
   backend:
     restart: always
     build: ./backend
-    ports:
-      - "8080:8080" # TODO: This is just for testing purposes, remove this when we submit, though it isn't vital
     depends_on:
       - db
   # This database service is only accessible within this set of services. The hostname is the same as the service: db
   db:
     build: ./db
     restart: always
-    ports:
-      - "6603:3306"

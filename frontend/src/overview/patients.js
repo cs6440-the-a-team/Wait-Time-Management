@@ -51,8 +51,16 @@ class PatientWidget extends React.Component {
     }
 
     handleInputChange = (e) => {
+        let value = e.target.value;
+        switch(e.target.name) {
+            case 'procedure_id':
+            case 'procedure_status_id':
+            case 'room_id':
+                value = parseInt(value);
+                break;
+        }
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         });
     };
 

@@ -3,7 +3,14 @@ import Modal from "react-modal"
 
 const PersonalCard = ({patientId, patientAlias, onCloseRequest}) => {
     return (
-        <Modal isOpen={!!patientId} onRequestClose={onCloseRequest}>
+        <Modal isOpen={!!patientId} onRequestClose={onCloseRequest} style={{
+            content: {
+                top: '5px',
+                left: '5px',
+                right: '5px',
+                bottom: '5px'
+            }
+        }}>
             <button type="button" className="close" style={{cursor: "pointer"}} onClick={onCloseRequest}>&times;</button>
             <div className="clearfix"/>
             <hr/>
