@@ -140,6 +140,7 @@ INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_s
 INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (10, 2, 'Patient Ready for Discharge', 50);
 INSERT INTO dim_procedure_status (procedure_status_id, procedure_id, procedure_status, expected_duration) VALUES (11, 2, 'Patient Transported to Inpatient', 60);
 
+/*
 INSERT INTO dim_patient (patient_id, alias, patient_name, procedure_id, procedure_status_id, room_id, last_patient_log_id) VALUES (1, 'Alias 1', 'Name 1', 2, 10, 5, 19);
 INSERT INTO dim_patient (patient_id, alias, patient_name, procedure_id, procedure_status_id, room_id, last_patient_log_id) VALUES (2, 'Alias 2', 'Name 2', 2, 10, 5, 21);
 INSERT INTO dim_patient (patient_id, alias, patient_name, procedure_id, procedure_status_id, room_id, last_patient_log_id) VALUES (3, 'Alias 3', 'Name 3', 1, 3, 5, 18);
@@ -194,3 +195,4 @@ INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUE
 INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (23, 3, 7, '2017-11-03 11:15:00', 4);
 INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (24, 3, 9, '2017-11-03 12:00:00', 5);
 INSERT INTO fact_room_log (id, room_id, room_status_id, time_sk, duration) VALUES (25, 3, 10, '2017-11-03 12:10:00', 3);
+*/
