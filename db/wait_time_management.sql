@@ -118,9 +118,9 @@ INSERT INTO dim_room_status (room_status_id, room_type_id, room_status, expected
 INSERT INTO dim_room_status (room_status_id, room_type_id, room_status, expected_duration) VALUES (9, 2, 'Ready for Clean-up', 30);
 INSERT INTO dim_room_status (room_status_id, room_type_id, room_status, expected_duration) VALUES (10, 2, 'Clean-up', 30);
 
-INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (1, 1, 6, 12, 'Operations 1');
-INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (2, 1, 6, 18, 'XRAY 1');
-INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (3, 2, 10, 26, 'Waiting Room 1');
+INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (1, 1, 1, NULL, 'Operations 1');
+INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (2, 1, 1, NULL, 'XRAY 1');
+INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (3, 2, 1, NULL, 'Waiting Room 1');
 INSERT INTO dim_room (room_id, room_type_id, room_status_id, last_room_log_id, room_name) VALUES (4, 3, 1, NULL, 'Waiting Area');
 
 INSERT INTO dim_procedure (procedure_id, `procedure_name`) VALUES (1, 'XRAY');
