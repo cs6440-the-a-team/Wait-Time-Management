@@ -85,7 +85,7 @@ public class AdminRoomTypeStatusApi {
 			DimRoomStatusMapper dimPatientMapper = session.getMapper(DimRoomStatusMapper.class);
 			dimPatientMapper.updateByPrimaryKeySelective(v);
 			session.commit();
-			return retrieve(v.getRoom_type_id());
+			return retrieve(v.getRoom_status_id());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new javax.ws.rs.ServiceUnavailableException();

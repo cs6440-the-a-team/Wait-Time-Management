@@ -59,9 +59,9 @@ Room
 
 ``` javascript
 {
-  "id": 1,
+  "room_id": 1,
   "expected_duration": 60,
-  "name": "B32",
+  "room_name": "B32",
   "room_type_id": 1,
   "start_time": "2017-11-02T01:03:09+00:00",
   "room_status_id": 1

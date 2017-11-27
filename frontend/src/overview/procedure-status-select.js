@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
                 let order_a = parseInt(a.procedure_status_order || 0),
                     order_b = parseInt(b.procedure_status_order || 0);
 
-                return order_a - b_order;
+                return order_a - order_b;
             });
         }
     }

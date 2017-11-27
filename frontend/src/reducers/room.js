@@ -20,7 +20,7 @@ const room = function(state=initialState, action) {
             break;
         case 'room-type-status/ADDED':
         case 'room-type-status/UPDATED':
-            let newStatuses = {...state.statuses, [action.roomTypeStatus.room_type_status_id]: action.roomTypeStatus};
+            let newStatuses = {...state.statuses, [action.roomTypeStatus.room_status_id]: action.roomTypeStatus};
             newState = {...state, statuses: newStatuses};
             break;
         case 'room/ADDED':

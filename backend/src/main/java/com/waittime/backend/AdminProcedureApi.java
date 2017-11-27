@@ -101,10 +101,13 @@ public class AdminProcedureApi {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			retrieve(id);
-			DimProcedure r = new DimProcedure();
+			
+			DimProcedure r = retrieve(id);
 			r.setActive(Boolean.FALSE);
+			
 			session.getMapper(DimProcedureMapper.class).updateByPrimaryKeySelective(r);
+			session.commit();
+
 			return retrieve(id);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -14,7 +14,7 @@ class RoomWidget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.roomId,
+            room_id: props.roomId,
             room_name: props.roomName,
             room_type_id: props.roomTypeId
         };
@@ -23,9 +23,9 @@ class RoomWidget extends Component {
     componentWillReceiveProps(nextProps) {
         let newState = { ...this.state };
 
-        if (this.state.id) {
-            if (this.state.id != nextProps.roomId) {
-                newState.id = nextProps.roomId;
+        if (this.state.room_id) {
+            if (this.state.room_id != nextProps.roomId) {
+                newState.room_id = nextProps.roomId;
             }
             if (this.state.room_name != nextProps.roomName) {
                 newState.room_name = nextProps.roomName;

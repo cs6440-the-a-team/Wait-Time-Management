@@ -101,10 +101,12 @@ public class AdminRoomTypeApi {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			retrieve(id);
-			DimRoomType r = new DimRoomType();
+			DimRoomType r = retrieve(id);
+
 			r.setActive(Boolean.FALSE);
+
 			session.getMapper(DimRoomTypeMapper.class).updateByPrimaryKeySelective(r);
+			session.commit();
 			return retrieve(id);
 		} catch (Exception e) {
 			e.printStackTrace();

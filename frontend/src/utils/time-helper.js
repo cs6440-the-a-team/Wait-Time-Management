@@ -3,7 +3,7 @@ import moment from "moment";
 function formatTime({days = 0, hours = 0, minutes = 0, seconds = 0, microseconds = 0}) {
     microseconds = parseInt(microseconds), 
     seconds = parseInt(seconds), 
-    minutes=parseInt(minutes), 
+    minutes = parseInt(minutes), 
     hours = parseInt(hours), 
     days = parseInt(days);
 
@@ -32,13 +32,19 @@ function formatTime({days = 0, hours = 0, minutes = 0, seconds = 0, microseconds
         timeStr += ` ${hours} hour${hours === 1 ? "" : "s"}`
     }
     if (minutes) {
-        timeStr += ` ${minutes} min${minutes === 1 ? "" : "s"}`
+        timeStr += ` ${minutes} minute${minutes === 1 ? "" : "s"}`
     }
     if (seconds) {
-        timeStr += ` ${seconds} sec${seconds === 1 ? "" : "s"}`
+        timeStr += ` ${seconds} second${seconds === 1 ? "" : "s"}`
     }
 
-    return timeStr.trim();
+    timeStr = timeStr.trim();
+
+    if (timeStr.length === 0) {
+        timeStr = "0 minutes";
+    }
+
+    return timeStr;
 }
 
 function minutesSince(date_time_string, suffix=false) {

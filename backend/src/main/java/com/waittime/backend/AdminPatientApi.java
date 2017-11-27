@@ -109,17 +109,16 @@ public class AdminPatientApi {
 			DimPatientMapper dimPatientMapper = session.getMapper(DimPatientMapper.class);
 			Patient retrieve = retrieve(id);
 			
-			if (!Objects.equal(retrieve.getProcedure_id(), v.getProcedure_id())) {
+			if (!Objects.equal(retrieve.getProcedure_status_id(), v.getProcedure_status_id())) {
+				session.getMapper(PatientMapper.class).updateDuration(id);
+
 				FactPatientLogMapper factPatientLogMapper = session.getMapper(FactPatientLogMapper.class);
-				FactPatientLog log = new FactPatientLog();
-				log.setId(retrieve.getLast_patient_log_id());
-				factPatientLogMapper.updateByPrimaryKeySelective(log);
 				
 				FactPatientLog newlog = new FactPatientLog();
 				newlog.setPatient_id(v.getPatient_id());
 				newlog.setProcedure_status_id(v.getProcedure_status_id());
 				newlog.setTime_sk(new Date());
-				factPatientLogMapper.insert(log);
+				factPatientLogMapper.insert(newlog);
 				
 				v.setLast_patient_log_id(newlog.getId());
 			}
@@ -143,10 +142,12 @@ public class AdminPatientApi {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			retrieve(id);
-			DimPatient r = new DimPatient();
-			r.setActive(Boolean.FALSE);
-			session.getMapper(DimPatientMapper.class).updateByPrimaryKeySelective(r);
+			DimPatient v = session.getMapper(DimPatientMapper.class).selectByPrimaryKey(id);
+			v.setActive(Boolean.FALSE);
+			session.getMapper(DimPatientMapper.class).updateByPrimaryKeySelective(v);
+			
+			session.commit();
+
 			return retrieve(id);
 		} catch (Exception e) {
 			e.printStackTrace();

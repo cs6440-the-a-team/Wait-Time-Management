@@ -28,7 +28,7 @@ class RoomStatusWidget extends Component {
             room_type_id: props.roomTypeId,
             room_status_order: props.roomStatusOrder,
             expected_duration: props.expectedDuration,
-            average_duration: props.averageDuration
+            in_procedure: props.expectedDuration === -1
         }
     }
 
@@ -54,10 +54,7 @@ class RoomStatusWidget extends Component {
 
             if (this.state.expected_duration !== nextProps.expectedDuration) {
                 newState.expected_duration = nextProps.expectedDuration;
-            }
-
-            if (this.state.average_duration !== nextProps.averageDuration) {
-                newState.average_duration = nextProps.averageDuration;
+                newState.in_procedure = nextProps.expectedDuration === -1;
             }
         }
 
@@ -65,7 +62,11 @@ class RoomStatusWidget extends Component {
     }
 
     handleInputChange = (e) => {
-        let value = e.target.value;
+        let value = e.target.value,
+        changes = {
+            
+        };
+
         switch (e.target.name) {
             case 'average_duration':
             case 'expected_duration':
@@ -73,10 +74,17 @@ class RoomStatusWidget extends Component {
                 value = value.replace(/\D/g, "").trim().substring(0, 4);
                 value = parseInt(value || 0);
                 break;
+            case 'in_procedure':
+                value = !this.state.in_procedure;
+                if (value) {
+                    changes.expected_duration = -1;
+                }
+                break;
         }
-        this.setState({
-            [e.target.name]: value
-        });
+
+        changes[e.target.name] = value;
+
+        this.setState(changes);
     }
 
     handleKeyDown = (e) => {
@@ -89,7 +97,9 @@ class RoomStatusWidget extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        this.props.onFormSubmit({ ...this.state });
+        let { in_procedure, ...room_status } = this.state;
+
+        this.props.onFormSubmit(room_status);
     }
 
     handleDoneClicked = (e) => {
@@ -113,6 +123,10 @@ class RoomStatusWidget extends Component {
     }
 
     render() {
+        let expectedDurationProps = {};
+        if (this.state.in_procedure) {
+            expectedDurationProps.disabled = true;
+        }
         return (
             <tr>
                 <td>
@@ -126,12 +140,24 @@ class RoomStatusWidget extends Component {
                 </td>
                 <td>
                     <div className="input-group">
-                        <input type="number" name="expected_duration" className="form-control" placeholder="Expected duration" maxLength="4" value={this.state.expected_duration} onChange={this.handleInputChange} onKeyDown={this.handleKeyDown} />
+                        <input type="number" 
+                               name="expected_duration" 
+                               className="form-control" 
+                               placeholder="Expected duration" 
+                               maxLength="4" 
+                               value={this.state.expected_duration} 
+                               onChange={this.handleInputChange} 
+                               onKeyDown={this.handleKeyDown} 
+                               {...expectedDurationProps} />
                         <span className="input-group-addon">minutes</span>
                     </div>
+                    <label htmlFor="in_procedure">
+                        <input type="checkbox" name="in_procedure" id="in_procedure" checked={this.state.in_procedure} onChange={this.handleInputChange} />
+                        &nbsp;Determined by Procedure Status
+                    </label>
                 </td>
                 <td>
-                    {this.state.average_duration && `${this.state.average_duration} minutes`}
+                    {formatTime({minutes: this.props.averageDuration})}
                 </td>
                 <td>
                     <div className="btn-group">
@@ -177,12 +203,18 @@ class RoomStatusListItem extends Component {
                 </RoomStatusWidget>
             )
         }
+
+        let expected_duration = formatTime({ minutes: this.props.expectedDuration });
+        if (this.props.expectedDuration === -1) {
+            expected_duration = "Determined by procedure status";
+        }
+
         return (
             <tr>
                 <td>{this.props.roomType}</td>
                 <td>{this.props.roomStatus}</td>
                 <td>{this.props.roomStatusOrder}</td>
-                <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
+                <td>{expected_duration}</td>
                 <td>{formatTime({ minutes: this.props.averageDuration })}</td>
                 <td>
                     <a href="#" role="button" className="btn btn-link" onClick={this.toggleEdit}>Edit</a>
@@ -270,9 +302,17 @@ const mapStateToProps = function (state, ownProps) {
     let room_statuses = deNormalizeObject(state.room.statuses).map(function (room_status) {
         return { ...room_status, room_type: state.room.types[room_status.room_type_id].room_type };
     }).sort(function (a, b) {
-        let order_a = parseInt(a.order || 0),
-            order_b = parseInt(b.order || 0);
+        let order_a = parseInt(a.room_status_order || 0),
+            order_b = parseInt(b.room_status_order || 0),
+            type_order_a = parseInt(a.room_type_id || 0),
+            type_order_b = parseInt(b.room_type_id || 0);
 
+        let id_diff = type_order_a - type_order_b;
+
+        if (id_diff !== 0) {
+            return id_diff;
+        }
+        
         return order_a - order_b;
     });
 

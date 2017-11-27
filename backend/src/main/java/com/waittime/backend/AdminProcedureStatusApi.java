@@ -100,10 +100,14 @@ public class AdminProcedureStatusApi  {
 		SqlSession session = null;
 		try {
 			session = MyBatisUtil.getSqlSessionFactory().openSession();
-			retrieve(id);
-			DimProcedureStatus r = new DimProcedureStatus();
+			DimProcedureStatusMapper roomStatusMapper = session.getMapper(DimProcedureStatusMapper.class);
+			DimProcedureStatus r = roomStatusMapper.selectByPrimaryKey(id);
+
 			r.setActive(Boolean.FALSE);
-			session.getMapper(DimProcedureStatusMapper.class).updateByPrimaryKeySelective(r);
+			roomStatusMapper.updateByPrimaryKeySelective(r);
+
+			session.commit();
+			
 			return retrieve(id);
 		} catch (Exception e) {
 			e.printStackTrace();

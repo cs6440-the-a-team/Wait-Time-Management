@@ -53,8 +53,8 @@ function* updatePatientStatus(action) {
     patient.procedure_status_id = action.procedureStatusId;
 
     try {
-        let updatedPatient = yield makeRequest(Api.updatePatientStatus, [action.patientId, patient]);
-        yield put(updatePatient(updatedPatient));
+        let updated_patient = yield makeRequest(Api.updatePatientStatus, [action.patientId, patient]);
+        yield put(updatedPatient(updated_patient));
     }
     catch(err) {
         yield put(addErrorMessage("Failed to update patient status -- " + err));

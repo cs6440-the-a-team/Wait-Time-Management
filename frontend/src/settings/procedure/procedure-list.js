@@ -9,8 +9,6 @@ class ProcedureWidget extends Component {
     static propTypes = {
         procedureId: PropTypes.any,
         procedureName: PropTypes.string,
-        expectedDuration: PropTypes.any,
-        averageDuration: PropTypes.any,
         onFormSubmit: PropTypes.func.isRequired
     };
 
@@ -18,9 +16,7 @@ class ProcedureWidget extends Component {
         super(props);
         this.state = {
             procedure_id: props.procedureId,
-            procedure_name: props.procedureName,
-            expected_duration: props.expectedDuration,
-            average_duration: props.averageDuration
+            procedure_name: props.procedureName
         }
     }
 
@@ -33,12 +29,6 @@ class ProcedureWidget extends Component {
             if (this.state.procedure_name !== nextProps.procedureName) {
                 newState.procedure_name = nextProps.procedureName;
             }
-            if (this.state.expected_duration !== nextProps.expectedDuration) {
-                newState.expected_duration = nextProps.expectedDuration;
-            }
-            if (this.state.average_duration !== nextProps.averageDuration) {
-                newState.average_duration = nextProps.averageDuration;
-            }
         }
 
         this.setState(newState);
@@ -46,13 +36,6 @@ class ProcedureWidget extends Component {
 
     onInputChange = (e) => {
         let value = e.target.value;
-        switch (e.target.name) {
-            case 'average_duration':
-            case 'expected_duration':
-                value = value.replace(/\D/g, "").trim().substring(0, 4);
-                value = parseInt(value || 0);
-                break;
-        }
         this.setState({
             [e.target.name]: value
         });
@@ -98,15 +81,6 @@ class ProcedureWidget extends Component {
             <tr>
                 <td>
                     <input className="form-control" type="text" placeholder="Name" name="procedure_name" value={this.state.procedure_name} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
-                </td>
-                <td>
-                    <div className="input-group">
-                        <input className="form-control" type="number" maxLength={4} placeholder="Expected Duration" name="expected_duration" value={this.state.expected_duration} onChange={this.onInputChange} onKeyDown={this.handleKeyDown} />
-                        <span className="input-group-addon">minutes</span>
-                    </div>
-                </td>
-                <td>
-                    {this.state.average_duration && `${this.state.average_duration} minutes`}
                 </td>
                 <td>
                     <div className="btn-group">
@@ -155,8 +129,6 @@ class ProcedureListItem extends Component {
         return (
             <tr>
                 <td>{this.props.procedureName}</td>
-                <td>{formatTime({ minutes: this.props.expectedDuration })}</td>
-                <td>{formatTime({ minutes: this.props.averageDuration })}</td>
                 <td>
                     <a href="#" role="button" className="btn btn-link" onClick={this.toggleEdit}>Edit</a>
                 </td>
@@ -205,8 +177,6 @@ class ProcedureList extends Component {
                 <ProcedureListItem key={procedure.procedure_id} 
                                    procedureId={procedure.procedure_id} 
                                    procedureName={procedure.procedure_name} 
-                                   expectedDuration={procedure.expected_duration} 
-                                   averageDuration={procedure.average_duration} 
                                    onRemoveProcedure={this.props.onRemoveProcedure}
                                    onUpdateProcedure={this.props.onUpdateProcedure} />
             )
@@ -216,8 +186,6 @@ class ProcedureList extends Component {
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Expected Duration</th>
-                        <th>Average Duration</th>
                         <th>
                             <a role="button" href="#" className="btn btn-outline-secondary" onClick={this.toggleAdd}>Add</a>
                         </th>

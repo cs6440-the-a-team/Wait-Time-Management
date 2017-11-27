@@ -3,6 +3,7 @@ package com.waittime.backend.db.mapper;
 import java.util.LinkedList;
 
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.waittime.backend.model.Patient;
 
@@ -41,5 +42,8 @@ public interface PatientMapper {
 			"LEFT JOIN fact_patient_log AS fpl ON p.last_patient_log_id=fpl.id \n" + 
 			"WHERE p.patient_id=#{patient_id}")
 	Patient retrieve(Integer id);
+
+	@Update("UPDATE fact_patient_log SET duration = TIMESTAMPDIFF(MINUTE, time_sk, NOW()) WHERE id=#{last_patient_log_id}")
+	int updateDuration(Integer id);
 
 }

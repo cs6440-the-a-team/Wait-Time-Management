@@ -21,3 +21,5 @@ services:
   db:
     build: ./db
     restart: always
+    ports:
+      - "6603:3306"

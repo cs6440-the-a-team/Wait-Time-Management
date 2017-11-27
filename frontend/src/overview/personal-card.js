@@ -13,7 +13,7 @@ const PersonalCard = ({patientId, patientAlias, onCloseRequest}) => {
                     <h2 className="card-title">{patientAlias}</h2>
                     <p>Please contact the front desk if you have any questions.</p>
                     <p className="text-muted">
-                        You can see your patient status at any time at:
+                        You can see your patient status at any time at: &nbsp;
                         {window.location.origin}/
                     </p>
                 </div>

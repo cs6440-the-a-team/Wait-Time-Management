@@ -8,7 +8,7 @@ SELECT
     r.room_type_id,
     r.room_status_id,
     (CASE WHEN s.expected_duration = -1 THEN ps.expected_duration ELSE s.expected_duration END) AS expected_duration,
-    DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ'),
+    DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ') AS start_time,
     r.last_room_log_id
 FROM dim_room AS r
 LEFT JOIN dim_room_status AS s ON r.room_status_id=s.room_status_id
@@ -26,7 +26,7 @@ SELECT
     r.room_type_id,
     r.room_status_id,
     (CASE WHEN s.expected_duration = -1 THEN ps.expected_duration ELSE s.expected_duration END) AS expected_duration,
-    DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ'),
+    DATE_FORMAT(frl.time_sk, '%Y-%m-%dT%TZ') AS start_time,
     r.last_room_log_id
 FROM dim_room AS r
 LEFT JOIN dim_room_status AS s ON r.room_status_id=s.room_status_id

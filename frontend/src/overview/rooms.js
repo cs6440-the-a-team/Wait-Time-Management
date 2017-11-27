@@ -10,7 +10,7 @@ import {minutesSince, formatTime} from "../utils/time-helper"
 import AuthorizedComponentContainer from "../containers/authorized-component-container"
 
 
-const EDIT_ROLES = ['staffplus'];
+const EDIT_ROLES = ['admin', 'staffplus'];
 
 class RoomItem extends React.Component {
 
@@ -139,7 +139,13 @@ const Rooms = ({rooms, onRoomStatusUpdate, dismissRoomError}) => {
 const mapStateToProps = function (state, ownProps) {
 
     let rooms = deNormalizeObject(state.room.rooms).map(function(room) {
-        room.status = state.room.statuses[room.room_status_id].room_status;
+        let status = state.room.statuses[room.room_status_id];
+        if (status) {
+            room.status = status.room_status;
+        }
+        else {
+            room.status = "";
+        }
         return room;
     });
 

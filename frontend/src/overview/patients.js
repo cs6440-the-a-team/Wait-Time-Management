@@ -11,7 +11,7 @@ import RoomSelectContainer from "../containers/room-select-container"
 import AuthorizedComponentContainer from "../containers/authorized-component-container"
 
 
-const EDIT_ROLES = ['staffplus'];
+const EDIT_ROLES = ['admin', 'staffplus'];
 
 class PatientWidget extends React.Component {
 
@@ -157,8 +157,22 @@ class PatientRowItem extends React.Component {
                 <PatientWidget {...this.props} onRemovePatient={this.handleRemovePatient} onFormSubmit={this.handleFormSubmit} onCancel={this.toggleEdit} />
             )
         }
+
+        let trClasses = [];
+
+        let elapsed_time = null;
+        if (this.props.startTime) {
+            elapsed_time = minutesSince(this.props.startTime);
+
+            //console.log("Elapsed time: ", elapsed_time);
+
+            if (elapsed_time > parseInt(this.props.expectedDuration)) {
+                trClasses.push("table-danger");
+            }
+        }
+
         return (
-            <tr>
+            <tr className={trClasses.join(" ")}>
                 <td>
                     <a href="#" role="button" onClick={this.handlePatientSelect} title="Show personal card">{this.props.patientAlias}</a>
                 </td>
@@ -282,7 +296,7 @@ const mapStateToProps = function (state, ownProps) {
         if (state.procedure.statuses) {
             let procedure_status = state.procedure.statuses[patient.procedure_status_id];
             if (procedure_status) {
-                updated_patient.procedure_status_name = procedure_status.status;
+                updated_patient.procedure_status_name = procedure_status.procedure_status;
             }
         }
 
