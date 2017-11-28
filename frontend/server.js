@@ -22,7 +22,13 @@ var restream = function (proxyReq, req, res, options) {
 let apiProxy = server.utils.modern(proxy("/api", {
     target: (process.env.NODE_ENV === "production" ? 'http://backend:8080' : 'http://localhost:8080'),
     changeOrigin: true,
-    onProxyReq: restream
+    onProxyReq: restream,
+    onProxyRes: function (proxyRes, req, res) {
+        // Make sure the response is never cached. IE has problems otherwise.
+        proxyRes.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+        proxyRes.headers['Pragma'] = 'no-cache';
+        proxyRes.headers['Expires'] = '0';
+    }
 }));
 server({ port, security: { csrf: false } }, [
     apiProxy,
