@@ -13,7 +13,8 @@ const makeRequest = (path, data=null, method="GET") => {
 
     let options = {
         method,
-        headers
+        headers,
+        cache: 'no-store'
     };
 
     if (data) {
