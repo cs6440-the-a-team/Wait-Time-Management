@@ -2,6 +2,7 @@ const server = require("server");
 const { get, post, put, del } = server.router;
 const { render } = server.reply;
 const proxy = require("http-proxy-middleware");
+const config = require("./config");
 
 const port = process.env.PORT || 3000;
 const env = process.env.NODE_ENV || 'development';
@@ -19,7 +20,7 @@ var restream = function (proxyReq, req, res, options) {
     }
 }
 
-let apiProxy = server.utils.modern(proxy("/api", {
+let proxy_options = {
     target: (process.env.NODE_ENV === "production" ? 'http://backend:8080' : 'http://localhost:8080'),
     changeOrigin: true,
     onProxyReq: restream,
@@ -29,14 +30,22 @@ let apiProxy = server.utils.modern(proxy("/api", {
         proxyRes.headers['Pragma'] = 'no-cache';
         proxyRes.headers['Expires'] = '0';
     }
-}));
+};
+
+if (config.root_path.length > 0) {
+    proxy_options.pathRewrite = {
+        [`^${config.root_path}/api`]: '/api'
+    }
+}
+
+let apiProxy = server.utils.modern(proxy(config.root_path + "/api", proxy_options));
 server({ port, security: { csrf: false } }, [
     apiProxy,
-    get("/admin*", ctx => {
+    get(config.root_path + "/admin*", ctx => {
         //console.log("Got the admin page: ", env);
         return render("admin.hbs", { prod: env === "production" });
     }),
-    get("/", ctx => {
+    get(config.root_path + "/", ctx => {
         //console.log("Got the base page...");
         return render("public.hbs", { prod: env === "production" });
     })

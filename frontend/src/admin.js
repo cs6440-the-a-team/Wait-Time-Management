@@ -13,6 +13,8 @@ import store, { updateInformation } from "./reducers"
 
 window.app_store = store;
 
+import config from "../config"
+
 import Settings from "./settings"
 import Overview from "./overview"
 import LoginContainer from "./containers/login-container"
@@ -36,18 +38,18 @@ class App extends React.Component {
                         <header className="container-fluid">
                             <h3 className="display-4">Wait Time Management</h3>
                             <Switch>
-                                <Route path="/admin/login" render={() => (null)} /> {/* Don't show the menu on the login screen */}
-                                <Route path="/admin*" render={() => {
+                                <Route path={`${config.root_path}/admin/login`} render={() => (null)} /> {/* Don't show the menu on the login screen */}
+                                <Route path={`${config.root_path}/admin*`} render={() => {
                                     return (
                                         <ul className="nav justify-content-end">
                                             <AuthorizedComponentContainer authorizedRoles={SETTINGS_ROLES}>
                                                 <li className="nav-item">
-                                                    <NavLink to="/admin/overview" title="Home" className="nav-link" activeClassName="active">
+                                                    <NavLink to={`${config.root_path}/admin/overview`} title="Home" className="nav-link" activeClassName="active">
                                                         <i className="fa fa-home" />
                                                     </NavLink>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <NavLink to="/admin/settings" title="Settings" className="nav-link" activeClassName="active">
+                                                    <NavLink to={`${config.root_path}/admin/settings`} title="Settings" className="nav-link" activeClassName="active">
                                                         <i className="fa fa-cog" />
                                                     </NavLink>
                                                 </li>
@@ -67,8 +69,8 @@ class App extends React.Component {
                         <LoadingIndicatorContainer />
 
                         <Switch>
-                            <Route path="/admin/login" component={LoginContainer} />
-                            <PrivateRouteContainer path="/admin*" component={AuthorizedPortion} />
+                            <Route path={`${config.root_path}/admin/login`} component={LoginContainer} />
+                            <PrivateRouteContainer path={`${config.root_path}/admin*`} component={AuthorizedPortion} />
                         </Switch>
                     </div>
                 </Router>
@@ -89,9 +91,9 @@ class AuthorizedPortion extends React.Component {
     render() {
         return (
             <div className="sub-body-container">
-                <PrivateRouteContainer authorizedRoles={SETTINGS_ROLES} path={`/admin/settings`} component={Settings} />
-                <Route path={`/admin/overview`} component={Overview} />
-                <Route path={`/admin`} exact={true} render={({ match }) => (<Redirect to={`/admin/overview`} />)} />
+                <PrivateRouteContainer authorizedRoles={SETTINGS_ROLES} path={`${config.root_path}/admin/settings`} component={Settings} />
+                <Route path={`${config.root_path}/admin/overview`} component={Overview} />
+                <Route path={`${config.root_path}/admin`} exact={true} render={({ match }) => (<Redirect to={`${config.root_path}/admin/overview`} />)} />
             </div>
         )
     }

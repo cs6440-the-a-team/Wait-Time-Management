@@ -3,7 +3,9 @@ import base64 from "base-64"
 
 import store from "./reducers"
 
-let ENDPOINT = window.location.origin + "/api";
+import config from "../config"
+
+let ENDPOINT = window.location.origin + config.root_path + "/api";
 
 const makeRequest = (path, data=null, method="GET") => {
     let headers = new Headers();

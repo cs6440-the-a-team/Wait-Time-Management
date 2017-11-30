@@ -1,5 +1,6 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
+import config from "../../config"
 
 let PrivateRoute = ({ isLoggedIn, currentRole, authorizedRoles, component: Component, ...rest }) => {
     //console.log("Should component be rendered? ", Component.name, isLoggedIn, currentRole, authorizedRoles);
@@ -26,7 +27,7 @@ let PrivateRoute = ({ isLoggedIn, currentRole, authorizedRoles, component: Compo
                 //console.log("Not logged in...", isLoggedIn, currentRole, authorizedRoles);
                 return (
                     <Redirect to={{
-                        pathname: "/admin/login",
+                        pathname: `${config.root_path}/admin/login`,
                         state: { from: props.location }
                     }} />
                 )

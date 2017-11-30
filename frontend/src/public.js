@@ -15,9 +15,11 @@ import Message from "./components/message"
 
 import {minutesSince, formatTime} from "./utils/time-helper"
 
+import config from "../config"
+
 import "whatwg-fetch"
 
-let ENDPOINT = window.location.origin + "/api";
+let ENDPOINT = window.location.origin + config.root_path + "/api";
 
 class PublicApp extends React.Component {
     constructor(props) {

@@ -1,5 +1,6 @@
 import React from "react";
 import {Redirect} from "react-router-dom";
+import config from "../../config";
 
 class Login extends React.Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class Login extends React.Component {
     render() {
         if (this.props.isLoggedIn) {
             return (
-                <Redirect to={`/admin`} />
+                <Redirect to={`${config.root_path}/admin`} />
             )
         }
 
