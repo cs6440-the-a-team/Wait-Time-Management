@@ -9,9 +9,9 @@ Wait Time Management
 
 1. Clone the repository: [https://github.gatech.edu/gt-hit-fall2017/Wait-Time-Management](https://github.gatech.edu/gt-hit-fall2017/Wait-Time-Management)
 
-2. Navigate into the project repository:  cd ./Wait-Time-Management 
+2. Navigate into the project repository: `cd ./Wait-Time-Management` 
 
-3. Run the command: docker-compose up
+3. Run the command: `docker-compose up`
 
 ### Project Endpoints
 
@@ -19,7 +19,7 @@ Wait Time Management
 
 2. Admin/Staff View --- [http://localhost/admin](http://localhost/admin)
 
-    1. Available credentials for admin endpoints:
+### Available credentials for admin endpoints:
 
 | User      | Password      |
 | --------- | ------------- |
@@ -35,6 +35,15 @@ If you need to change the root path of the application, this can be configured b
 > Good example: /WaitTimeManagement
 
 > Bad example: /WaitTimeManagement/
+
+Once you updated that file, you'll need to rebuild the frontend container image by doing the following in the terminal:
+```bash
+cd ./frontend
+npm run build
+cd ../
+docker-compose up -d --build --force-recreate --no-deps frontend
+```
+Now the application should be available at the designated root path.
 
 ### Using the Application
 
@@ -71,4 +80,3 @@ The system uses five primary resources: rooms, room types, room statuses, proced
 * Remove a resource by clicking the "Edit" button, and then clicking on the “Remove” button.
 
     * Removing a resource doesn’t actually delete the resource permanently, instead it marks the resource as inactive and it no longer shows up in the public or staff views.
-
