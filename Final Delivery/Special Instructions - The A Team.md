@@ -1,6 +1,5 @@
 Wait Time Management
 ====================
-
 > The A Team
 
 ## Special Instructions
@@ -9,7 +8,7 @@ Wait Time Management
 
 1. Clone the repository: [https://github.gatech.edu/gt-hit-fall2017/Wait-Time-Management](https://github.gatech.edu/gt-hit-fall2017/Wait-Time-Management)
 
-2. Navigate into the project repository: `cd ./Wait-Time-Management` 
+2. Navigate into the project repository: `cd ./Wait-Time-Management`
 
 3. Run the command: `docker-compose up`
 
