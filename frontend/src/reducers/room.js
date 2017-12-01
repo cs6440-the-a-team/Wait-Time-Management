@@ -51,7 +51,7 @@ const room = function(state=initialState, action) {
             break;
         
         case 'room/status/UPDATED':
-            let updatedRoom = {...state.rooms[action.roomId], room_status_id: action.roomStatusId};
+            let updatedRoom = { ...state.rooms[action.roomId], room_status_id: action.roomStatusId, start_time: action.startTime };
             let updatedRooms2 = {...state.rooms, [action.roomId]: updatedRoom};
             newState = {...state, rooms: updatedRooms2};
             break;

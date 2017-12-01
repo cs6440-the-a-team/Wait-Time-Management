@@ -98,7 +98,7 @@ function* listRoomTypeStatuses(action) {
 function* addRoomTypeStatus(action) {
     try {
         let roomTypeStatus = yield makeRequest(Api.addRoomTypeStatus, [action.roomTypeStatus]);
-        yield put(addedRoomType(roomTypeStatus));
+        yield put(addedRoomTypeStatus(roomTypeStatus));
     }
     catch (err) {
         yield put(addMessage("Failed to add room type status -- " + err, "error"));
@@ -136,7 +136,7 @@ function* updateRoomStatus(action) {
 
     try {
         let updated_room = yield makeRequest(Api.updateRoomStatus, [action.roomId, room]);
-        yield put(updatedRoomStatus(action.roomId, action.roomStatusId));
+        yield put(updatedRoomStatus(action.roomId, action.roomStatusId, updated_room.start_time));
     }
     catch (err) {
         yield put(addErrorMessage("Failed to update room status -- " + err));

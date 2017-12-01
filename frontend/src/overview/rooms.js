@@ -63,7 +63,7 @@ class RoomItem extends React.Component {
             extraBtnProps.className = "btn btn-outline-secondary";
         }
 
-        let elapsed_time = null;
+        let elapsed_time = 0;
         if (this.props.startTime) {
             elapsed_time = minutesSince(this.props.startTime);
 
@@ -71,6 +71,8 @@ class RoomItem extends React.Component {
                 trClasses.push("table-danger");
             }
         }
+
+        //console.log("Elapsed time", elapsed_time, this.props.startTime, this.props.roomName);
 
         return (
             <tr className={trClasses.join(" ")}>

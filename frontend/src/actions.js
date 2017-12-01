@@ -45,7 +45,7 @@ const deleteRoomTypeStatus = (roomTypeStatusId) => ({ type: "room-type-status/DE
 const deletedRoomTypeStatus = (roomTypeStatusId) => ({ type: "room-type-status/DELETED", roomTypeStatusId });
 
 const updateRoomStatus = (roomId, roomStatusId) => ({ type: "room/status/UPDATE", roomId, roomStatusId });
-const updatedRoomStatus = (roomId, roomStatusId) => ({ type: "room/status/UPDATED", roomId, roomStatusId });
+const updatedRoomStatus = (roomId, roomStatusId, startTime) => ({ type: "room/status/UPDATED", roomId, roomStatusId, startTime });
 
 const listProcedures = () => ({ type: "procedure/LIST" });
 const listedProcedures = (procedures) => ({ type: "procedure/LISTED", procedures });

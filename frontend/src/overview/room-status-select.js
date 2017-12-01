@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
     let statuses = Object.keys(state.room.statuses).map(function(status_id) {
             return state.room.statuses[status_id];
         }).filter(function(status) {
-            return status.room_type_id = ownProps.roomTypeId;
+            return status.room_type_id === ownProps.roomTypeId;
         }).sort(function(a,b) {
             let order_a = parseInt(a.room_status_order || 0),
                 order_b = parseInt(b.room_status_order || 0);

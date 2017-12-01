@@ -269,7 +269,14 @@ const mapStateToProps = function (state, ownProps) {
 
         return procedureStatus;
     }).sort(function (a, b) {
-        return a.order - b.order;
+        let a_order = parseInt(a.procedure_status_order || 0),
+            b_order = parseInt(b.procedure_status_order || 0);
+        
+        if (a.procedure_id === b.procedure_id) {
+            return a_order - b_order;
+        }
+        
+        return a.procedure_id - b.procedure_id;
     });
 
     return {
