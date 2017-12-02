@@ -6,5 +6,5 @@
 * [Deployment Documentation](Deployment.md)
 * [UI Documentation](mockups/README.md)
 * [Backend API Documentation](backend/README.md)
-* TODO [DataModel Documentation](db/README.md)
+* [DataModel Documentation](db/README.md)
 * [FrontEnd User Manual](frontend/README.md)
