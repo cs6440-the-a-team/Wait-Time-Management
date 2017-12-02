@@ -1,7 +1,7 @@
 # Wait Time Management
 
 ## Table of Contents
-* TODO [User Documentation](UserManual.md)
+* TODO [User Manual](Final Delivery/Manual - The A Team.md)
 * [Requirements Documentation](Requirements.md)
 * [Deployment Documentation](Deployment.md)
 * [UI Documentation](mockups/README.md)
