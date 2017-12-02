@@ -50,12 +50,14 @@ Rajan Chaudhari - rchaudhari3
 
         * Patient satisfaction and Medicare reimbursements.pdf
 
+        * UserInterviews.md
+
         * Wait Time and Patient Satisfaction in Ambulatory Setting.pdf
 
         * Wait Time and Patient Satisfaction in ER Setting.pdf
 
         * Wait-Time-Management-Broader-Problem-Space.pdf
-
+        
 * backend (directory) - contains all source code and build materials for backend
 
 * db (directory) - contains all queries for db setup and curating metrics of interest
@@ -95,6 +97,8 @@ Rajan Chaudhari - rchaudhari3
 * README.md
 
 * Requirements.md
+
+* docker-compose.yml
 
 * update-stack-macos.sh
 
