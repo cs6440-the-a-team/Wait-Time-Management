@@ -15,9 +15,6 @@ Georgia Tech IHI 6440
 
 Fall 2017
 
-# Table of Contents
-
-[[TOC]]
 
 # Introduction
 
